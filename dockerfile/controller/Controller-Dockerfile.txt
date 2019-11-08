@@ -1,0 +1,15 @@
+FROM ericsson_fcaps/base:v1			# 基础镜像
+MAINTAINER WK
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone    # 设置时区
+
+RUN mkdir -p /opt/ericsson/nfvo/fcaps/		# 创建目录
+
+WORKDIR  /opt/ericsson/nfvo/fcaps/			# 更改工作目录
+USER 1101:1101								# 设置用户
+COPY controller.tar.gz ./					# 复制包到镜像
+
+RUN tar -zxvf controller.tar.gz && rm -f controller.tar.gz	# 解压
+
+WORKDIR controller			# 更改工作目录
+
+RUN rm -f config/* && rm -f logs/*		#  去除其中的配置文件和日志,因为此目录时挂载到宿主机的
