@@ -8,7 +8,7 @@ startZk(){
 for i in ${Hosts[@]}
 do
         echo "$1 $i zk"
-        ssh root@${i} "source /etc/profile; sh /mnt/${ZkScript} $1"
+        ssh root@${i} "source /etc/profile; sh /mnt/${ZkScript} $1; exit"
 done
 }
 
@@ -17,7 +17,7 @@ StartKafka(){
 for i in ${Hosts[@]}
 do
         echo "$1 $i kafka"
-        ssh root@${i} "source /etc/profile;sh /mnt/${KafkaScript} $1"
+        ssh root@${i} "source /etc/profile;sh /mnt/${KafkaScript} $1;exit"
 done
 }
 
