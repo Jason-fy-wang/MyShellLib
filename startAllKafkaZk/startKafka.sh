@@ -4,7 +4,8 @@ KafkaConfig=/mnt/kafka_2.11-2.2.0/config/server.properties
 
 
 startK(){
- nohup ${KafkaPath} ${KafkaConfig} &
+ nohup ${KafkaPath} -daemon ${KafkaConfig} &
+ exit
 }
 
 
