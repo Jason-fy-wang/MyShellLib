@@ -1,0 +1,44 @@
+pipeline{
+    agent any
+    parameters{
+    choice(
+        description: 'select branch',
+        name: 'branch',
+        choices:['jiangmen_10_branch','master','branch_09_controller_nanjing']
+        )
+    }
+    
+    stages{
+        stage('Clone-project'){
+            steps{				// 下载代码
+                echo "${params.branch}"
+                sh "printenv"
+                git credentialsId: '3efbedf6-f277-42c6-a678-f667121d9d4d', url: 'https://forge.ericsson.net/plugins/git/cmccnfvo/FCAPS_AM_CONTROLLER.git'
+                }
+            }
+        stage('check-master'){			// 根据选择的不同,进行分支切换,切换到master
+            when{
+                expression{
+                    return "${params.branch}"=='master'
+                }
+            }
+            steps{
+                echo "select master branch"
+            //    sh "cd /${env.JOB_BASE_NAME}"			// 此表示是注释
+                sh "git checkout -b master origin/master"
+            }
+        }
+        stage('check-jiangmen'){		// 切换到江门环境
+            when{
+                expression{
+                    return "${params.branch}" =='jiangmen_10_branch'
+                }
+            }
+            steps{
+                echo "select jiangmen_10_branch branch"
+               // sh "cd /${env.JOB_BASE_NAME}"
+                sh "git checkout -b jiangmen_10_branch origin/jiangmen_10_branch"
+            }
+        }
+    }
+}
