@@ -20,7 +20,8 @@ stopApp(){
                 for host in ${HOSTS[$@]}
                 do
                     echo "stopping http://${host}:${prt}/close"
-                    curl -X GET  "http://${host}:${prt}/close/"  >/dev/null 2>&1        # 进行具体的删除。并且把标准输出以及错误输出  输出到 /dev/null
+                    # 此处的 -s 表示使用静默模式
+                    curl -s -X GET  "http://${host}:${prt}/close/"  >/dev/null 2>&1        # 进行具体的删除。并且把标准输出以及错误输出  输出到 /dev/null
                 done
                 else
                     echo "sparkUrl must be config"
@@ -36,6 +37,7 @@ for hst in ${HOSTS}
 do
     echo "stopping host: $hst"
     if [ -n $hst ]; then
+        # grep -oP 表示使用 perl的正则进行匹配
         DRIVER_ID=$(curl -s http://${hst}:8080 | grep 'value="driver' | grep -oP "driver-[\d-]+")
         if [ -n "${DRIVER_ID[0]}" ];then
             for id in ${DRIVER_ID[@]}
@@ -43,7 +45,7 @@ do
                 echo "stopping $id"
                 ${CMD} ${ClassName}  kill spark://${hst}:7077 $id >/dev/null 2>&1   # 同样把错误输出以及标准输出  输出到/dev/null
             done
-            break 2
+            break 2     # 多层循环跳出
         fi
     fi
 done
@@ -58,7 +60,7 @@ do
         drivers=$(echo $(curl -s http://${tmp}:8080 | grep 'value="driver' | grep -oP "driver-[\d-]+") | awk -F=  '{lens=split($1,res," ");print length(res)}')
         if [ ${drivers} -ge 3 ];then
             echo "driver is running......"
-            break 2
+            break 2     # 这也是可以借鉴的，多层循环跳出
         else
             # 没有返回有效值，那么计数一次，当计数次数大于总的机器数，那么表示不正常
             let count++
@@ -100,3 +102,11 @@ main(){
 }
 
 main $1
+
+
+
+## 此文件主要借鉴：
+# 1. 字符串的比较，
+# 2. 把 命令的 出错输出  标准输出 进行重定向
+# 3. 获取一个数组的真正的 长度
+# 4. 对 awk 的内置函数的灵活使用
