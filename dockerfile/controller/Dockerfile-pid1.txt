@@ -1,0 +1,19 @@
+FROM ericsson_fcaps/base:v1
+
+MAINTAINER WK
+user root
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+
+#USER 1101:1101
+WORKDIR  /opt/ericsson/nfvo/fcaps/
+
+COPY am_controller.tar.gz ./
+
+RUN tar -zxvf am_controller.tar.gz && rm -f am_controller.tar.gz && chmod 755 -R am_controller && chown 1101:1101 -R am_controller
+
+WORKDIR am_controller
+
+RUN rm -f config/* &&rm -f logs/*
+
+# 启动执行的命令, 此时运行的java程序,就成为了  pid=1的进程
+CMD java -Xmx512m -Xms512m -server -Dloader.path=.,/opt/ericsson/nfvo/fcaps/am_controller/bin/../lib,/opt/ericsson/nfvo/fcaps/am_controller/bin/../config/ -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/ericsson/nfvo/fcaps/am_controller/bin/../logs/dump.hprof -Dconfig.path=/opt/ericsson/nfvo/fcaps/am_controller/bin/../config/nfvo.properties -jar /opt/ericsson/nfvo/fcaps/am_controller/bin/../boot/fcaps-controller.jar -Dspring.profile.active=pro
