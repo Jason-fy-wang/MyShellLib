@@ -21,6 +21,16 @@ do
 done
 }
 
+startRedis(){
+
+    for i in ${Hosts[@]}
+    do  
+        echo "$1 $i redis"
+        ssh root@${i}  "source /etc/profile;sh ${RedisScript} $1 2>/dev/null; exit"
+    done
+
+}
+
 
 main(){
 
@@ -49,10 +59,19 @@ statusKafka)
 StartKafka status
 ;;
 
-*)
- echo "$0 startZk | startKafka | stopZk | stopKafka | statusZk | statusKafka"
-;;
+startRedis)
+    startRedis start
+    ;;
+stopRedis)
+    startRedis stop
+    ;;
+statusRedis)
+    startRedis status
+    ;;
 
+*)
+ echo "$0 startZk | startKafka | stopZk | stopKafka | statusZk | statusKafka | startRedis | stopRedis | statusRedis"
+;;
 esac
 
 }
