@@ -25,6 +25,7 @@ checkMaster(){
     checkCount
     flag=$(${Client} --cluster check ${Ip}:${Port} | grep -E 'M|S' | grep '192.168.30.10:9001' | awk -F: '{print $1}')
     if [ "${flag}" == 'M' ];then
+        echo "0"
         exit 
     else 
         return 1
@@ -37,7 +38,7 @@ main(){
     fi  
     checkMaster
     if [ "$?" -eq 1 ]; then
-        echo 1
+        echo "1"
     fi
 }
 
