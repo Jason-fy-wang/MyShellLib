@@ -8,6 +8,7 @@ Hosts=(name1 node1 node2)
 Port=8081
 ServerPort=7077
 Path=/root/spark-2.4.3-bin-hadoop2.7/sbin
+Hosts=($(cat ${Path}/..//conf/slaves | grep -Ev "^#|^$"))  # 从slave中获取spark主机
 SMaster=${Path}/start-master.sh
 SSlave=${Path}/start-slave.sh
 PMaster=${Path}/stop-master.sh
@@ -15,6 +16,10 @@ PSlave=${Path}/stop-slave.sh
 
 # 获取master的IP和端口，格式: ip:port
 getMaster(){
+    if [ "${#Hosts[@]}"  -le 0 ];then
+        echo "HostName must be give"
+        exit 1
+    fi
     local cc=0
     for hh in ${Hosts[@]}
     do  
