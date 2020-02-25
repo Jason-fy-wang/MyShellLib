@@ -6,7 +6,7 @@ SERVER=$REDIS/redis-server
 Client=$REDIS/redis-cli
 CONF=redis.conf
 
-## 把此脚本放入到 /etc/init.d中就相当与把redis注册为系统服务，可以使用service管理
+
 startInstance(){
     for i in {6379, 6389}
     do

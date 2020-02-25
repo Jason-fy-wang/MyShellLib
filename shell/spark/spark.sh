@@ -1,21 +1,24 @@
 #!/bin/bash
 #chkconfig:2345 80 90
 #description: spark service
-# 此脚本用于spark的日常运维操作，并使用指定用户启停服务
+
 ss=$(which bash 2>/dev/null)
 run=${ss:=/bin/bash}
-Hosts=(name1 node1 node2)
 Port=8080
 ServerPort=7077
 Path=/opt/spark-2.4.3
-SMaster=${Path}/start-master.sh
-SSlave=${Path}/start-slave.sh
-PMaster=${Path}/stop-master.sh
-PSlave=${Path}/stop-slave.sh
+Hosts=($(cat ${Path}/conf/slaves | grep -Ev "^#|^$"))
+SMaster=${Path}/sbin/start-master.sh
+SSlave=${Path}/sbin/start-slave.sh
+PMaster=${Path}/sbin/stop-master.sh
+PSlave=${Path}/sbin/stop-slave.sh
 USER=fcaps
 
-# 获取master的IP和端口，格式: ip:port
 getMaster(){
+    if [ "${#Hosts[@]}"  -le 0 ];then
+        echo "HostName must be give"
+        exit 1
+    fi
     local cc=0
     for hh in ${Hosts[@]}
     do  
@@ -33,25 +36,23 @@ getMaster(){
     done
 }
 
-# 使用fcaps用户启动本机上的master
 startMaster(){
     ck=$(ps -ef | grep -v grep |  grep 'org.apache.spark.deploy.master.Master' | awk '{print $2}')
-    if [ -z "$ck" ];then        # master没有启动则启动
+    if [ -z "$ck" ];then        
         echo "starting Master..."
         su - ${USER} -c "$run  $SMaster >/dev/null 2>&1"
-    else                    # master已经启动，则不进行启动操作
+    else                    
         echo "Master $ck is running"
         exit 0
     fi  
 }
 
-# 使用fcaps用户关闭本机上的master操作
 stopMaster(){
     ck=($(ps -ef | grep -v grep |  grep 'org.apache.spark.deploy.master.Master' | awk '{print $2}'))
-    if [ "${#ck[@]}" -le 0 ];then   # 没有启动master，则不进行操作
+    if [ "${#ck[@]}" -le 0 ];then   
         echo "No Master running"
         exit 1
-    else        # 启动了master  则进行停止操作
+    else        
         echo "stopping master  $ck"
         su - ${USER} -c "$run $PMaster >/dev/null 2>&1"
     fi

@@ -5,8 +5,6 @@ Path=/opt/kafka_2.11
 KafkaPath=${Path}/bin/kafka-server-start.sh
 KafkaConfig=${Path}/config/server.properties
 
-## 把此脚本放入到/etc/init.d目录下，就可以使用service命令来管理kafka服务了。
-## 此操作相当于把kafka注册为系统服务了。
 startKafka(){
  su - fcaps -c "nohup ${KafkaPath} -daemon ${KafkaConfig} >/dev/null 2>&1 &"
 }
@@ -20,7 +18,7 @@ stopKafka(){
         for pp in ${pid[@]}
         do
             echo "stopping $pp"
-            #kill $pp
+            kill $pp
         done
 
     fi
