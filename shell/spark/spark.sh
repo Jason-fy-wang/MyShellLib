@@ -12,7 +12,21 @@ SMaster=${Path}/sbin/start-master.sh
 SSlave=${Path}/sbin/start-slave.sh
 PMaster=${Path}/sbin/stop-master.sh
 PSlave=${Path}/sbin/stop-slave.sh
-USER=fcaps
+
+## 加上用户判断，不然fcaps用户执行会让输入密码
+SUDO_fcaps=""
+if [ "$(whoami)" != "fcaps" ]; then
+    SUDO_fcaps="su - fcaps -c"
+fi
+
+## 当前用户如果不是fcaps，则使用fcaps用户执行命令，如果是fcaps用户，则直接执行命令
+executeCMD(){
+    if [ "${SUDO_fcaps}" != "" ];then
+        ${SUDO_fcaps} "$1" 2>/dev/null
+    else
+        $1 2>/dev/null
+    fi  
+}
 
 getMaster(){
     if [ "${#Hosts[@]}"  -le 0 ];then
@@ -40,7 +54,7 @@ startMaster(){
     ck=$(ps -ef | grep -v grep |  grep 'org.apache.spark.deploy.master.Master' | awk '{print $2}')
     if [ -z "$ck" ];then        
         echo "starting Master..."
-        su - ${USER} -c "$run  $SMaster >/dev/null 2>&1"
+        executeCMD "$run  $SMaster >/dev/null 2>&1"
     else                    
         echo "Master $ck is running"
         exit 0
@@ -54,7 +68,7 @@ stopMaster(){
         exit 1
     else        
         echo "stopping master  $ck"
-        su - ${USER} -c "$run $PMaster >/dev/null 2>&1"
+        executeCMD "$run $PMaster >/dev/null 2>&1"
     fi
 }
 
@@ -69,7 +83,7 @@ startSlave(){
         ipm=$(getMaster)
         if [ -n "$ipm" ]; then
             echo "starting slave..."
-            su - ${USER} -c "$run $SSlave $ipm >/dev/null 2>&1"
+            executeCMD "$run $SSlave $ipm >/dev/null 2>&1"
         else
             echo "No Master running"
         fi
@@ -83,7 +97,7 @@ stopSlave(){
     ck=$(ps -ef | grep -v grep |  grep 'org.apache.spark.deploy.worker.Worker' | awk '{print $2}')
     if [ -n "$ck" ]; then
         echo "stopping slave  $ck"
-        su -${USER} -c "$run $PSlave >/dev/null 2>&1"
+        executeCMD "$run $PSlave >/dev/null 2>&1"
     else
         echo "No Slave Running"
         exit 1

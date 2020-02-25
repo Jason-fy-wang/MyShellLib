@@ -3,12 +3,27 @@
 # description start service
 ZKPath=/opt/zookeeper-3.4.14/bin/zkServer.sh
 
+## 加上用户判断，不然fcaps用户执行会让输入密码
+SUDO_fcaps=""
+if [ "$(whoami)" != "fcaps" ]; then
+    SUDO_fcaps="su - fcaps -c"
+fi
+
+## 当前用户如果不是fcaps，则使用fcaps用户执行命令，如果是fcaps用户，则直接执行命令
+executeCMD(){
+    if [ "${SUDO_fcaps}" != "" ];then
+        ${SUDO_fcaps} "$1" 2>/dev/null
+    else
+        $1 2>/dev/null
+    fi  
+}
+
 startZk(){
- su - fcaps -c "${ZKPath} $1 2>/dev/null"
+ executeCMD "${ZKPath} $1 2>/dev/null"
 }
 
 statusZk(){
- su - fcaps -c "${ZKPath} status"
+ executeCMD "${ZKPath} status"
 }
 
 main(){

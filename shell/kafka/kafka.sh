@@ -5,8 +5,23 @@ Path=/opt/kafka_2.11
 KafkaPath=${Path}/bin/kafka-server-start.sh
 KafkaConfig=${Path}/config/server.properties
 
+## 加上用户判断，不然fcaps用户执行会让输入密码
+SUDO_fcaps=""
+if [ "$(whoami)" != "fcaps" ]; then
+    SUDO_fcaps="su - fcaps -c"
+fi
+
+## 当前用户如果不是fcaps，则使用fcaps用户执行命令，如果是fcaps用户，则直接执行命令
+executeCMD(){
+    if [ "${SUDO_fcaps}" != "" ];then
+        ${SUDO_fcaps} "$1" 2>/dev/null
+    else
+        $1 2>/dev/null
+    fi  
+}
+
 startKafka(){
- su - fcaps -c "nohup ${KafkaPath} -daemon ${KafkaConfig} >/dev/null 2>&1 &"
+ executeCMD  "nohup ${KafkaPath} -daemon ${KafkaConfig} >/dev/null 2>&1 &"
 }
 
 stopKafka(){

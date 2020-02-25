@@ -7,11 +7,27 @@ Client=$REDIS/redis-cli
 CONF=redis.conf
 
 
+
+## 加上用户判断，不然fcaps用户执行会让输入密码
+SUDO_fcaps=""
+if [ "$(whoami)" != "fcaps" ]; then
+    SUDO_fcaps="su - fcaps -c"
+fi
+
+## 当前用户如果不是fcaps，则使用fcaps用户执行命令，如果是fcaps用户，则直接执行命令
+executeCMD(){
+    if [ "${SUDO_fcaps}" != "" ];then
+        ${SUDO_fcaps} "$1" 2>/dev/null
+    else
+        $1 2>/dev/null
+    fi  
+}
+
 startInstance(){
     for i in {6379, 6389}
     do
         echo "$SERVER $BASE/$i/$CONF"
-        su - fcaps  -c "$SERVER $REDIS/$i/$CONF " > /dev/null 2>&1
+        executeCMD "$SERVER $REDIS/$i/$CONF"
     done
 }
 
@@ -25,9 +41,46 @@ stopInstance(){
         do
             h=$(echo $vv | awk -F: '{print $1}')
             p=$(echo $vv | awk -F: '{print $2}')
-            su - fcaps -c "$Client -h $h -p $p shutdown" >/dev/null 2>&1
+            executeCMD  "$Client -h $h -p $p shutdown"
         done
     fi
+}
+
+# 查看集群的节点信息
+nodesinfo(){
+    ips=($(ps -ef| grep -v grep| grep "redis-server" | awk '{print $9}'))
+    if [ "${#ips[@]}" -le 0 ]; then
+        echo "no redis running"
+        exit 0
+    else
+        local hh=$(echo ${ips[1]} | awk -F: '{print $1}')
+        local pp=$(echo ${ips[1]} | awk -F: '{print $2}')
+        if [ -n "${hh}" -a -n "${pp}" ];then
+            executeCMD "$Client -h $hh -p $pp cluster nodes"
+        fi  
+    fi  
+}
+#  对某个节点进行晋升
+failover(){
+    local tt=$1
+    local pt=${tt:=6379}
+    
+    ips=($(ps -ef| grep -v grep| grep "redis-server" | awk '{print $9}'))
+    if [ "${#ips[@]}" -le 0 ]; then
+        echo "no redis running"
+        exit 0
+    else
+        local hh=$(echo ${ips[1]} | awk -F: '{print $1}')
+        if [ -n "${hh}" ];then
+            if [ "${SUDO_fcaps}" != "" ];then
+                ${SUDO_fcaps}  "$Client -h $hh -p $pt cluster failover"
+            else
+                $Client -h $hh -p $pt cluster failover
+            fi  
+            echo 'su - ${USER} -c "$Client -h $hh -p $pt cluster failover"'
+        fi  
+    fi  
+
 }
 
 statusInstance(){
@@ -46,7 +99,7 @@ statusInstance(){
 
 main(){
     if [ $# != 1 ]; then
-        echo "usage: $0 [start | stop | restart | status]"
+        echo "usage: $0 [start | stop | restart | status | nodesinfo | failover [port]]"
         exit 0
     fi
     case $1 in
@@ -63,14 +116,19 @@ main(){
      stopInstance
      sleep 2
      startInstance
-    ;;  
+    ;; 
+    nodesinfo)
+        nodesinfo
+    ;;
+    failover)
+        failover $2
     status) 
         statusInstance  
     ;;                          
     *)                              
-        echo "usage: $0 [start | stop | restart | status]"
+        echo "usage: $0 [start | stop | restart | status | nodesinfo | failover [port]]"
     ;;                                                  
-    esac                                                                
+    esac                                                                 
 }                                                                               
                                                                                     
-main $1
+main $@
