@@ -1,5 +1,5 @@
 #!/bin/bash
-# chkconfig 2345 80 90
+# chkconfig:2345 80 90
 # description start service
 ZKPath=/opt/zookeeper-3.4.14/bin/zkServer.sh
 

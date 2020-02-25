@@ -1,5 +1,5 @@
 #!/bin/bash
-# chkconfig 2345 80 90
+# chkconfig:2345 80 90
 # description start service
 Path=/opt/kafka_2.11
 KafkaPath=${Path}/bin/kafka-server-start.sh
