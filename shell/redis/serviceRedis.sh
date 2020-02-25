@@ -28,7 +28,9 @@ stopInstance(){
             su - fcaps -c "$Client -h $h -p $p shutdown" >/dev/null 2>&1
         done
     fi
-}statusInstance(){
+}
+
+statusInstance(){
     ips=($(ps -ef| grep -v grep| grep "redis-server" | awk '{print $9}'))
     if [ "${#ips[@]}" -le 0 ]; then
         echo "no redis running"
