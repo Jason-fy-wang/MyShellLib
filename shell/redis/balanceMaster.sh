@@ -24,7 +24,7 @@ promote(){
 
 checkMaster(){
     checkCount
-    flag=$(${Client} --cluster check ${Ip}:${Port} | grep -E 'M|S' | grep '192.168.30.10:9001' | awk -F: '{print $1}')
+    flag=$(${Client} --cluster check ${Ip}:${Port} | grep -E 'M|S' | grep "$Ip:$Port" | awk -F: '{print $1}')
     if [ "${flag}" != 'M' ];then
         echo 1
     fi  
