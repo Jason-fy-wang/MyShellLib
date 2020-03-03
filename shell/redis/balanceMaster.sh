@@ -3,7 +3,7 @@ BASE=$(cd $(dirname $0);pwd)
 ClientPath=/root/redis-cluster/9001
 Client=${ClientPath}/redis-cli
 Ip=$(cat ${ClientPath}/redis.conf | grep -v '^#' | grep bind | awk '{print $2}')
-Port=9001
+Port=$(cat ${ClientPath}/redis.conf | grep -Ev "^#|^$" | grep "port" | awk '{print $2}')
 
 # 此脚本是监控redis集群的，集群是三主三从
 # 如过实例数量不是6个  那么就不执行
@@ -12,6 +12,7 @@ Port=9001
 checkCount(){
     ct=$($Client --cluster check ${Ip}:${Port} | grep -E 'M|S' | wc -l)
     if [ "$ct" -ne 6 ];then
+        echo 1
         exit 1
     fi  
 }
@@ -24,22 +25,39 @@ promote(){
 checkMaster(){
     checkCount
     flag=$(${Client} --cluster check ${Ip}:${Port} | grep -E 'M|S' | grep '192.168.30.10:9001' | awk -F: '{print $1}')
-    if [ "${flag}" == 'M' ];then
-        echo "0"
-        exit 
-    else 
-        return 1
+    if [ "${flag}" != 'M' ];then
+        echo 1
     fi  
 }
-main(){
+
+promptMaster(){
     checkMaster
     if [ "$?" -eq 1 ];then
         promote
     fi  
     checkMaster
     if [ "$?" -eq 1 ]; then
-        echo "1"
+        echo 1
+        exit
     fi
+    echo 0
+}
+
+checkHealth(){
+    local str=$(date +"%F%T")
+    local key=test
+    $(${Client} --cluster call ${Ip}:${Port} set ${key} ${str} EX 5000 >/dev/null 2>&1)
+    $(${Client} --cluster call ${Ip}:${Port} get ${key} | grep "${str}" >/dev/null 2>&1)
+    if [ "$?" -ne 0 ]; then
+        echo 1
+        exit
+    fi
+}
+
+
+main(){
+checkHealth
+promptMaster
 }
 
 main
