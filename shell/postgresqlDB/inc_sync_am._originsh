@@ -61,7 +61,7 @@ echo "Data restored into $Schema"
 for i in ${tables[@]}; do
   Table=$i
 
-  Sql="insert into $Table(uuid,alarm_id,new_alarm_id,alarm_status,alarm_seq,collect_timestamp,vendor_id,source_id,alarm_content) select uuid,alarm_id,new_alarm_id,alarm_status,alarm_seq,collect_timestamp,vendor_id,source_id,alarm_content from tmp_inc_$Table on conflict(uuid) do nothing"
+  Sql="insert into $Table select * from tmp_inc_$Table"
   echo "$Sql"
   psql --command "$Sql;" "$DestConn"
 done
