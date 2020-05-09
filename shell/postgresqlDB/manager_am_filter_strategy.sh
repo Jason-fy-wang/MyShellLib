@@ -15,9 +15,9 @@ usage(){
 }
 
 insert(){
-    echo "input value: (type value if_valid)"
+    echo "input value: type(sourceid, neuid) value  if_valid(true, false)"
     read type value if_valid
-    echo "${SrcConn}"
+    #echo "${SrcConn}"
     dtime=$(date +"%F %T")
     sql="insert into filter_strategy(type, value, if_valid,update_time) values('"
     sql="${sql}$type',"
@@ -26,7 +26,7 @@ insert(){
     sql="$sql'"
     sql="${sql}$if_valid',"
     sql="$sql'"
-    sql="$sql $dtime') on conflict(type,value) do nothing;"
+    sql="$sql $dtime') on conflict(auto_id) do nothing;"
     psql "${SrcConn}" -c "$sql"
 }
 
@@ -41,11 +41,10 @@ getdata(){
     psql "${SrcConn}" -c "select * from filter_strategy;"
     ;;
     2)
-    echo "input value like: type value"
-    read ttg valg
-    sqlq="select * from  filter_strategy where type='"
-    sqlq="${sqlq}$ttg' and value='"
-    sqlq="${sqlq}$valg';"
+    echo "input value: auto_id (primary key)"
+    read gid
+    sqlq="select * from  filter_strategy where auto_id='"
+    sqlq="${sqlq}$gid'"
     psql "${SrcConn}" -c "${sqlq}"
     ;;
     *)
@@ -66,12 +65,10 @@ deldata(){
     psql "${SrcConn}" -c "delete from filter_strategy;"
     ;;
     2)
-    echo "input value like: type value"
-    read ttd vald
-    sqld="delete from  filter_strategy where type='"
-    sqld="${sqld}$ttd' and value="
-    sqld="${sqld}'"
-    sqld="${sqld}$vald';"
+    echo "input value: auto_id (primary key)"
+    read did
+    sqld="delete from  filter_strategy where auto_id='"
+    sqld="${sqld}$did'"
     psql "${SrcConn}" -c "$sqld"
     ;;
     *)
@@ -81,14 +78,15 @@ deldata(){
 }
 
 update(){
-    echo "update with id, Input value like: type value if_valid"
-    read ttu valu validu
+    echo "update with id, Input value:auto_id(primary key) type(sourceid, neuid) value if_valid(true, false)  "
+    read uid ttu valu validu 
     dtimeu=$(date +"%F %T")
     sqlu="update filter_strategy set if_valid='"
     sqlu="${sqlu}${validu}',update_time='"
-    sqlu="${sqlu}${dtimeu}' where type='"
-    sqlu="${sqlu}$ttd' and value='"
-    sqlu="${sqlu}${valu}';"
+    sqlu="${sqlu}${dtimeu}', type='"
+    sqlu="${sqlu}$ttd',value='"
+    sqlu="${sqlu}${valu}' where auto_id='"
+    sqlu="${sqlu}${uid}';"
     psql "${SrcConn}" -c  "$sqlu"
 }
 
@@ -127,6 +125,7 @@ main(){
     pwd=$4
     db=$5
     SrcConn="host=$ip port=$port user=$username password=$pwd dbname=$db"
+    clear
     while true
     do
         display
