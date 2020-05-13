@@ -11,3 +11,20 @@
 );
 
 create unique index index_unique_filter_strategy_1 on filter_strategy(type, value);
+
+
+===================================================================
+需求变更，版本2， 表结构修改为下面这样:
+ drop table if exists filter_strategy;
+ create table filter_strategy (
+    auto_id serial PRIMARY KEY,
+    type varchar(255),
+    value varchar(255),
+    start_time timestamp not null,
+    end_time timestamp not null,
+    update_time timestamp not null
+);
+create unique index index_unique_filter_strategy_1 on filter_strategy(type, value);
+
+需求实现:
+manager_am_filter_strategy-v2.sh
