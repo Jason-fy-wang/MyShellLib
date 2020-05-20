@@ -1,0 +1,29 @@
+aop 
+1. 是什么时候创建的代理？          bean初始化后,调用后置处理器进行的代理
+2. 是什么时候解析的切面信息?       切面信息是在wrapIfNecessary-->getAdvicesAndAdvisorsForBean 方法中解析的
+3. aop中 jdk 代理的具体过程,       
+    AbstractAutoProxyCreator-->wrapIfNecessary-->getAdvicesAndAdvisorsForBean-->createProxy,当然了具体创建的时候回进行一些判断来决定是JDK代理还是cglib代理
+        proxyFactory
+    cglib的具体创建过程(cglib先放到后面)
+4. aop 中 对于切面的调用过程      ok
+
+
+spring整体框架图的抽象
+
+事务
+1. 事务的创建时机
+2. 事务的存储位置
+3. 事务传播机制
+4. 事务的调用过程
+5. 事务的控制 以及 事务编写的亮点
+    
+
+
+mybatis
+ mybatis中接口mapper文件的对应关系如何创建
+ mybatis中代理的创建过程 以及 调用过程
+ mybatis-spring   mybatis和spring是如何整合的? 整合原理的分析
+ mybatis中插件  pagehelper 是如何使用,以及如何整合到mybatis中的
+ spring的事务的创建 以及 调用过程
+
+
