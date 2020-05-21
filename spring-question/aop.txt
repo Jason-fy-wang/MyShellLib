@@ -27,3 +27,9 @@ mybatis
  spring的事务的创建 以及 调用过程
 
 
+mybatis-spring
+    1.mapper接口和mapper.xml文件是如何进行对应的?  namespace+"."+id  对应 sql的statement
+    2.为什么获取接口文件就能获取到其实体?       偷梁换柱
+    3.此时的sqlSession为什么是线程安全的?       
+    4.注册mapper接口文件时,到底做了什么手脚?    偷梁换柱
+    5.mybatis如何使用spring中的事务的?
