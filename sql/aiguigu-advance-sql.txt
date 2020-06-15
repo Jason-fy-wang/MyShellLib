@@ -1,0 +1,137 @@
+CREATE TABLE mytbl2 (id INT,NAME VARCHAR(200),age INT,dept INT);
+INSERT INTO mytbl2 VALUES(1,'zhang3',33,101);
+INSERT INTO mytbl2 VALUES(2,'li4',34,101);
+INSERT INTO mytbl2 VALUES(3,'wang5',34,102);
+INSERT INTO mytbl2 VALUES(4,'zhao6',34,102);
+INSERT INTO mytbl2 VALUES(5,'tian7',36,102);
+
+# 查询每一个部门的最大年龄的人
+# 错误
+select name,dept, max(age) from mytbl2 group by dept;
+
+# 正确
+select id,name,ab.dept,ab.mage from mytbl2 inner join 
+(select dept,max(age) mage from mytbl2 group by dept)ab
+on  mytbl2.dept=ab.dept and mytbl2.age=ab.mage;
+
+
+# 门派表
+create table t_dept (
+id int(11) NOT NULL AUTO_INCREMENT,
+deptname varchar(30) DEFAULT NULL,
+address varchar(40) DEFAULT NULL,
+primary key(id)
+)engine=InnoDB auto_increment=1 default charset=utf8;
+
+#门派人员表
+create table t_emp(
+id int(11) not null AUTO_INCREMENT,
+name varchar(20) DEFAULT NULL,
+age int(3) DEFAULT NULL,
+deptid int(11) DEFAULT NULL,
+empno int NOT NULL,
+primary key(id)
+)engine=InnoDB auto_increment=1 default charset=utf8;
+
+1. 所有有门派人员的信息(要求显示门派名称)
+select name,age,empno,deptname from t_emp inner join t_dept on
+t_dept.id = t_emp.deptid;
+
+
+2.列出所有人员及其门派信息
+select name,age,empno,deptname from t_emp left join t_dept on
+t_dept.id = t_emp.deptid;
+
+3.列出所有门派
+select * from t_dept;
+
+4. 所有无门派人士
+select name,age,empno,deptname from t_emp left join t_dept on
+t_emp.deptid = t_dept.id where deptname is null;
+
+select * from t_emp where deptid is null;
+
+5.所有无人的门派
+select name,age,empno,deptname from t_dept left join t_emp on
+t_dept.id = t_emp.deptid where name is null;
+
+6.所有人员和门派的对应关系
+select * from t_emp e left join t_dept d on e.deptid = d.id
+union
+select * from t_emp e right join t_dept d on e.deptid = d.id;
+# 错误, 此没有列出所有的人员和 所有的门派
+select name,age,empno,deptname from t_dept inner join t_emp on
+t_dept.id = t_emp.deptid;
+
+7.所有没有入门派的人员和没人入的门派
+select name,age,empno,deptname from t_emp left join t_dept on
+t_emp.deptid = t_dept.id where deptname is null
+union 
+select name,age,empno,deptname from t_dept left join t_emp on
+t_dept.id = t_emp.deptid where name is null;
+
+8.添加ceo字段
+    alter table t_dept add CEO INT(11);
+    update t_dept set CEO=2 where id=1;
+    update t_dept set CEO=4 where id=2;
+    update t_dept set CEO=6 where id=3;
+    update t_dept set CEO=8 where id=4;
+    update t_dept set CEO=9 where id=5;
+
+    8.1 求各个门派对应掌门人名称
+    select d.id,deptname,e.name from t_dept d left join t_emp e on 
+    d.CEO = e.id;
+
+    8.2 求所有当上掌门人的平均年龄
+    select avg(e.age) from t_dept d left join t_emp e on 
+    d.CEO = e.id; 
+
+    8.3 求所有人物对应的掌门名称
+     方法一: 先得到所有人物以及对应的掌门的ceo信息,之后再和人物表联查,得到ceo对应人物信息
+     
+     # 所有人物对应的ceo id信息
+     select e.name, d.ceo from t_emp e left join t_dept d on e.deptid=d.id
+     # 从上面得到的ceo信息 he t_emp 联查 得到最终结果
+     select ed.name'任务', e.name '掌门' from
+        (select e.name, d.ceo from t_emp e left join t_dept d on e.deptid=d.id)ed
+        left join t_emp e on ed.ceo=e.id;
+    
+    方法二:
+        # 先选择出来ceo,在和t_emp 左联
+        select d.id did,e.name from t_dept d left join t_emp e on d.ceo=e.id;
+
+        # 联合
+        select ee.name,dd.name from t_emp ee left join 
+        (select d.id did,e.name from t_dept d left join t_emp e on d.ceo=e.id)dd
+        on ee.deptId=dd.did;
+
+    方法三:
+        # 连续联合查询---- 根据sql的执行顺序来思考
+        SELECT e1.name '人物',e2.name '掌门'
+        FROM t_emp e1
+        LEFT JOIN t_dept d on e1.deptid = d.id
+        LEFT JOIN t_emp e2 on d.ceo = e2.id ;
+
+    方法四:
+        SELECT e2.name '人物',
+        (SELECT e1.name FROM t_emp e1 where e1.id= d.ceo) '掌门'
+        from t_emp e2 LEFT JOIN t_dept d on e2.deptid=d.id;
+
+
+# 插入的数据
+INSERT INTO t_dept(deptName,address) VALUES('华山','华山');
+INSERT INTO t_dept(deptName,address) VALUES('丐帮','洛阳');
+INSERT INTO t_dept(deptName,address) VALUES('峨眉','峨眉山');
+INSERT INTO t_dept(deptName,address) VALUES('武当','武当山');
+INSERT INTO t_dept(deptName,address) VALUES('明教','光明顶');
+INSERT INTO t_dept(deptName,address) VALUES('少林','少林寺');
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('风清扬',90,1,100001);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('岳不群',50,1,100002);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('令狐冲',24,1,100003);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('洪七公',70,2,100004);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('乔峰',35,2,100005);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('灭绝师太',70,3,100006);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('周芷若',20,3,100007);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('张三丰',100,4,100008);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('张无忌',25,5,100009);
+INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('韦小宝',18,null,100010);
