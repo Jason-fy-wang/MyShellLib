@@ -135,3 +135,89 @@ INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('周芷若',20,3,100007);
 INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('张三丰',100,4,100008);
 INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('张无忌',25,5,100009);
 INSERT INTO t_emp(NAME,age,deptId,empno) VALUES('韦小宝',18,null,100010);
+
+
+
+CREATE TABLE t1(id INT(10) AUTO_INCREMENT,content VARCHAR(100) NULL , PRIMARY KEY (id));
+CREATE TABLE t2(id INT(10) AUTO_INCREMENT,content VARCHAR(100) NULL , PRIMARY KEY (id));
+CREATE TABLE t3(id INT(10) AUTO_INCREMENT,content VARCHAR(100) NULL , PRIMARY KEY (id));
+CREATE TABLE t4(id INT(10) AUTO_INCREMENT,content VARCHAR(100) NULL , PRIMARY KEY (id));
+INSERT INTO t1(content) VALUES(CONCAT('t1_',FLOOR(1+RAND()*1000)));
+INSERT INTO t2(content) VALUES(CONCAT('t2_',FLOOR(1+RAND()*1000)));
+INSERT INTO t3(content) VALUES(CONCAT('t3_',FLOOR(1+RAND()*1000)));
+INSERT INTO t4(content) VALUES(CONCAT('t4_',FLOOR(1+RAND()*1000)));
+
+1.id 相同, 执行顺序由上至下
+explain select * from t1,t2,t3 where t1.id=t2.id and t2.id=t3.id;
+
+
+2.id不同, 如果是子查询,id的序号会递增,id值越大优先级越高,越先执行
+explain select t1.id from t1 where t1.id in 
+(select t2.id from t2 where t2.id in 
+(select t3.id from t3 where t3.content='')
+);
+
+3.
+explain select t2.* from t2,(select * from t3 where t3.content='')s3 
+where s3.id=t2.id;
+
+
+全职匹配我最爱， 最左前缀要遵守；
+带头大哥不能死， 中间兄弟不能断；
+索引列上少计算， 范围之后全失效；
+LIKE 百分写最右， 覆盖索引不写*；
+不等空值还有 OR， 索引影响要注意；
+VAR 引号不可丢， SQL 优化有诀窍。
+
+
+
+CREATE TABLE IF NOT EXISTS `class` (
+`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+`card` INT(10) UNSIGNED NOT NULL,
+PRIMARY KEY (`id`)
+);
+CREATE TABLE IF NOT EXISTS `book` (
+    `bookid` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+`card` INT(10) UNSIGNED NOT NULL,
+PRIMARY KEY (`bookid`)
+);
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO class(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
+INSERT INTO book(card) VALUES(FLOOR(1 + (RAND() * 20)));
