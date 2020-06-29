@@ -2,6 +2,7 @@
 cmd=$1
 case $cmd in
 start)
+echo "starting"
 systemctl start zabbix-server
 systemctl start httpd
 systemctl start zabbix-agent
@@ -14,6 +15,7 @@ systemctl status zabbix-agent
 #systemctl status php-fpm
 ;;
 stop)
+echo "stoping"
 systemctl stop zabbix-server
 systemctl stop  httpd
 systemctl stop  zabbix-agent
