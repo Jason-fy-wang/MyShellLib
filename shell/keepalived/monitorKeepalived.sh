@@ -1,6 +1,10 @@
 #!/bin/bash
 FILE=/etc/keepalived/keepalived.conf
 # file exists 
+if [ ! -e $FILE ]; then
+    echo 1
+    exit 1
+fi
 Key=virtual_ipaddress
 Key2=unicast_peer
 VIP=$(sed -n -e "/${Key}/,+1p"  ${FILE} | grep -v  "${Key}" | awk '{print $1}')
@@ -10,7 +14,7 @@ RES=$?
 # localcheck
 TCHECK=$(ps -ef | grep -v grep | grep keepalived >>/dev/null 2>&1)
 
-if [ "$RES" -eq 0 -a  -n"$TCHECK" ];then
+if [ "$RES" -eq 0 -a  -n "$TCHECK" ];then
     echo 0
     exit 0
 fi
