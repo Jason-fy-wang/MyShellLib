@@ -1,0 +1,20 @@
+简单说是对下面列出的数据库的一个crud管理：
+
+ drop table if exists filter_strategy_upgrade;
+ create table filter_strategy (
+    auto_id serial PRIMARY KEY,
+    source_id varchar(255),
+    alarm_type varchar(255),
+    orig_serverity varchar(255),
+    object_type varchar(255),
+    object_uid varchar(255),
+    start_time timestamp not null,
+    end_time timestamp not null,
+    update_time timestamp not null
+);
+
+将表的查询权限赋予给 sm
+grant select on am.filter_strategy_upgrade to sm;
+
+将schema am的usage赋予给sm
+grant usage on schema am to sm;
