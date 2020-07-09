@@ -16,12 +16,12 @@ usage(){
 }
 
 insert(){
-    echo 'input value: type(sourceid/neuid)  value  start_time end_time (time format:"2020-01-01\ 00:00:00")'
+    echo 'input value: source_id  alarm_type  orig_serverity(critical,major,minor,warning,null)  object_type object_uid  start_time end_time (time format:"2020-01-01 00:00:00")'
     read type value istime ietime
     echo "type=${type}, value=${value},isTime = ${istime}, ietime=${ietime}"
     #echo "${SrcConn}"
     dtime=$(date +"%F %T")
-    sql="insert into filter_strategy(type,value,start_time,end_time,update_time) values('"
+    sql="insert into filter_strategy_upgrade(source_id,alarm_type,orig_serverity,object_type,object_uid,start_time,end_time,update_time) values('"
     sql="${sql}$type',"
     sql="$sql'"
     sql="$sql$value',"
@@ -41,12 +41,12 @@ getdata(){
     read opg
     case $opg in
     a)
-    psql "${SrcConn}" -c "select * from filter_strategy;"
+    psql "${SrcConn}" -c "select * from filter_strategy_upgrade;"
     ;;
     s)
     echo "input value: auto_id (primary key)"
     read gid
-    sqlq="select * from  filter_strategy where auto_id='"
+    sqlq="select * from  filter_strategy_upgrade where auto_id='"
     sqlq="${sqlq}$gid'"
     psql "${SrcConn}" -c "${sqlq}"
     ;;
@@ -65,12 +65,12 @@ deldata(){
 
     case $opd in
     a)
-    psql "${SrcConn}" -c "delete from filter_strategy;"
+    psql "${SrcConn}" -c "delete from filter_strategy_upgrade;"
     ;;
     s)
     echo "input value: auto_id (primary key)"
     read did
-    sqld="delete from  filter_strategy where auto_id='"
+    sqld="delete from  filter_strategy_upgrade where auto_id='"
     sqld="${sqld}$did'"
     psql "${SrcConn}" -c "$sqld"
     ;;
@@ -81,10 +81,10 @@ deldata(){
 }
 
 update(){
-    echo 'update with id, Input value:auto_id(primary key) type(sourceid/neuid) value start_time end_time (time format:"2020-01-01\ 00:00:00")'
+    echo 'update with id, Input value: auto_id(primary key) source_id alarm_type orig_serverity object_type object_uid start_time end_time (time format:"2020-01-01 00:00:00")'
     read uid ttu valu stime etime
     dtimeu=$(date +"%F %T")
-    sqlu="update filter_strategy set update_time='"
+    sqlu="update filter_strategy_upgrade set update_time='"
     sqlu="${sqlu}${dtimeu}', type='"
     sqlu="${sqlu}$ttu',value='"
     sqlu="${sqlu}${valu}',start_time='"
