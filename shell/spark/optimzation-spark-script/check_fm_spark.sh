@@ -1,8 +1,10 @@
 #!/bin/bash
-. /etc/profile
 BASE=/opt/ericsson/nfvo/fcaps/bin/fm_spark
+CMD=/opt/spark-2.4.3/bin/spark-class
+ClassName=org.apache.spark.deploy.Client
 HOSTS=$(cat ${BASE}/../../config/fm_spark/app.properties | grep sparkUrl | awk -F'=' '{print $2}' | sed 's#\r##g' |sed 's#:7077##g' | sed 's#,# #g')
 Nhosts=$(echo ${HOSTS} | awk -F=  '{lens=split($1,res," ");print length(res)}')
+checkStatus(){
 count=0
 
 checkMaster(){
@@ -34,36 +36,31 @@ lena=${#Apps[@]}
 let lena1=$len-1
 key1="Running Drivers"
 key2="row-fluid"
-# 从html中获取存在driver的类型
 ids=($(curl -s  -X GET http://${MASTER}:8080 | sed -n "/${key1}/,/${key2}/p" | grep -E "<td>driver-[0-9]{14}-[0-9]{3,}" | awk '{print $1}' | awk 
 -F'>' '{print $2}'))
-# 从html中获取存在的driver对应的 id
 drivers=($(curl -s  -X GET http://${MASTER}:8080 | sed -n "/${key1}/,/${key2}/p" | grep -E "<td>com[a-z.]{19,}" | awk '{print $1}' | awk -F'[<>]' '{print $3}' ))
-lend=${#drivers[@]}
-let lend1=$len-1
+len=${#drivers[@]}
+let len1=$len-1
 
-# 所有的driver都在运行
-if [ "${#drivers[@]}" -eq "${lena}" ]; then
-    echo 0
-    exit
-elif [ "${#drivers[@]}" -eq 0 ]   # 所有的driver都停止了. 则启动全部
-    echo "start all"
-    echo 1
-else        # 某一个停止了,单独拉起
-    echo 1
-    for ai in $(seq 0 ${lena1})     # Apps中程序在运行的drivers中没有,则拉起
-    do
-        count=0
-        for dp in $(seq 0 ${lend1})
-        do
-            if [ "${drivers[$dp]}" == "${Apps[$ai]}" ];then
-                break
-            else
-                let count++
-            fi
-        done
-        if [ "$count" -eq "${#drivers[@]}" ];then
-            echo "start $${Apps[$ai]}"
-        if 
-    done
+if [ "$len" -ge 3 ]; then
+	echo "FM Spark Driver is running"
+	exit 0
+else
+	for ai in $(seq 0 ${lena1})
+	do
+		cct=0
+		for di in $(seq 0 ${len1})
+		do
+			if [ "${drivers[$di]}" == "${Apps[$lena1]}" ]; then
+				break
+			else
+				let cct++
+			fi
+		done
+		if [ "$cct" -eq "${len}" ]; then
+			echo "Something error in driver $ai"
+		fi
+	done
 fi
+
+
