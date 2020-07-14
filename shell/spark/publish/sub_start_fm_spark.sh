@@ -7,13 +7,13 @@ if [ $# -ne 1 ];then
 fi
 
 case $1 in
-1)
+1|$FMStandard)
 ${CBASE}/start_fm_standard.sh
 ;;
-2)
+2|$FMAMS)
 ${CBASE}/start_fm_master_slave.sh
 ;;
-3)
+3|$FMADC)
 ${CBASE}/start_fm_derivation.sh
 ;;
 all)
