@@ -5,7 +5,7 @@
     auto_id serial PRIMARY KEY,
     source_id varchar(255),
     alarm_type varchar(255),
-    orig_serverity varchar(255),
+    orig_severity varchar(255),
     object_type varchar(255),
     object_uid varchar(255),
     start_time timestamp not null,

@@ -16,18 +16,18 @@ usage(){
 }
 
 insert(){
-    echo 'input value: source_id  alarm_type  orig_serverity(critical,major,minor,warning,null)  object_type object_uid  start_time end_time (time format:"2020-01-01\ 00:00:00")'
+    echo 'input value: source_id  alarm_type  orig_severity(critical,major,minor,warning,null)  object_type object_uid  start_time end_time (time format:"2020-01-01\ 00:00:00")'
     read isid ialarmtype iorigserver iobjtype iobjuid istime ietime
-    #echo "source_id=${isid}, alarm_type=${ialarmtype},orig_serverity=${iorigserver},object_type=${iobjtype},object_uid=${iobjuid},start_time=${istime},end_time=${ietime}"
+    #echo "source_id=${isid}, alarm_type=${ialarmtype},orig_severity=${iorigserver},object_type=${iobjtype},object_uid=${iobjuid},start_time=${istime},end_time=${ietime}"
     if [ "${iorigserver}" != "critical" ] && [ "${iorigserver}" != "major" ] && [ "${iorigserver}" != "minor" ] && [ "${iorigserver}" != "warning" ] && [ "${iorigserver}" != "null" ] ; then
-        echo "orig_serverity should in (critical,major,minor,warning,null)"
+        echo "orig_severity should in (critical,major,minor,warning,null)"
         return
     fi
     OIFS="${IFS}"
     IFS="#"
     dtime=$(date +"%F %T")
     iargs=($isid#$ialarmtype#$iorigserver#$iobjtype#$iobjuid#$istime#$ietime#$dtime)
-    sql="insert into filter_strategy_upgrade(source_id,alarm_type,orig_serverity,object_type,object_uid,start_time,end_time,update_time) values('"
+    sql="insert into filter_strategy_upgrade(source_id,alarm_type,orig_severity,object_type,object_uid,start_time,end_time,update_time) values('"
     for i in ${iargs[@]}
     do
         if [ "$i" == "${dtime}" ]; then
@@ -89,17 +89,17 @@ deldata(){
 }
 
 update(){
-    echo 'update with id, Input value: auto_id(primary key) source_id  alarm_type  orig_serverity(critical,major,minor,warning,null)  object_type object_uid  start_time end_time (time format:"2020-01-01\ 00:00:00")'
+    echo 'update with id, Input value: auto_id(primary key) source_id  alarm_type  orig_severity(critical,major,minor,warning,null)  object_type object_uid  start_time end_time (time format:"2020-01-01\ 00:00:00")'
     read uaid usid ualarmtype uorigserver uobjtype uobjuid ustime uetime
-    #echo "auto_id=${uaid},source_id=${usid},alarm_type=${ualarmtype},orig_serverity=${uorigserver},object_type=${uobjtype},object_uid=${uobjuid},start_time=${ustime},end_time=${uetime}"
+    #echo "auto_id=${uaid},source_id=${usid},alarm_type=${ualarmtype},orig_severity=${uorigserver},object_type=${uobjtype},object_uid=${uobjuid},start_time=${ustime},end_time=${uetime}"
     if [ "${uorigserver}" != "critical" ] && [ "${uorigserver}" != "major" ] && [ "${uorigserver}" != "minor" ] && [ "${uorigserver}" != "warning" ] && [ "${uorigserver}" != "null" ] ; then
-        echo "orig_serverity should in (critical,major,minor,warning,null)"
+        echo "orig_severity should in (critical,major,minor,warning,null)"
         return
     fi
     OIFS="${IFS}"
     IFS="#"
     dtimeu=$(date +"%F %T")
-    uargs=(source_id=\'${usid}\'#alarm_type=\'${ualarmtype}\'#orig_serverity=\'${uorigserver}\'#object_type=\'${uobjtype}\'#object_uid=\'${uobjuid}\'#start_time=\'${ustime}\'#end_time=\'${uetime}\')
+    uargs=(source_id=\'${usid}\'#alarm_type=\'${ualarmtype}\'#orig_severity=\'${uorigserver}\'#object_type=\'${uobjtype}\'#object_uid=\'${uobjuid}\'#start_time=\'${ustime}\'#end_time=\'${uetime}\')
     leth=${#uargs[@]}
     sqlu="update filter_strategy_upgrade set "
     for i in ${uargs[@]}
