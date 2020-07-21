@@ -283,3 +283,16 @@ main(){
 }
 
 main $@
+
+
+
+
+# 测试
+# 
+# -s alllsource -a vim -o major -t objtype1 -u objuid1 -r 2020-01-0100:00:00 -e 2020-01-0100:00:00
+# 
+# -s vim123 -a vim -o major1 -t objtype1 -u objuid1 -r 2020-01-0100:00:00 -e 2020-01-0100:00:00
+# 
+# -s vim123 -a vim -o major -t objtype1 -u objuid1 -r 2020-01-0100:00:00 -e 2020-01-0100:00:00
+# 
+# -d 7 -s vim77777
