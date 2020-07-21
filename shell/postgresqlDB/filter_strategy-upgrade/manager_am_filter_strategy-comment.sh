@@ -15,9 +15,13 @@ usage(){
     exit 1
 }
 
+# 通过此函数来获取输入的各项的field的值
 gsql(){
     dtime=$(date +"%F%T")
+    # 其中iidx用于存储field
     iidx=("update_time")
+    ## iival 用于存储对应field的值
+    # 之后就可以通过这两个数组, 来进行sql的拼接
     iival=("$dtime")
     oper=$1
     shift
@@ -26,6 +30,7 @@ gsql(){
         case ${1} in
             -s)
             iidx+=("source_id")
+            # 这里的 \' \' 是给值添加一个 单引号, 因为field都是 varchar 类型的, 插入值或者更新值时,在sql中都需要使用单引号括起来
             iival+=(\'$2\')
             ;;
             -a)
@@ -33,8 +38,10 @@ gsql(){
             iival+=(\'$2\')
             ;;
             -o)
+            # 健康性检查
             if [ "${2}" != "critical" ] && [ "${2}" != "major" ] && [ "${2}" != "minor" ] && [ "${2}" != "warning" ] && [ "${2}" != "null" ] ; then
                 echo "orig_severity should in (critical,major,minor,warning,null)"
+                # 使用return 直接结束函数, 后面的1 表示结束返回值, 使用 $? 可以获取; 简单说此 return就相当于一个命令的执行状态
                 return 1
             fi
             iidx+=("orig_severity")
@@ -80,9 +87,11 @@ update(){
     if [ "$?" -ne "0" ]; then
         return 
     fi
-    
+    # 这里是更新,这是主要是 set的字符串拼接
     iisql="update filter_strategy_upgrade set "
+    # 这里是条件语句的拼接
     uuwh=" where auto_id="
+    # sql的拼接
 for i in $(seq 0 $ll)
     do
         if [  "${iidx[$i]}" == "update_time" ]; then
@@ -106,6 +115,7 @@ for i in $(seq 0 $ll)
     done
     iisql=${iisql:0:$(expr ${#iisql}-1)}
     iisql+="$uuwh"
+    #echo "sql=${iisql}"
     psql "${SrcConn}" -c "${iisql} "
 }
 
@@ -114,11 +124,14 @@ insert(){
     echo 'input value: -s source_id -a alarm_type -o orig_severity(critical,major,minor,warning,null) -t object_type -u object_uid  -r start_time -e end_time (time format:"2020-01-0100:00:00")'
     read -p "input value: " -a vals
     gsql it ${vals[@]}
+    # 根据返回值 来判断是否继续运行
+    # 如果返回不为0,例如为1,那么表示出错了,此处就不用继续执行了,进行返回操作
     if [ "$?" -ne "0" ]; then
         return 
     fi
 
     cc=0
+    # 健康性 检查
     for i in $(seq 0 $ll)
     do
         if [  "${iidx[$i]}" == "end_time" ]; then
@@ -132,8 +145,11 @@ insert(){
         return
     fi
 
+    # 此字符串主要是  字段的拼接
     iisql="insert into filter_strategy_upgrade("
+    # 此主要是字段对应的值的拼接
     iisqlv=" values("
+    # sql的拼接
     for i in $(seq 0 $ll)
     do
         if [  "${iidx[$i]}" == "update_time" ]; then
@@ -160,6 +176,7 @@ insert(){
     iisqlv=${iisqlv:0:$(expr ${#iisqlv}-1)}
     iisql+=")"
     iisql+="$iisqlv"
+    #echo "${iisql}"
     psql "${SrcConn}" -c "${iisql});"
 
 }

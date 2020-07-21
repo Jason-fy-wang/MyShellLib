@@ -18,3 +18,12 @@ grant select on am.filter_strategy_upgrade to sm;
 
 将schema am的usage赋予给sm
 grant usage on schema am to sm;
+
+
+======================================
+需求更新:
+对于source_id    alarm_type    orig_severity object_type  object_uid   这几个字段不是必须的, 对于更新或者删除不需要每次都填写.
+修改: 输入上面字段的一个值, 然后没有输入值为空,插入到数据库
+
+
+
