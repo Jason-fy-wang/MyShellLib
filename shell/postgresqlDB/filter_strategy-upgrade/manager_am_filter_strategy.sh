@@ -80,7 +80,19 @@ update(){
     if [ "$?" -ne "0" ]; then
         return 
     fi
+    cc=0
+    for i in $(seq 0 $ll)
+    do
+        if [  "${iidx[$i]}" == "auto_id" ]; then
+            let cc++
+        fi
+    done
     
+    if [ "$cc" -ne "1" ];then
+        echo "auto_id must be given.."
+        return 1
+    fi
+
     iisql="update filter_strategy_upgrade set "
     uuwh=" where auto_id="
 for i in $(seq 0 $ll)
