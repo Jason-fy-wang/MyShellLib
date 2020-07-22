@@ -73,6 +73,7 @@ gsql(){
             ;;
             *)
             echo "Invalid input."
+            exit 1
             ;;
         esac
         shift 2
