@@ -156,7 +156,7 @@ insert(){
         fi
     done
     if [ "$cc" -ne "2" ]; then
-        echo "update_time and start_time must be given.."
+        echo "start_time and end_time must be given.."
         return
     fi
 
