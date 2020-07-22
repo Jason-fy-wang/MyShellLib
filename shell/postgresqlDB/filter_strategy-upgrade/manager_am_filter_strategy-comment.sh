@@ -87,6 +87,21 @@ update(){
     if [ "$?" -ne "0" ]; then
         return 
     fi
+    # 通过检测auto_id字段,来判断auto_id是否传递
+    # 更新操作, atuo_id 是必传的
+    cc=0
+    for i in $(seq 0 $ll)
+    do
+        if [  "${iidx[$i]}" == "auto_id" ]; then
+            let cc++
+        fi
+    done
+    
+    if [ "$cc" -ne "1" ];then
+        echo "auto_id must be given.."
+        return 1
+    fi
+
     # 这里是更新,这是主要是 set的字符串拼接
     iisql="update filter_strategy_upgrade set "
     # 这里是条件语句的拼接
