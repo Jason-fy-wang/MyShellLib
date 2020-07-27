@@ -33,3 +33,11 @@ mybatis-spring
     3.此时的sqlSession为什么是线程安全的?       
     4.注册mapper接口文件时,到底做了什么手脚?    偷梁换柱
     5.mybatis如何使用spring中的事务的?
+
+
+
+note：
+AutowiredAnnotationBeanPostProcessor  解析 Autowired value inject 自动注入的操作
+CommonAnnotationBeanPostProcessor  解析 Resource Ejb  PostConstruct  PreDestroy WebServiceRef
+ConfigurationClassPostProcessor 解析  import  configuration importResource
+PersistenceAnnotationBeanPostProcessor 解析 PersistenceUnit  PersistenceContext
