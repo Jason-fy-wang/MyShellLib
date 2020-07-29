@@ -37,7 +37,31 @@ mybatis-spring
 
 
 note：
+后置处理器
 AutowiredAnnotationBeanPostProcessor  解析 Autowired value inject 自动注入的操作
 CommonAnnotationBeanPostProcessor  解析 Resource Ejb  PostConstruct  PreDestroy WebServiceRef
 ConfigurationClassPostProcessor 解析  import  configuration importResource
+                                对 ImportBeanDefinitionRegistrar 的解析
 PersistenceAnnotationBeanPostProcessor 解析 PersistenceUnit  PersistenceContext
+InitDestroyAnnotationBeanPostProcessor (CommonAnnotationBeanPostProcessor 是子类,指定了具体的注解操作) 解析PostConstruct  PreDestroy
+
+
+AOP处理
+从注解: @EnableAspectJAutoProxy 入手
+//  aop 创建的三个类
+APC_PRIORITY_LIST.add(InfrastructureAdvisorAutoProxyCreator.class);
+APC_PRIORITY_LIST.add(AspectJAwareAdvisorAutoProxyCreator.class);
+APC_PRIORITY_LIST.add(AnnotationAwareAspectJAutoProxyCreator.class);
+
+BeanFactoryAspectJAdvisorsBuilder -> ReflectiveAspectJAdvisorFactory 
+            获取Around.class, Before.class, After.class, AfterReturning.class, AfterThrowing.class的注解的处理
+
+AbstractAdvisorAutoProxyCreator -> BeanFactoryAdvisorRetrievalHelper 对Advisor类的处理
+
+InstantiationModelAwarePointcutAdvisorImpl  存储aop 的pointcut
+
+
+事务 :
+InfrastructureAdvisorAutoProxyCreator 事务的aop创建
+ProxyTransactionManagementConfiguration  事务代理的配置
+TransactionInterceptor  事务拦截器,也就是 事务调用时以此函数为入口
