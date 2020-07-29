@@ -145,7 +145,11 @@ if [ "$(whoami)" != "fcaps" ]; then
     su - fcaps -c "$com"
     echo "Complete the execution."
 else
-    $(${com})
+    # 此使用 $() 方式执行传递进来的脚本, 会报找不到文件
+    # 可见$() 此方式执行的脚本 是和 PATH环境变量有关
+    # 对于一些拼接的命令,可以直接 变量替换后执行
+    # $(${com})  替换为 ${com}
+    ${com}
 fi
 }
 
