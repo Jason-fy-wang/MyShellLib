@@ -7,7 +7,8 @@ run=${ss:=/bin/bash}
 Port=8080
 ServerPort=7077
 Path=/opt/spark-2.4.3
-Hosts=($(cat ${Path}/conf/slaves | grep -Ev "^#|^$"))
+# 从文件中读取时, 要注意去除多余的符号; 最后的sed就是去除 特殊符号
+Hosts=($(cat ${Path}/conf/slaves | grep -Ev "^#|^$" | sed 's#\r\|\n\|\r\n##g'))
 SMaster=${Path}/sbin/start-master.sh
 SSlave=${Path}/sbin/start-slave.sh
 PMaster=${Path}/sbin/stop-master.sh
