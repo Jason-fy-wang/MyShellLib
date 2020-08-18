@@ -1,0 +1,109 @@
+" 控制
+:set  backspace=2    " 能使用backspace回删
+:syntax on                " 语法检测
+":set mouse=a            " 设置可以再VIM使用鼠标
+:set mouse=                " 关闭鼠标
+:set history=1000        " 设置历是记录条数
+:set nocompatible       " 设置不兼容
+filetype off                  " 关闭文件类型侦测,   vundle需要
+:set fileencodings=utf-8,GBK  "使用utf-8和gbk编码方式
+:set confirm                  " 在处理未保存或只读文件时,  弹出确认信息
+:set  nobackup            "不使用备份
+:set  whichwrap=<,>,[,]    "当光标到行首或行尾, 允许左右方向键换行
+:set  autoread                "文件在vim外修改过, 自动重载
+:set selection=inclusive    "选择包含最后一个字符
+:set selectmode=mouse,key    "启动选择模式的方式
+:set completeopt=longest,menu  " 只能补全,  弹出菜单,  无歧义时在自动填充
+:set noswapfile            " 关闭交换文件
+:set  hidden                    " 允许在有为保存的修改时切换缓冲区
+
+
+" 显示
+:set number    "设置显示行号
+:set ruler              "显示最后一行的状态, 标尺
+:set background=dark            " 背景色设置
+:set hlsearch             " 高亮度反白
+:set laststatus=2        " 两行 状态行+一行命令行
+:set cindent             " 设置c语言自动对齐
+:set t_Co=256            " 设置指定配色方案为256
+:set showcmd             " 显示输入的命令
+:set showmatch             "高亮括号匹配
+:set matchtime=1         "匹配括号高亮的时间(十分之一秒)
+:set matchpairs={:},(:)  " 匹配括号
+:set incsearch           "边检索边显示匹配
+:set go-=T               " 去除gvim的toolbar
+:set linebreak			 "整词换行
+
+"格式    
+:set noexpandtab        "不要将tab转换为空格
+:set shiftwidth=4         "自动缩进的距离, 也是平移字符的距离
+:set tabstop=4            " tab键对应的空格数
+:set autoindent            " 自动缩进
+:set smartindent           "智能缩进
+
+
+" PATHOGEN  报错
+" curl -LSso ~/.vim/autoload/pathogen.vim   https://tpo.pe/pathogen.vim
+":execute pathogen#infect()
+":filetype plugin on "允许插件
+":filetype plugin indent on "启动智能补全
+
+
+"NERDTree
+" git clone https://github.com/scrooloose/nerdtree.git
+"快捷键:使用F3打开关闭
+map <F3> :NERDTreeMirror <CR> 
+map <F3> :NERDTreeToggle <CR>  
+"NERDTree配置  
+let NERDChristmasTree=1 "显示增强
+let NERDTreeAutoCenter=1 "自动调整焦点
+let NERDTreeShowFiles=1 "显示文件
+let NERDTreeShowLineNumbers=1 "显示行号
+let NERDTreeHightCursorline=1 "高亮当前文件
+let NERDTreeShowHidden=0 "显示隐藏文件
+let NERDTreeMinimalUI=0 "不显示'Bookmarks' label 'Press ? for help'
+let NERDTreeWinSize=31 "窗口宽度
+
+
+" supertab
+" git clone https://github.com/ervandew/supertab.git
+let g:SuperTabRetainCompletionType=2 "记住上次的补全方式,直到按Esc退出插入模式位置
+" let g:SuperTabDefaultCompletionType="<c-x><c-o>"  "按下tab后默认补全方式为<c-p>,现在改为<c-x><c-o>
+
+
+"bundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+"Plugin 'Lokaltog/vim-powerline.git'
+"Plugin 'wincent/command-t'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'tomtom/tlib_vim'
+"Plugin 'tomtom/viki_vim'
+Plugin 'mzlogin/vim-markdown-toc'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
