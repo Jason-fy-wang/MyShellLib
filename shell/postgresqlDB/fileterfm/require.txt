@@ -1,0 +1,46 @@
+
+drop table if exits filter_strategy;
+create table filter_strategy (
+    auto_id  serial,
+    source_id varchar(255),
+    alarm_type varchar(255),
+    orig_severity varchar(255),
+    object_type varchar(255),
+    object_name varchar(255),
+    object_uid varchar(255),
+    alarm_id  varchar(255),
+    alarm_status  smallint,
+    start_time timestamp,
+    end_time  timestamp,
+    update_time  timestamp,
+    primary key (auto_id)
+);
+
+# get primay key
+select nextval('filter_strategy_auto_id_seq'::regclass);
+
+
+# redis value, json格式的value
+{
+    "source_id":"",
+    "alarm_type":"",
+    "orig_severity":"",
+    "object_type":"",
+    "object_name":"",
+    "object_uid":"",
+    "alarm_id":"",
+    "alarm_status":""
+    "start_time":"",
+    "end_time":"",
+    "update_time":""
+}
+
+# input test,测试数据
+-s "vim001"  -a "vim" -o "critical" -t "otype" -n "oname" -u "ouid" -d "aid1234" -f "1"  -r "2020-01-0100:00:00" -e "2020-01-0100:00:00"
+-w 19 -s "vim9"  -a "vim" -o "critical" -t "otype" -n "oname" -u "ouid" -d "aid1234" -f "1"  -r "2020-01-0100:00:00" -e "2020-01-0100:00:00"
+
+# 利用concat函数 来组装查询出的数据,主要是用于 拼接json串
+psql "host=10.163.119.68 dbname=fcapsdb user=fcaps_fm password=fcaps_fm"  -c "select concat('\"source_id\":',source_id),concat('\"alarm_type\":',alarm_type),concat('\"orig_severity\":',orig_severity),concat('\"object_type\":',object_type), concat('\"object_name\":',object_name),concat('\"object_uid\":',object_uid),concat('\"alarm_id\":',alarm_id),concat('\"alarm_status\":','\"',alarm_status,'\"'),concat('\"start_time\":','\"',to_char(start_time,'YYYY-MM-DDHH:MI:SS'),'\"'),concat('\"end_time\":','\"',to_char(end_time,'YYYY-MM-DDHH:MI:SS'),'\"'),concat('\"update_time\":','\"',to_char(update_time,'YYYY-MM-DDHH:MI:SS'),'\"')from filter_strategy where auto_id=21" | grep -Ev "^\(|^[a-z]" | grep -E '[0-9]{1,}' | sed 's#|# #g'
+
+
+concat('\"update_time\":',
