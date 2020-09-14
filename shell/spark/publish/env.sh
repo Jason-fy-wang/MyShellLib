@@ -59,63 +59,64 @@ checkIfSubmit(){
     echo 0
   fi
 }
-# 对日志输出的权限做了修改
+#修改日志权限
+lff="fm_spark_operation-$(date +'%F').log"
 logSMsg(){
   if [ "$(whoami)" != "fcaps" ]; then
       if [ "$1" == "s" ]; then
       promptMsg="Begin to stop FM Spark $2 applications."
       su - fcaps -c "echo ${promptMsg}"
-      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       elif [ "$1" == "e" ]; then
       promptMsg="FM Spark $2 applications have been stopped."
       su - fcaps -c  echo ${promptMsg}
-      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       else 
       echo ${2}
-      su - fcaps -c "echo \"$(date '+%F %T') ${2}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+      su - fcaps -c "echo \"$(date '+%F %T') ${2}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       fi
   else
     if [ "$1" == "s" ]; then
     promptMsg="Begin to stop FM Spark $2 applications."
     echo ${promptMsg}
-    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     elif [ "$1" == "e" ]; then
     promptMsg="FM Spark $2 applications have been stopped."
     echo ${promptMsg}
-    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     else 
     echo ${2}
-    echo "$(date "+%F %T") ${2}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+    echo "$(date "+%F %T") ${2}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     fi
   fi
 }
-# 对日志输出的权限做了修改
+#修改日志权限
 logCom(){
   if [ "$(whoami)" != "fcaps" ]; then
     if [ "$1" == "s" ]; then
       promptMsg="Starting FM $2 Application."
       su - fcaps -c  "echo ${promptMsg}"
-      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       elif [ "$1" == "e" ]; then
       promptMsg="Complete $2 Applications startup."
       su - fcaps -c  "echo ${promptMsg}"
-      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+      su - fcaps -c  "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       else
         su - fcaps -c  "echo ${2}"
-        su - fcaps -c  "echo \"$(date '+%F %T') ${2}\" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log"
+        su - fcaps -c  "echo \"$(date '+%F %T') ${2}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
       fi
   else
     if [ "$1" == "s" ]; then
     promptMsg="Starting FM $2 Application."
     echo ${promptMsg}
-    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     elif [ "$1" == "e" ]; then
     promptMsg="Complete $2 Applications startup."
     echo ${promptMsg}
-    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     else
       echo ${2}
-      echo "$(date "+%F %T") ${2}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
+      echo "$(date "+%F %T") ${2}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
     fi
   fi
 }
@@ -135,12 +136,17 @@ drivers=($(curl -s  -X GET http://${MASTER}:8080 | sed -n "/${key1}/,/${key2}/p"
 len=${#drivers[@]}
 let len1=$len-1
 
+# 对日志权限做更新
 stopId(){
     id=$1
     promptMsg="Stopping $id"
     echo ${promptMsg}
-    echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log
-    ${CMD} ${ClassName} kill spark://${MASTER}:7077 $id  >>${BASE}/../../runtime_log/fm_spark/fm_spark_operation.log 2>&1
+    if [ "$(whoami)" != "fcaps" ]; then
+      su - fcaps -c "echo \"$(date '+%F %T') ${promptMsg}\" >> ${BASE}/../../runtime_log/fm_spark/${lff}"
+    else
+      echo "$(date "+%F %T") ${promptMsg}" >> ${BASE}/../../runtime_log/fm_spark/${lff}
+    fi
+    run_command "${CMD} ${ClassName} kill spark://${MASTER}:7077 $id  >>${BASE}/../../runtime_log/fm_spark/${lff} 2>&1"
 }
 
 stopDriver(){
