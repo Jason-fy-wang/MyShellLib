@@ -66,7 +66,8 @@ gsql(){
             ;;
             *)
             echo "Invalid input."
-            exit 1
+            ## 修改为return;这样输入有误,让用户继续选择,不需要退出
+            return 1
             ;;
         esac
         shift 2
