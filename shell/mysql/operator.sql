@@ -54,3 +54,6 @@ show create table user;
 
 -- 查看表字段
 describe user;
+
+-- 查看表的状态
+show table status like 'user' \G;

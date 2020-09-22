@@ -1,0 +1,765 @@
+
+
+## 新的forege 地址
+https://openalm.ericsson.net/plugins/git/cmccnfvo/FCAPS_AM_CONTROLLER.git
+
+## 旧的forge 地址
+https://forge.ericsson.net/plugins/git/cmccnfvo/FCAPS_AM_CONTROLLER.git
+
+
+
+
+
+设置请求方式
+-X(--request) post  get put  delete
+
+请求头设置
+-H(--header)<header>
+
+查看返回的请求头,把请求头写入到文件中
+-D(--dump-header) <file>  
+
+请求参数设置
+-d(--data) <data>   # 此默认和 --data-ascii是相同的，可选的还有 --data-binary   --data-urlencode
+
+表单请求
+-F,--form <name=content>
+    curl -v -F "name=daniel;type=text/foo" url.com
+
+设置cookie
+-b(--cookie) <name=data>
+-c(--cookie-jar) <file name>
+
+# 用户客户端信息
+-A(--user-agen) <agent string>
+
+重试次数
+--retry
+--retry-delay
+
+MTA
+# health
+curl v -X GET http://10.163.249.149:8920/fcaps/v1.0/mta/health
+
+### 任务模板
+insert into am_collection_task_template(source_type,data_type,pm_period,protocol_type,task_type,api_interface,crontab,ftp_path,status,update_time) values('EMS','FM',null,'socket','resident',null,null,null,'valid',NOW());
+insert into am_collection_task_template(source_type,data_type,pm_period,protocol_type,task_type,api_interface,crontab,ftp_path,status,update_time) values('EMS','PM',15,'ftp','crontab',null,'0/15 * * * * ?','/opt/ericsson/simulator/omc/data/North/PM','valid',NOW());
+insert into am_collection_task_template(source_type,data_type,pm_period,protocol_type,task_type,api_interface,crontab,ftp_path,status,update_time) values('EMS','CM',null,'socket','resident',null,'0/15 * * * * ?','/opt/ericsson/simulator/omc/data/North/CM','valid',NOW());
+
+### 任务模板
+insert into am_collection_task_template(source_type,data_type,pm_period,protocol_type,task_type,api_interface,crontab,ftp_path,status,update_time) values('VIM','CM',null,'restful','crontab','ListResDetails','0 20 0 * * ?',null,'valid',NOW());
+insert into am_collection_task_template(source_type,data_type,pm_period,protocol_type,task_type,api_interface,crontab,ftp_path,status,update_time) values('PIM','CM',null,'restful','crontab','ListResDetails','0 20 0 * * ?',null,'valid',NOW());
+
+### dr环境
+update am_collector_host_info set state='standby', node_state='MASTER' where collector_id=1;
+
+### 添加采集源
+insert into am_collection_source(source_id, source_name ,source_type,vendor_id ,cost_class ,collector_id ,pm_period ,cm_fm_heartbeat ,api_version , state,  update_time) values ('pim001','vimname','VIM','ER','A',1,5,10,'v1','working',now());
+
+##### 心跳为一天的采集源
+insert into am_collection_source(source_id, source_name ,source_type,vendor_id ,cost_class ,collector_id ,pm_period ,cm_fm_heartbeat ,api_version , state,  update_time) values ('pim001','vimname','VIM','ER','A',1,5,86400,'v1','working',now());
+
+### 采集源心跳超时
+update am_collection_source_monitor set heartbeat_time='2020-07-08 00:00:00' where source_id='ems001';
+
+
+alter table am_collection_source_history add column description  text DEFAULT NULL;
+alter table am_collection_source add column description  text DEFAULT NULL;
+
+
+
+控制器路径:
+http://10.163.249.149:8282/fcaps/v1.0/am/controller/
+
+
+##########    stop  operation #######################################################################
+curl  -X GET  -v  http://10.163.249.149:8282/fcaps/v1.0/am/test/stopMonitor.do
+curl  -X GET  -v  http://10.163.249.149:8282/fcaps/v1.0/am/test/restart.do
+
+
+curl  -X GET  -v  http://10.163.249.149:8282/fcaps/v1.0/am/test/stopHeartbeat.do
+curl  -X GET  -v  http://10.163.249.149:8282/fcaps/v1.0/am/test/restartHeartbeat.do
+
+
+***************************************notify****************
+curl -H 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUprTkdRd04yRmxORGt5TURaaVpXVTBaRFJsT1RrMU5XUTRZek16WlRZM015SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJd1lqRmpNbUppTWkwMU5XUXlMVFEyTkdJdFlqWmlaaTAyT0RZNU1EVmhaakk0TlRjaWZRLmV5SnBZWFFpT2pFMU9UazVOemd6T0RrdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd01EWTBOemc1TGpCOS5EQTI0dm1LeFRhbkFVejNWU2JEN3lCc1d0NkhEVDdCUUt1c0lJY20yNnE4'      http://10.200.10.224:8286/fcaps/v1.0/fmnotify/smsNotificationConfiguration/list
+
+
+
+############################################## 验证token  ##############################################
+curl -v -X POST http://10.163.161.188:5000/eoca/v1.0/authentication -H "accept: application/json" -H  "X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR"
+
+
+#************************************************************* 获取token***************************************************************************#
+curl -v  -H "Content-Type:application/json" -X POST --data '{"username":"admin","password":"UXFxMTIzNDU2"}' http://10.163.103.15:5000/eoca/v1.0/token
+
+curl -v  -H "Content-Type:application/json" -X POST --data '{"username":"admin","password":"UXFxMTIzNDU2"}' http://10.200.10.221:5000/eoca/v1.0/token
+
+curl -v  -H "Content-Type:application/json" -X POST --data '{"username":"admin","password":"UXFxMTIzNDU2"}' http://10.163.249.170:5000/eoca/v1.0/token
+
+
+http://10.200.10.221:5000/eoca/v1.0/authentication
+
+# 验证token
+curl -v  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -X POST  http://10.163.249.170:5000/eoca/v1.0/authentication
+http://10.200.10.221:5000/eoca/v1.0/authentication
+
+{"token": "eyJhbGciOiJIUzI1NiIsInVzZXJfaWQiOiJmODFiNjcwNmU0MzlmYTZkYzJiODg3OGQwNjFhNDRlNSIsInR5cCI6IkpXVCIsInNwZSI6ZmFsc2UsImRlZmVyIjpmYWxzZX0.eyJpYXQiOjE1NzMwMjYzMzgsInJvbGUiOiJhZG1pbiIsImV4cCI6MTU3MzExMjczOH0.tkz2kccgQdxlz0L_6UOyGXrNtvpJJp4rgdAwb4dcEA4", "expires_at": "2019-11-07T07:45:38"}
+
+##############################################   heartbeat  ##############################################
+curl -v -H "Content-Type:application/json" -X PUT  -d'{"collectorId":"3"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/heartbeat
+
+
+# ***************************************************************修改采集源的fmDisconnec信息********************************************************************#
+curl -X POST -v  -H "Content-Type:application/json" -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"ems01", "fmDisconnectAlarm":true, "fmIdleAlarm":true}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/sourceNoCriticalInfo
+
+curl -X POST -v -H "Content-Type:application/json"  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"ems01","fmIdleAlarm":true}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/sourceNoCriticalInfo
+
+curl -X POST -v -H "Content-Type:application/json" -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"ems01", "fmDisconnectAlarm":true}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/sourceNoCriticalInfo
+
+
+# ***************************************************************query listSubscriptions********************************************************************#
+curl -X PUT -v  -H "Content-Type:application/json" -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "vim001","sourceType": "VIM","vnfmEndpointUrl": "","vnfmUsername": "","vnfmPassword": ""}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/listSubscriptions
+
+
+{
+    "NfvoId": "BJ-NFVO-1",
+    "IdentityUri": "https://10.163.249.149:8284/vimTokens",
+    "subType": "vim",
+    "Period": 15,
+    "Heartbeat": 30
+}
+
+
+{
+    "NfvoId": "4321-4321-4321",
+    "IdentityUri": "http://72.72.27.27:8100/vmPm/pimTokens",
+    "subType": "pim",
+    "Period": 15,
+    "Heartbeat": 1
+}
+
+
+{
+    "NFVOID": "NFVO-B-ER-GVNFM-2",
+    "SubscribeID": "SUB_20191129195248437",
+    "VNFMID": "JM-VNFM-B-ER-gvnfm",
+    "Heartbeat": 30,
+    "subType": "VNFM"
+}
+
+###################################################################### 测试healcheck #####################################################################
+
+
+curl -v -kv http://10.163.249.149:8282/fcaps/v1.0/am/controller/health
+
+
+******************************************* 采集机操作 ******************************************************
+
+#####################################################################  添加采集机  #######################################################################
+curl -v -kv -H "Content-Type:application/json" -X PUT  -d '{"collectorName": "collectTest2","collectorInnerIp": "10.163.249.180","collectorExternalIp": "10.163.249.182", "processCapacity": 10000,"nodeState":"SLAVE"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/collector
+
+curl -v -kv -H "Content-Type:application/json" -X PUT  -d '{"collectorName":"fcaps01","collectorInnerIP":"[2409:8086:8311:05AD::1D]","collectorExternalIP":"[2409:8080:5A0A:3156::1E]","processCapacity":"10000","nodeState":"MASTER"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/collector
+
+##############################################  删除采集机 ##############################################
+curl -v -kv -H "Content-Type:application/json" -X DELETE  -d '{"collectorId":9}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/collector
+
+##############################################  修改采集机 ##############################################
+curl -vv -H "Content-Type:application/json" -X POST  -d '{"collectorId":9,"collectorName": "collectTest345","collectorInnerIp": "10.163.249.149","collectorExternalIp": "10.163.249.149", "processCapacity": 10000,"nodeState":"MASTER"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/collector
+
+##############################################  查询采集机 ##############################################
+curl -v -kv -H "Content-Type:application/json" -X GET  http://10.163.249.149:8282/fcaps/v1.0/am/controller/collector
+
+
+******************************************* 采集源操作 ******************************************************
+
+
+###################################################################### 查询采集源  ######################################################################
+curl -v -X GET -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+############################################## 添加采集源: ##############################################
+                    ##############################################        vim采集源  ##############################################
+curl -v  -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"vim001","sourceName":"GD_vim","sourceType":"VIM","vendorId":"ER","costClass":"C","pmPeriod":15,"cmFmHeartbeat":30,"collectorId":"2"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+############################################## 删除采集源 ##############################################
+curl -v  -H "Content-Type:application/json" -X DELETE -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"vim001"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+############################################## 修改采集源 ##############################################
+curl -v  -H "Content-Type:application/json" -X POST -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"vim001","sourceName":"GD_vim","sourceType":"VIM","vendorId":"ER","costClass":"C","pmPeriod":15,"cmFmHeartbeat":30,"collectorId":"2"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+############################################## PIM 采集源##############################################入库----
+curl -v  -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"pim001","sourceName":"GD_pim","sourceType":"PIM","vendorId":"ER","costClass":"C","pmPeriod":15,"cmFmHeartbeat":5,"collectorId":"29"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+##############################################OMC采集源############################################################################################
+##############################################ftp##############################################
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"ems001","sourceName":"omc123","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":5,"cmFmHeartbeat":"","collectorId":18,"ftpOrSftp":"sftp","ftpIp":"10.163.119.92","ftpPort":22,"ftpUser":"root","ftpPassword":"cm9vdHJvb3Q=","socketIp":"10.163.119.92","socketPort":"12345","socketUser":"emc","socketPassword":"123"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"ems01","sourceName":"omc123","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":5,"cmFmHeartbeat":"","collectorId":18,"ftpOrSftp":"sftp","ftpIp":"10.163.119.92","ftpPort":22,"ftpUser":"root","ftpPassword":"cm9vdHJvb3Q=","socketIp":"10.163.119.92","socketPort":"12345","socketUser":"emc","socketPassword":"123","ifCrossRegion":true}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+
+
+##############################################OMC 更新 采集源############################################################################################
+curl -v -H "Content-Type:application/json" -X POST -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"029","sourceName":"omcupdate","sourceType":"EMS","vendorId":"HW","costClass":"C","pmPeriod":5,"cmFmHeartbeat":"","collectorId":18,"ftpOrSftp":"sftp","ftpIp":"10.163.119.92","ftpPort":22,"ftpUser":"root","ftpPassword":"cm9vdHJvb3Q=","socketIp":"10.163.119.92","socketPort":"12345","socketUser":"emc","socketPassword":"123"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+##############################################OMC  删除 采集源############################################################################################
+curl -v -H "Content-Type:application/json" -X DELETE -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"29"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+############################################## 删除 采集 任务############################################################################################
+curl -v -H "Content-Type:application/json" -X DELETE -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"029","taskId":186}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+curl -v -H "Content-Type:application/json" -X DELETE -d '{"sourceId":"029","taskId":[216]}'  http://10.163.249.149:8283/fcaps/v1.0/am/collector/task
+
+
+##############################################socket##############################################
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"029","sourceName":"GDOMC","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":"","cmFmHeartbeat":"","collectorId":"2","ftpOrSftp":"","ftpIp":"","ftpPort":0,"ftpUser":"","ftpPassword":"","socketIp":"10.10.27.86","socketPort":"12345","socketUser":"omc","socketPassword":"123123"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"041","sourceName":"GDOMC","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":"","cmFmHeartbeat":"","collectorId":"23","ftpOrSftp":"sftp","ftpIp":"10.10.27.86","ftpPort":22,"ftpUser":"root","ftpPassword":"cm9vdHJvb3Q=","socketIp":"10.10.27.86","socketPort":"12345","socketUser":"omc","socketPassword":"123123"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"omc003","sourceName":"GDOMC","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":"","cmFmHeartbeat":"","collectorId":"23","ftpOrSftp":"sftp","ftpIp":"10.10.27.2","ftpPort":22,"ftpUser":"nbiftpnms","ftpPassword":"VGVzdEAxMjM0NQ==","socketIp":"10.10.27.2","socketPort":"31232","socketUser":"njnbmalarm_3","socketPassword":"Test@12345"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+
+curl -v -H "Content-Type:application/json" -X PUT -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"003","sourceName":"GDOMC","sourceType":"EMS","vendorId":"ER","costClass":"C","pmPeriod":"","cmFmHeartbeat":"","collectorId":"23","ftpOrSftp":"sftp","ftpIp":"10.10.27.86","ftpPort":22,"ftpUser":"root","ftpPassword":"cm9vdHJvb3Q=","socketIp":"10.10.27.86","socketPort":"12345","socketUser":"omc","socketPassword":"123123"}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/source
+
+
+******************************************* 采集任务操作 ******************************************************
+
+##############################################增加采集任务##############################################
+##############################################  vim  ##############################################
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "vim001","dataType": "CM","pmPeriod": "15","protocolType": "restful","taskType": "crontab","apiInterface": "ListResDetails","crontab": "0 0/2 * * * ?"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId":"vim001","dataType":"CM","protocolType":"restful","taskType":"crontab","crontab":"50 * * * * *","ftpPath":"","apiInterface":""}' http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+
+
+##############################################   vim  ##############################################
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "vim001","dataType": "CM","pmPeriod": "15","protocolType": "restful","taskType": "crontab","apiInterface": "ListResDetails","crontab": "0 0/5 * * * ?"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+##############################################   pim   ##############################################
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "pim001","dataType": "CM","protocolType": "restful","taskType": "crontab","apiInterface": "ListResDetails","crontab": "0 0/5 * * * ?"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "pim001","dataType": "CM","protocolType": "restful","taskType": "one-time","apiInterface": "ListSystemDetails","crontab": ""}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+##############################################  ems ftp任务 ##############################################
+        -----ftp-----
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "037","dataType": "PM","protocolType": "ftp","ftpPath":"/opt/ericsson/simulator/omc/data/North/PM","taskType":"crontab","apiInterface": "","crontab": "0/15 * * * ?"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+
+
+############################################更新采集任务#############################################################
+curl -v -kv -H "Content-Type:application/json" -X PUT  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"taskId":339,"sourceId": "030","dataType": "PM","protocolType": "ftp","pmPeriod":50, "ftpPath":"/opt/ericsson/simulator/omc/data/North/PM","taskType":"crontab","crontab": "0 1,6,11,16,21,26,31,36,41,46,51,56 * * * ?"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+
+
+     
+############################################ socket任务 ############################################
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "029","dataType": "FM","protocolType": "socket","ftpPath":"/opt/ericsson/simulator/omc/data/North/PM","taskType": "crontab","apiInterface": "","crontab": ""}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "030","dataType": "FM","protocolType": "socket","taskType": "resident"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/task
+
+
+##############################################  新增补采任务  ##############################################
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "024","sourceType": "EMS","dataType": "CM","protocolType": "sftp","ftpPath":"/opt/ericsson/simulator/omc/data/North/CM","startTime":"2019-09-17 14:10:00"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/supplmentTask
+
+
+curl -v -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lKbVpHSmpOekUxWkMxbU5EWmtMVFJrWmpRdFlqRTNNeTFtWlRjeFpqVmtNalpqT1RRaWZRLmV5SnBZWFFpT2pFMU9UTTNOamcwTlRVdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TlRrek9EVTBPRFUxTGpCOS5wSWhiYlRPWWExV3o3V18yd1hwMnpueU9oLV9JWFU4NHFBTm9NM1RuMEtR" -d '{"sourceId": "024","sourceType": "VIM","dataType": "FM","protocolType": "restful","apiInterface":"ListHistoryAlarms","startTime":"2019-09-17 14:10:00","endTime":"2019-09-18 14:10:00"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/supplmentTask
+
+
+curl -kv -H "Content-Type:application/json" -X POST  -H "X-Auth-Token:eyJhbGciOiJIUzI1NiIsInVzZXJfaWQiOiJiZGM4ODBlMmUyZjllZTNkYTllMTgzYWRjZDYzMzQwYyIsInR5cCI6IkpXVCIsInNwZSI6dHJ1ZSwiZGVmZXIiOmZhbHNlfQ.eyJpYXQiOjE1NzIzMjA3MDEsInJvbGUiOiIiLCJleHAiOjE1NzI0MDcxMDF9.36Tt7HLlIrrGiN79Ax1bfZG_MfK67iSDhD5Qk0sEATE" -d '{"sourceId": "028","sourceType": "EMS","dataType": "CM","protocolType": "ftp","ftpPath":"/opt/ericsson/simulator/omc/data/North/CM","startTime":"2019-05-08 06:00:00"}'  http://10.163.249.149:8282/fcaps/v1.0/am/controller/supplementTask
+
+
+
+
+
+############################################## 从采集机查询token ##############################################
+curl -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H 'X-Auth-Username: vim' -H 'X-Auth-Password: eric2019' -X POST  -d '{"vimId": "15"}'    http://10.163.249.149:8284/fcaps/v1.0/am/collector/nfvo/vimTokens
+
+
+
+############################################## 自监控接口 ##############################################
+selfMonitor :
+
+curl -v -X POST -H "Content-Type:application/json" -d '{"AlarmID": "2019-09-26-601","AlarmTitle": "主机断连","AlarmStatus": 0,"OrigSeverity": 4,"EventTime": "2019-09-26 14:55:01","SpecificProblemID": "NFVOHost02",    "SpecificProblem": "从自监控服务器ping主机zabbix2失败","ObjectUID": "1","ObjectName": "fcaps","ObjectType": "NFVO","SubObjectUID":"10.163.119.89","SubObjectName": "zabbix-2","SubObjectType": "ZabbixServer"}' http://10.163.119.85:8080/fcaps/v1.0/selfMonitor/zabbixAlarmInfo
+
+
+
+
+http:
+    /opt/ericsson/simulator/httpFileServer/filesData
+
+
+sftp 目录:
+/opt/ericsson/simulator/omc/data/North/CM
+ssh -CNR port:localhost:port  root@10.163.249.149
+iconv -c -t utf8 filename.csv > filename.utf8.csv
+
+
+内网认证密码:
+username:vEPG
+pass:vEPG123%
+
+
+scp -P 59922 fcaps-controller.jar  EricTester@39.143.20.6:~
+
+
+pythonFtpServer:
+/opt/ericsson/simulator/httpFileServer
+192.168.88.126
+
+
+nginx:
+机器 ：192.168.88.140
+/usr/local/openresty/nginx/conf/nginx.conf
+
+
+端口映射：
+vim identity：
+ssh -CNR 5001:localhost:5000 root@10.163.160.149
+ssh -CNL  *:5000:localhost:5001  root@localhost
+
+
+pim:
+ssh -CNR 18002:localhost:9141 root@10.163.160.149
+nohup ssh -CNL  *:30003:localhost:18002 root@localhost &
+
+
+
+
+vim:
+ssh -CNR 18000:localhost:9140 root@10.163.160.149
+ssh -CNL  *:30002:localhost:18000  root@localhost
+
+
+
+
+
+
+APIInterface取值如下：
+
+
+ListResDetails
+
+
+ListChassisDetails
+
+
+ListDiskArrayChassisDetails
+
+
+ListDDoSDetails
+
+
+ListISDetails
+
+
+ListSystemsDetails
+
+
+ListSwitchesDetails
+
+
+ListFirewallsDetails
+
+
+ListDiskArraySystemsDetails
+
+
+ListStorageServicesDetails
+
+
+ListDSMsDetails
+
+
+ListRoutersDetails
+
+
+ListLBsDetails
+
+
+ListWAFsDetails
+
+
+
+
+docker 目录规划:
+/opt/ericsson/nfvo/fcaps/controller
+/opt/ericsson/nfvo/fcaps   # 镜像内目录
+/opt/ericsson/nfvo/fcaps/config/am_controller   # 配置文件存放目录
+/opt/ericsson/nfvo/fcaps/runtime_log/am_controller   # 日志存放目录
+/opt/ericsson/nfvo/fcaps/share/operation_log/am_controller  # access目录
+
+
+                                                                
+docker run -it -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs -p 8282:8282 -p 8283:8283 -p 3306:3306  ericsson_fcaps/fcaps_am:1.0.0 /bin/bash
+
+
+
+
+#### ok   -e TZ=\"Asia/Shanghai\" 此参数没有起作用
+docker run -it -d -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs  --name am_controller_test4 -p 8282:8282 3d21cf06b71c  /bin/bash -c "source /root/.bashrc; cd /opt/ericsson/nfvo/fcaps/controller/bin; ./start.sh start; /bin/bash"
+
+
+#### ok
+docker run -it -d -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs --network host --name am_controller_test  3d21cf06b71c  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/controller/bin/start.sh start; /bin/bash"
+
+
+
+
+#### ok
+docker run -it -d -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs --network host --name am_controller 3d21cf06b71c(imageId)  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/controller/bin/start.sh start; /bin/bash"
+
+
+docker run -it -d -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs --link am_collector --name am_controller_test2 -p 8282:8282 3d21cf06b71c  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/controller/bin/start.sh; /bin/bash"
+
+
+
+
+docker run -it -d -v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs --name am_controller_test -p 8282:8282 3d21cf06b71c  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/controller/bin/start.sh; /bin/bash"
+
+
+
+
+## collecotor
+docker run -it -d  -v /opt/ericsson/nfvo/fcaps/config/am_collector:/opt/ericsson/nfvo/fcaps/collector/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_collector:/opt/ericsson/nfvo/fcaps/collector/logs  --network host --name am_collector_test -p 8283:8283 -p 8284:8284 d2b179c938d2  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/collector/bin/start.sh; /bin/bash"
+
+
+
+
+docker run -it -d  -v /opt/ericsson/nfvo/fcaps/config/am_collector:/opt/ericsson/nfvo/fcaps/collector/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_collector:/opt/ericsson/nfvo/fcaps/collector/logs --name am_collector_test -p 8283:8283 -p 8284:8284 d2b179c938d2  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/collector/bin/start.sh; /bin/bash"
+
+
+## collecotor
+docker run -it -d  -v /opt/ericsson/nfvo/fcaps/config/am_collector:/opt/ericsson/nfvo/fcaps/collector/config -v /opt/ericsson/nfvo/fcaps/runtime_log/am_collector:/opt/ericsson/nfvo/fcaps/collector/logs  --network host --name am_collector4  d2b179c938d2  /bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/collector/bin/start.sh; /bin/bash"
+
+
+#!/bin/bash
+docker run -it -d --name fcaps_am_controller \
+-v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/controller/config \
+-v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/controller/logs \
+-v /opt/ericsson/nfvo/fcaps/config/common:/opt/ericsson/nfvo/fcaps/controller/common/  \
+--network host \
+-e TZ="Asia/Shanghai" \
+ericsson_fcaps/fcaps-am-controller:IR1.0.0  \
+/bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/am_controller/bin/start.sh start; /bin/bash"
+
+
+
+
+docker run -it -d \
+--user fcaps:fcaps \
+--name fcaps_am_controller \
+-v /opt/ericsson/nfvo/fcaps/config/am_controller:/opt/ericsson/nfvo/fcaps/am_controller/config \
+-v /opt/ericsson/nfvo/fcaps/runtime_log/am_controller:/opt/ericsson/nfvo/fcaps/am_controller/logs \
+-v /opt/ericsson/nfvo/fcaps/work/am_controller:/opt/ericsson/nfvo/fcaps/am_controller/work \
+-v /opt/ericsson/nfvo/fcaps/config/common:/opt/ericsson/nfvo/fcaps/common-config    \
+-v /opt/ericsson/nfvo/fcaps/share/operation_log/am_controller:/opt/ericsson/nfvo/fcaps/am_controller/operation_log \
+--network host \
+-e TZ="Asia/Shanghai" \
+ericsson_fcaps/fcaps-am-controller:IR1.0.1  \
+/bin/bash -c "sh /opt/ericsson/nfvo/fcaps/am_controller/bin/start.sh start; /bin/bash"
+
+
+
+
+### fm-notify
+docker run -it -d \
+--name fm-notify \
+-v /opt/ericsson/nfvo/fcaps/config/fm-notify:/opt/ericsson/nfvo/fcaps/fm-notify/config \
+-v /opt/ericsson/nfvo/fcaps/runtime_log/fm-notify:/opt/ericsson/nfvo/fcaps/fm-notify/logs \
+-v /opt/ericsson/nfvo/fcaps/work/fm-notify:/opt/ericsson/nfvo/fcaps/fm-notify/work \
+-v /opt/ericsson/nfvo/fcaps/config/common:/opt/ericsson/nfvo/fcaps/common-config    \
+-v /opt/ericsson/nfvo/fcaps/share/operation_log/fm-notify:/opt/ericsson/nfvo/fcaps/fm-notify/operation_log \
+--network host \
+-e TZ="Asia/Shanghai" \
+ericsson_fcaps/fm-notify:IR1.0.0  \
+/bin/bash -c "source /root/.bashrc; sh /opt/ericsson/nfvo/fcaps/fm-notify/bin/start.sh start; /bin/bash"
+
+--------------------------------------------------------------------fm-app--------------------------------------------------------------------------
+##查询统计信息
+curl -vv -X GET 'http://10.163.249.149:8285/fcaps/v1.0/fm/flowStatistics?startTime\=2020-09-21%2000:00:00' --header 'X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J'
+
+
+### 查询告警抑制规则
+curl -vv --request GET 'http://10.163.249.149:8285/fcaps/v1.0/fm/engineeringSuppressionRule/list' --header 'X-Auth-Token:ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' -H 'Content-Type: application/json'
+
+#### 新增告警抑制规则
+curl -vv --request POST 'http://10.163.249.150:8285/fcaps/v1.0/fm/engineeringSuppressionRule/add' \
+--header 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' \
+-H 'Content-Type: application/json'  -d '{"dataList": [{"ruleName": "工程告警规则2",
+            "ruleDesc": "server测试7777",
+            "alarmObjectList": [
+                {
+                    "objectUID":"abc123",
+                    "objectName":"host",
+                    "objectType":"host",
+                    "matchType":"object"
+                },
+                {
+                    "objectUID":"abc456",
+                    "objectName":"MME",
+                    "objectType":"MME",
+                    "matchType":"object"
+                }
+                ],
+            "alarmTitle":"工程告警2",
+            "startTime":"2020-09-03 16:00:00",
+            "endTime":"2020-10-15 16:00:00",
+            "ifReportOss": true
+        }
+    ]
+}'
+
+curl -vv --request POST '10.163.249.150:8285/fcaps/v1.0/fm/engineeringSuppressionRule/add' \
+--header 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' \
+-H 'Content-Type: application/json'  -d '{"dataList": [{"ruleName": "工程告警规则3",
+            "ruleDesc": "server测试7777",
+            "alarmObjectList": [
+                {
+                    "objectUID":"abc123",
+                    "objectName":"host",
+                    "objectType":"host",
+                    "matchType":"source",
+                    "sourceID": "vim001",
+                    "sourceType":"VIM"
+                },
+                {
+                    "objectUID":"abc456",
+                    "objectName":"MME",
+                    "objectType":"MME",
+                    "matchType":"source",
+                    "sourceID": "pim002",
+                    "sourceType":"PIM"
+                }
+                ],
+            "alarmTitle":"工程告警2",
+            "startTime":"2020-09-03 16:00:00",
+            "endTime":"2020-10-15 16:00:00",
+            "ifReportOss": true
+        }
+    ]
+}'
+
+###修改抑制规则
+curl -vv --request PUT '10.163.249.150:8285/fcaps/v1.0/fm/engineeringSuppressionRule/modify' \
+--header 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' \
+-H 'Content-Type: application/json'  -d '{"dataList": [{"ruleId":"rule_engineering_suppression_20200914104804231662", "ruleName": "工程告警规则4",
+            "ruleDesc": "server测试899999",
+            "alarmObjectList": [
+                {
+                    "objectUID":"abc123",
+                    "objectName":"host",
+                    "objectType":"host",
+                    "matchType":"source",
+                    "sourceID": "vim100",
+                    "sourceType":"VIM"
+                },
+                {
+                    "objectUID":"abc456",
+                    "objectName":"MME",
+                    "objectType":"MME",
+                    "matchType":"source",
+                    "sourceID": "pim200",
+                    "sourceType":"PIM"
+                }
+                ],
+            "alarmTitle":"工程告警4",
+            "startTime":"2020-09-03 16:00:00",
+            "endTime":"2020-10-15 16:00:00",
+            "ifReportOss": true
+        }
+    ]
+}'
+
+curl -vv --request PUT '10.163.249.150:8285/fcaps/v1.0/fm/engineeringSuppressionRule/modify' \
+--header 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' \
+-H 'Content-Type: application/json'  -d '{"dataList": [{"ruleId":"rule_engineering_suppression_20200914104239670661", "ruleName": "工程告警规则3",
+            "ruleDesc": "server测试899999",
+            "alarmObjectList": [
+                {
+                    "objectUID":"abcd4567",
+                    "objectName":"host",
+                    "objectType":"host",
+                    "matchType":"object"
+                },
+                {
+                    "objectUID":"defgh1234",
+                    "objectName":"MME",
+                    "objectType":"MME",
+                    "matchType":"object"
+                }
+                ],
+            "alarmTitle":"工程告警2",
+            "startTime":"2020-09-03 16:00:00",
+            "endTime":"2020-10-15 16:00:00",
+            "ifReportOss": true
+        }
+    ]
+}'
+
+## 删除抑制规则
+curl -vv --request DELETE '10.163.249.150:8285/fcaps/v1.0/fm/engineeringSuppressionRule/delete' \
+--header 'X-Auth-Token: ZXlKa1pXWmxjaUk2Wm1Gc2MyVXNJblZ6WlhKZmFXUWlPaUpoT0dNeU1qTXdaamsyTmpCbE5qa3lOamt3Tm1Vek4yTm1NVEJqWVdVek55SXNJbUZzWnlJNklraFRNalUySWl3aWRIbHdJam9pU2xkVUlpd2ljM0JsSWpwbVlXeHpaU3dpYzNWaVgzTnBaMjRpT2lJeVlUWTNaVFpqTlMwNU1qVXlMVFJqWmpNdFltVmlOaTFtTkdReVltTTFZakE0TmpRaWZRLmV5SnBZWFFpT2pFMk1EQTNOamM0TURFdU1Dd2ljbTlzWlNJNkltRmtiV2x1SWl3aVpYaHdJam94TmpBd09EVTBNakF4TGpCOS45X0RheGNhLUU2ZGF6RW1sb0VNSFFsdGhmZy1jZE9OSElTQVNVWHB5bE5J' \
+-H 'Content-Type: application/json'  -d '{"dataList": [{"ruleId":"rule_engineering_suppression_20200914104239670661"},
+{"ruleId":"rule_engineering_suppression_20200914104804231662"}]}'
+
+
+
+
+
+
+
+
+### nfs
+mount -t nfs -o rw 10.163.160.149:/opt/nfs_share/storage3/fcaps /opt/ericsson/nfvo/fcaps/share
+
+
+mount -t nfs -o rw,sync,hard 10.163.249.174:/home/nfs_share/storage/eoca/fcaps_old_188
+
+
+showmount  -e 10.163.160.149
+showmount -a 10.163.249.149
+showmount  -a localhost
+showmount  -a 10.163.249.149
+
+
+/opt/nfs_share/storage3/fcaps_backup                     192.168.88.*
+/opt/nfs_share/storage3/eoca_88_188                      192.168.88.*
+/opt/nfs_share/storage3/eoca_77_188                      192.168.77.*
+/opt/nfs_share/storage3/eoca_77_187                      192.168.77.*
+/opt/nfs_share/storage3/fcaps                            10.163.0.0/16
+
+
+
+
+
+
+
+
+
+
+
+
+### jvm 启动参数
+-Djava.security.egd=file:/dev/./urandom
+
+
+# user host network
+$ docker run -d --name nginx --network host nginx
+
+
+docker run -it -d --restart always --net=host -u eoca:eoca -v /root/security-deploy/docker/data/:/opt/data/  -e TZ=\"Asia/Shanghai\" -p 5050:5050 --name 4agw aff2672bbe10 /bin/bash -c "source /root/.bashrc; cd /opt/ericsson/nfvo/eoca/4agw/bin; ./start.sh start; /bin/bash "
+
+
+###保存
+docker save -o am_controller_IR0.9.13.tar  ericsson_fcaps/am_controller:IR0.9.13
+docker run --name app --add-host='api.embbnux.com:10.98.10.98' -d ubuntu
+docker run --name app --dns=223.5.5.5 --dns=8.8.8.8 -d ubuntu
+
+
+
+
+## 容器中修改镜像
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+
+
+
+##### dockerFile
+FROM ericsson_fcaps/base:v1
+
+
+MAINTAINER WK
+
+
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+RUN mkdir -p /opt/ericsson/nfvo/fcaps/
+
+
+WORKDIR  /opt/ericsson/nfvo/fcaps/
+
+
+COPY controller.tar.gz ./
+
+
+RUN tar -zxvf controller.tar.gz && rm -f controller.tar.gz
+
+
+WORKDIR controller
+
+
+RUN rm -f config/* && rm -f logs/*
+
+
+EXPOSE 8282
+
+
+CMD ["/bin/start.sh"]
+##### dockerFile
+
+
+### 支持中文
+ENV LANG zh_CN.UTF-8
+ENV LC_ALL zh_CN.UTF
+
+
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+
+
+
+
+启动容器时，docker run 命令试着加上下面的命令：
+$(cat /etc/hosts|awk -F ' ' '{if(NR>2 && length($1)>0) {print "--add-host "$2":"$1}}')
+
+
+
+
+## 删除表
+DROP table am_collection_task;
+
+
+DROP table am_collection_source_cost_class;
+
+
+drop table am_collection_task_history;
+
+
+DROP TABLE am_collection_task_template;
+
+
+DROP TABLE am_collector_source;
+
+
+DROP TABLE am_collector_host_info;
+
+
+DROP TABLE am_collector_source_history;
+
+
+DROP TABLE am_supplement_task;
+
+
+
+
