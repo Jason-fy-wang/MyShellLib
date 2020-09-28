@@ -42,5 +42,4 @@ select nextval('filter_strategy_auto_id_seq'::regclass);
 # 利用concat函数 来组装查询出的数据,主要是用于 拼接json串
 psql "host=10.163.119.68 dbname=fcapsdb user=fcaps_fm password=fcaps_fm"  -c "select concat('\"source_id\":',source_id),concat('\"alarm_type\":',alarm_type),concat('\"orig_severity\":',orig_severity),concat('\"object_type\":',object_type), concat('\"object_name\":',object_name),concat('\"object_uid\":',object_uid),concat('\"alarm_id\":',alarm_id),concat('\"alarm_status\":','\"',alarm_status,'\"'),concat('\"start_time\":','\"',to_char(start_time,'YYYY-MM-DDHH:MI:SS'),'\"'),concat('\"end_time\":','\"',to_char(end_time,'YYYY-MM-DDHH:MI:SS'),'\"'),concat('\"update_time\":','\"',to_char(update_time,'YYYY-MM-DDHH:MI:SS'),'\"')from filter_strategy where auto_id=21" | grep -Ev "^\(|^[a-z]" | grep -E '[0-9]{1,}' | sed 's#|# #g'
 
-
-concat('\"update_time\":',
+select case when coalesce(alarm_status,'')='' then concat('\"origSeverity\":','null') else concat('\"origSeverity\":','\"',alarm_status,'\"') end from filter_strategy where auto_id=25;
