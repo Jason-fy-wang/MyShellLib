@@ -150,3 +150,11 @@ alter table tt1 change v2 v2 varchar(10) character set utf8 collate utf8_general
 
 alter table tabl_name change col_a col_a varchar(10) character set latin1 collate latin1_bin;
 
+-- 12. 设置密码验证策略
+set global validate_password_policy=0;
+
+-- 13 修改密码
+alter user 'root'@'localhost' identified by 'admin@123';
+set password for 'root'@'localhost'=password('123');
+
+flush  privileges;
