@@ -1,0 +1,7 @@
+1. 关闭用户图形界面
+sudo systemctl set-default  multi-yser.target
+sudo reboot
+
+2. 打开用户图形界面
+sudo systemctl set-default graphical.target
+sudo reboot
