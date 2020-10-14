@@ -37,8 +37,14 @@ mysql-community GPL
 
 
 #1013
-1. 搭建一个自己blog如何做
-2. mysql postgresql主从配置
+1. 搭建一个自己blog如何做       找到了blog,选择进行参考
+2. mysql    ok 
+        postgresql主从配置
 3. github 或 gitlab上有哪些好的开源项目 
-4. redis aof中存储的内容
+4. redis aof中存储的内容        ok
 5. leecode 
+
+
+#1014
+思考blog,参考oneblog
+设计blog数据库
