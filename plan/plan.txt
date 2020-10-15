@@ -48,3 +48,6 @@ mysql-community GPL
 #1014
 思考blog,参考oneblog
 设计blog数据库
+
+#1015
+blog需求doc

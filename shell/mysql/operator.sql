@@ -158,3 +158,36 @@ alter user 'root'@'localhost' identified by 'admin@123';
 set password for 'root'@'localhost'=password('123');
 
 flush  privileges;
+
+-- 14 数据备份
+-- 备份数据
+select * from test.info into outfile '/mn/info.txt' fields terminated by '"' lines terminated "?";
+load data infile '/mnt/info.txt' into table test.info fields terminated by "," optionally enclosed by '"' 
+lines terminated by '?';
+
+-- 备份数据库
+mysqldump -hhost -uuser -ppassword databasename > backup.sql -- 
+
+-- 带删除表的格式
+mysqldump --add-drop-table -hhost -uuser -ppassword databasename > backup.sql
+
+-- 压缩
+mysqldump -hhost -uuser -ppassword databasename | gzip > backup.sql
+
+-- 备份某些表
+mysqldumo -hhost -uuser -ppassword databasename specific_table1 specific_table2 >backup.sql
+
+-- 备份多个数据库
+mysqldump -hhost -uuser -ppassword -databases databasename1 databasename2 databasename3 > backup.sql
+
+-- 仅仅备份数据库结构
+mysqldump -hhost -uuser -ppassword databasename --no-data 
+
+-- 还原数据
+mysql -hhost -uuser -ppassword databasename < backup.sql
+
+-- 压缩还原
+gunzip < backup.sql.gz | mysql -hhost -uuser -ppassword databasename
+
+-- 15 配置
+skip-grant-tables=1
