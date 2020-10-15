@@ -152,12 +152,24 @@ alter table tabl_name change col_a col_a varchar(10) character set latin1 collat
 
 -- 12. 设置密码验证策略
 set global validate_password_policy=0;
+set global validate_password_length=6
 
 -- 13 修改密码
 alter user 'root'@'localhost' identified by 'admin@123';
 set password for 'root'@'localhost'=password('123');
-
 flush  privileges;
+
+
+validate_password_length: 固定面的长度
+validate_password_dictionary_file: 指定密码验证的文件路径
+validate_password_mixed_case_count: 整个面中至少要包含大/小写字母的总数
+validate_password_number_count:整个密码中至少要包含的阿拉伯数字的个数
+validate_password_policy: 指定密码的强度验证等级,默认为medium,取值如下:
+        0/low: 只验证长度
+        1/medium: 验证长度,数字,大小写,特殊字符
+        2/strong: 验证长度,数字,大小写,特殊字符,字典文件
+validate_password_special_char_count:整个密码中至少要包含特殊字符的个数
+
 
 -- 14 数据备份
 -- 备份数据
@@ -191,3 +203,10 @@ gunzip < backup.sql.gz | mysql -hhost -uuser -ppassword databasename
 
 -- 15 配置
 skip-grant-tables=1
+
+
+-- 16 创建用户
+create user 'zabbix'@'%' identified by 'zabbix';
+grant all on zabbix.*  to  'zabbix'@'%' identified by 'zabbix';
+
+
