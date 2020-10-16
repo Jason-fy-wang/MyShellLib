@@ -1,0 +1,69 @@
+1. 插值指令
+${expr}: 通用插值
+#{expr} 或 #{expr;format}: 数字格式化插值
+${book.name?if_exists}: 判断值存在,就输出这个值
+${book.name?default('xxx')}: 设置默认值是xxx
+${book.name!"xxx"} : 设置默认值是xxx
+${book.date?string('yyyy'-MM-dd')}: 日期格式
+// 三种不同的数字格式
+${book?string.name} : 20
+${book?string.currency}: $20.00
+${book?string.percent}: 20%
+
+// 声明变量,插入布尔值进行显示
+<#assign foo=true/>
+${foo?string("yes","bo")}:  yes
+
+2. 大小比较
+  1) 因为xml的原因,使用lt  lte  gt  gte来代替: <  <=  > >=
+  2) 可以使用括号: <#if (x>y)>
+
+3. 内置函数
+内置函数的调用区别于属性的访问,使用?代替.
+字符串)
+html    :对字符串进行 html 编码
+cap_first: 使字符串第一个字母大写
+lower_case: 将字符串转换成小写
+trim: 去掉字符串前后的空白字符
+
+序列)
+size: 获得序列中元素的数目
+
+数字)
+int: 取得数字的整数部分  如: -1.9?int 结果是-1
+
+
+语法:
+if)
+    <#if condition>
+    ...
+    <#elseif condition2>
+    ...
+    <#else>
+    ...
+    </#if>
+
+switch)
+    <#switch value>
+    <#case refval1>
+    ....
+    <#break>
+    <#case refval2>
+    ...
+    <#break>
+    <#case refval3>
+    ...
+    <#break>
+    <#default>
+    ...
+    </#switch>
+
+
+list)
+    <#list stus as st>
+        ${st}
+    </#list>
+
+    item_index: 当前变量的索引值
+    item_has_next: 是否存在下一个对象,其中item名称为as后的变量名,这里为st
+
