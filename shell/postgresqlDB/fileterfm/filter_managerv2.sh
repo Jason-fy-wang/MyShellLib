@@ -19,6 +19,7 @@ gsql(){
     dtime=$(date +"%F%T")
     iidx=("update_time")
     iival=("$dtime")
+    ifother=f
     oper=$1
     rdsva="{\"sourceId\":null,\"alarmType\":null,\"origSeverity\":null,\"objectType\":null,\"objectName\":null,\"objectUid\":null,\"alarmId\":null,\"alarmStatus\":null,\"startTime\":null,\"endTime\":null, \"updateTime\":\"${dtime}\"}"
     shift
@@ -31,6 +32,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
             ;;
             -a)
             ttp="alarm_type"
@@ -38,6 +40,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
             ;;
             -o)
             if [[ ! "${2}" =~ [critical|major|minor|warning|null] ]] ; then
@@ -49,6 +52,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
             ;;
             -t)
             ttp="object_type"
@@ -56,6 +60,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
             ;;
             -n)
             ttp="object_name"
@@ -63,6 +68,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
              ;;
             -u)
             ttp="object_uid"
@@ -70,6 +76,7 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\')
+            ifother=t
             ;;
             -d)
             ttp="alarm_id"
@@ -77,10 +84,12 @@ gsql(){
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             iival+=(\'$2\') 
+            ifother=t
             ;;
             -f)
             ttp="alarm_status"
             ttp2="alarmStatus"
+            ifother=t
             rdsva=$(echo $rdsva |sed -e "s#\(\"${ttp2}\":\)\(null\)#\1\"$2\"#")
             iidx+=(${ttp})
             if [[ ! "$2" =~ [0-1]{1} ]]; then
@@ -122,6 +131,10 @@ gsql(){
         esac
         shift 2
     done
+    if [ "$oper" == "it" -a "$ifother" == "f" ];then
+        echo "Please input at least one field expect start and end time."
+        return 1
+    fi
 let ll=${#iidx[@]}-1
 }
 
