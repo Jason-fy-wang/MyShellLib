@@ -93,7 +93,7 @@ select * from tabname where name like 'zh/_%' ESCAPE '/';
 select * from  table where name ~ '^张';
 -- 匹配以 "小" 结尾的字符串
 select *  from table where name ~ '小$';
-
-
+-- 导出数据到 csv文件
+psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/standard_alarm_$i1.csv
 
 
