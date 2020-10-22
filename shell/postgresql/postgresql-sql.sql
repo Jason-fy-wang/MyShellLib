@@ -96,4 +96,11 @@ select *  from table where name ~ '小$';
 -- 导出数据到 csv文件
 psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/standard_alarm_$i1.csv
 
-
+-- 数据复制
+insert into tablsa(age,name) select age,name from tablsb ;
+-- 如果两个表的列完全一致
+insert into tablsa select * from tablsb;
+-- 增量复制
+insert into tablsa select * from tablsb b where not exists (select * from tablsc a where a.name = b.name);
+-- 整个表的复制
+create table tmp_tablsa as select * from tablsa;
