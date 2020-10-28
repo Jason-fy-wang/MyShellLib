@@ -51,3 +51,11 @@ mysql-community GPL
 
 #1015
 blog需求doc
+
+
+#1028
+1.二维码生成解析
+2.二维码登陆原理
+3.pychar-anaconda整合使用方式
+4.sm脚本修改
+
