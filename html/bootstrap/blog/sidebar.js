@@ -38,6 +38,17 @@ var gentelella = window.gentelella || {
                 }).parent("li").addClass("current-page").parents("ul").slideDown(function() {
                     a()
                 }).parent().addClass("active"),
+                $MENU_TOGGLE.on("click", function() {
+                    console.log("toggle log")
+                    $BODY.hasClass("nav-md") ? ($SIDEBAR_MENU.find("li.active ul").hide(),
+                            $SIDEBAR_MENU.find("li.active").addClass("active-sm").removeClass("active")) :
+                        ($SIDEBAR_MENU.find("li.active-sm ul").show(),
+                            $SIDEBAR_MENU.find("li.active-sm").addClass("active").removeClass("active-sm"),
+                            $BODY.toggleClass("nav-md nav-sm"), a(),
+                            $(".dataTable").each(function() {
+                                $(this).dataTable().fnDraw();
+                            }))
+                }),
                 // $(window).smartresize(function() {
                 //     a()
                 // }), 
