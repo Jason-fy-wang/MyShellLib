@@ -53,22 +53,22 @@ select statistical_type,sum(amount) amount from alarm_processing_flow where time
 insert into field_enum_value(field,cn_name,value) values
 ('AlarmFieldName','告警唯一标识','alarmId'),
 ('AlarmFieldName','告警标题','alarmTitle'),
-('AlarmFieldName','告警状态','clearFlag'),          -- no
+('AlarmFieldName','告警状态','clearFlag'),
 ('AlarmFieldName','是否根告警','ifRoot'),
 ('AlarmFieldName','是否主告警','ifMaster'),
 ('AlarmFieldName','是否从告警','ifSlave'),
 ('AlarmFieldName','是否本大区产生','localProducer'),
-('AlarmFieldName','是否归属于本大区','localOwner'),     -- no 之间都没有
+('AlarmFieldName','是否归属于本大区','localOwner'), 
 ('AlarmFieldName','告警对象名称','objectName'),
 ('AlarmFieldName','告警对象类型','objectType'),
 ('AlarmFieldName','告警类型','alarmType'),
 ('AlarmFieldName','原始告警级别','origSeverity'),
-('AlarmFieldName','网管告警级别','netManagerAlarmSeverity'),    --n
+('AlarmFieldName','网管告警级别','netManagerAlarmSeverity'), 
 ('AlarmFieldName','告警数据源','dataSource'),
 ('AlarmFieldName','设备厂家','vendorName'),
 ('AlarmFieldName','告警发生时间','eventTime'),
-('AlarmFieldName','告警最晚上报时间','latestArriveTime'),   -- n
-('AlarmFieldName','原始的告警ID','initialAlarmId'),     -- n
+('AlarmFieldName','告警最晚上报时间','latestArriveTime'),
+('AlarmFieldName','原始的告警ID','initialAlarmId'),
 ('AlarmFieldName','告警信息序号','alarmSeq'),
 ('AlarmFieldName','告警问题原因Id','specificProblemID'),
 ('AlarmFieldName','告警问题原因','specificProblem'),
@@ -96,9 +96,8 @@ insert into field_enum_value(field,cn_name,value) values
 ('AlarmFieldName','NSSI列表','nssiList'),
 ('AlarmFieldName','NSSI名称列表','nssiNameList'),
 
-
 ('DataSourceType','虚拟资源','VIM'),
 ('DataSourceType','物理资源','PIM'),
 ('DataSourceType','VNF业务','EMS'),
 ('DataSourceType','sm','SM'),
-('DataSourceType','未匹配则显示数据本身','PM');
+('DataSourceType','pm','PM');

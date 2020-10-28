@@ -94,7 +94,12 @@ select * from  table where name ~ '^张';
 -- 匹配以 "小" 结尾的字符串
 select *  from table where name ~ '小$';
 -- 导出数据到 csv文件
-psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/standard_alarm_$i1.csv
+-- 查找帮助:\h  copy
+psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/sta.csv
+-- 从文件中考入数据库
+psql "host=10.163.119.68 port=5432 dbname=fcapsdb user=fcaps_fm password=fcaps_fm" -c "copy field_enum_value from  STDOUT with delimiter ','" < field.csv
+-- 终端
+\copy field_enum_value from '/root/field.csv' with DELIMITER ',';
 
 -- 数据复制
 insert into tablsa(age,name) select age,name from tablsb ;
@@ -104,3 +109,12 @@ insert into tablsa select * from tablsb;
 insert into tablsa select * from tablsb b where not exists (select * from tablsc a where a.name = b.name);
 -- 整个表的复制
 create table tmp_tablsa as select * from tablsa;
+
+-- 11 修改表
+-- 修改列名
+alter table if exists engineering_suppression_rule rename column alarm_title to master_alarm_title;
+-- 增加列
+alter table if exists engineering_suppression_rule add cilumn match_alarm_title varchar(255);
+
+insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
+
