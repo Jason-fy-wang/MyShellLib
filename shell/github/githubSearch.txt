@@ -1,0 +1,16 @@
+# github搜索方式
+1. in:name 关键字: 查找仓库名称包含关键字的
+2. in:description 关键字 :  查找介绍包含关键字的
+3. in:readme  关键字: 从readme文件中查找包含关键字的
+4. size:<=5000 关键字: 这里的数字单位为k,5000表示5M, 即表示仓库代码比较少
+5. starts:>3000 关键字: 如 stars:>3000 spring cloud: 查找star数大于3000的spring cloud仓库
+6. stars:10..20 关键字:  查找stars在一个范围的仓库
+7. fork 和stars类似
+8. pushed:>2020-01-02 spring cloud: 查找1月3号之后还在更新的 spring cloud项目
+9. license:apache-2.0 spring cloud: 查找协议为Apache License 2的代码库
+10. language:java 关键字:  查找java 项目
+11. user:joshlong:  查找固定人的项目
+12. user:joshlong language:java  : 查找joshlong的java项目; 多个条件使用空格分隔
+13. org:spring-cloud : 查找org组织的仓库
+
+
