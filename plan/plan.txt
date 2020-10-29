@@ -52,6 +52,8 @@ mysql-community GPL
 #1015
 blog需求doc
 
+#1001 -- 1029
+总体状态一直不好,努力调整中.消极过剩
 
 #1028
 1.二维码生成解析
@@ -59,3 +61,15 @@ blog需求doc
 3.pychar-anaconda整合使用方式
 4.sm脚本修改
 
+# 1029
+1. 验证码
+2. 监控脚本 及 文档写完发出
+##b 站介绍 java 以及一些项目
+        1.编程不良人
+        2.楠哥教你学java
+3. boot mail
+
+
+# 网易邮箱授权码
+## kai_f_wang@163.com ## a175
+HYDRHRSUDZUKNWUI
