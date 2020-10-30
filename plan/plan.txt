@@ -73,3 +73,8 @@ blog需求doc
 # 网易邮箱授权码
 ## kai_f_wang@163.com ## a175
 HYDRHRSUDZUKNWUI
+
+#1030
+1. apriori 理解 并 demo
+2. setuptool 使用
+3. 文档 
