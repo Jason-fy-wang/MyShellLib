@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .fa {
+            border: 1px solid pink;
+        }
+        
+        .c1,
+        .c2 {
+            width: 200px;
+            height: 250px;
+            background-color: #ccc;
+            float: left;
+        }
+        /* 清除浮动 */
+        
+        .clearfix::after,
+        .clearfix::before {
+            content: " ";
+            display: block;
+        }
+        
+        .clearfix::after {
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fa clearfix">
+        <div class="c1">c1</div>
+        <div class="c2">c2</div>
+    </div>
+
+</body>
+
+</html>
