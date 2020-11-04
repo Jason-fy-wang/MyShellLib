@@ -118,3 +118,12 @@ alter table if exists engineering_suppression_rule add cilumn match_alarm_title 
 
 insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
 
+
+
+--- 商业版本的postgresql
+systemctl status efm-2.1
+systemctl status ppas-9.5
+-- 主从切换
+efm promote efm -switchover
+-- 查看复制状态
+select * from pg_stat_replication;

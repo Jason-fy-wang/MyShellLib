@@ -30,6 +30,8 @@ standby_mode='on'
 primary_conninfo='application_name=standby01 user=postgre password=postgre host=10.0.20.60 port=5432 sslmode=disable sslcompression=1'
 # 启动pg2
 pg_ctl start -D/usr/local/postgresql-9.5/data  -l logfile
+# 商业版本
+/usr/ppas-9.5/bin/edb-postgres -D /var/lib/ppas/9.5/data -p 5432
 
 # pg3配置
 # recovery.conf
@@ -70,7 +72,7 @@ pg_ctl -D /use/lib/data  reload
 pg_basebackup -h 192.168.1.61 -U repl -W -Fp  -Pv  -Xx -R -D /use/lib/data
 
 # postgres.conf
-host_standby=on
+hot_standby=on
 # recovery.conf 配置文件
 standby_mode='on'
 primary_conninfo='user=repl password=123456  host=192.168.1.61 port=5432 sslmode=disable sslcompression=1'
