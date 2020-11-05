@@ -112,9 +112,21 @@ create table tmp_tablsa as select * from tablsa;
 
 -- 11 修改表
 -- 修改列名
-alter table if exists engineering_suppression_rule rename column alarm_title to master_alarm_title;
+alter table if exists tabName rename column old_columnName to new_Name;
 -- 增加列
-alter table if exists engineering_suppression_rule add cilumn match_alarm_title varchar(255);
+alter table if exists tableName add column columnName varchar(255);
+alter table if exists tableNaname add column colName varchar(255) default '';
+-- 修改列
+alter table if exists tabName alter column columnName TYPE newType;
+-- 修改字段的默认值
+alter table if exists tabName alter column columnName SET DEFAULT '';
+-- 删除主键
+alter table if exists tableName drop constraint constraint_name if exists ;
+-- 添加主键
+alter table if exists tabnleName add primary key(id);
+-- 修改约束名字
+alter table if exists rename constraint constraint_name to new_constraint_name;
+
 
 insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
 

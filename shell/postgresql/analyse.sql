@@ -47,7 +47,12 @@ select statistical_type, amount, round(cast(amount as numeric)/ cast((select sum
 select statistical_type,sum(amount) amount from alarm_processing_flow where time_point_stamp>='2020-09-21 13:00:00' and time_point_stamp<='2020-09-22 13:00:00' group by statistical_type) b ;
 
 
+alter table if exists alarm_processing_flow add column attribute varchar(255);
+alter table if exists alarm_processing_flow add column sub_attribute varchar(255);
+alter table if exists alarm_processing_flow add column attribute_cn_name varchar(255);
 
+alter table if exists alarm_processing_flow drop constraint "alarm_processing_flow_pkey";
+alter table if exists alarm_processing_flow add primary key('statistical_type', 'attribute','sub_attribute');
 
 insert into alarm_processing_flow(statistical_type,time_point,time_point_stamp,attribute,sub_attribute,attribute_cn_name,amount,update_time) 
 values ('collectedAlarm','202011041058','2020-11-04 10:58:30','vim01','','vim01采集源',10,now()),
@@ -68,6 +73,18 @@ values ('collectedAlarm','202011041058','2020-11-04 10:58:30','vim01','','vim01�
 ('reportOSSAlarmDetail','202011041104','2020-11-04 11:04:30','oss02','','oss02',3,now()),
 ('reportOSSCorrelationAlarmDetail','202011041104','2020-11-04 11:04:30','oss01','','oss01',3,now()),
 ('reportOSSCorrelationAlarmDetail','202011041104','2020-11-04 11:04:30','oss02','','oss02',3,now());
+
+select statistical_type,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type;
+
+select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name from alarm_processing_flow a, (
+select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
+
+select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name from alarm_processing_flow a, (
+select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
+
+
+select attribute,attribute_cn_name from alarm_processing_flow where attribute != '';
+
 
 
 
