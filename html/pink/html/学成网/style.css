@@ -234,6 +234,8 @@ li {
 }
 
 .box-bd ul li {
+    /* 子绝父相 应用 */
+    position: relative;
     float: left;
     width: 228px;
     height: 270px;
@@ -241,7 +243,13 @@ li {
     margin-right: 15px;
     margin-bottom: 15px;
 }
-.box-bd ul li img {
+.box-bd ul li em {
+    /* 子绝父相应用 */
+    position: absolute;
+    top: 4px;
+    right: -4px;
+}
+.box-bd ul li > img {
     width: 100%;
 }
 .box-bd ul li p {
