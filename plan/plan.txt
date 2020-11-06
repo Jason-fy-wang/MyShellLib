@@ -89,3 +89,9 @@ HYDRHRSUDZUKNWUI
 # 1105
 1.数据库继续调查
 2.fm需求编写
+
+# 1106
+1. EDB ha文档
+2. edb wal机制
+3. postgresql vaccum full 是什么操作
+4. systemctl edit 使用
