@@ -126,6 +126,8 @@ alter table if exists tableName drop constraint constraint_name if exists ;
 alter table if exists tabnleName add primary key(id);
 -- 修改约束名字
 alter table if exists rename constraint constraint_name to new_constraint_name;
+-- 修改表的属主
+alter table if exists owner to userName;
 
 
 insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
@@ -139,3 +141,34 @@ systemctl status ppas-9.5
 efm promote efm -switchover
 -- 查看复制状态
 select * from pg_stat_replication;
+
+--- edb 运维命令
+--#  添加node 到集群中
+efm allow-node  <cluster-name>  ip_addrOfNewNode
+
+-- 把一个node从集群中移除
+efm disallow-node <cluster_name> <ip_address>
+
+
+-- 切换master 
+efm promote
+efm promote <cluster_name> [-switchover] [-sourcenode <addredd>] [-quiet] [-noscripts]
+
+-- e.f.: efm promote clusterName -switchover
+-- 重新监控之前停止的数据库
+efm resume <cluster_name>
+-- # 设置standby node的优先级
+efm set-priority
+efm set-priority <cluster_name>  <ip_address> <priority>
+-- ef: efm set-priority clusterName ipOfNode(要设置优先级的npde的ip)
+
+-- 此是停止failover manager,不会影响正在运行的数据库
+efm stop-cluster <cluster_name>
+
+-- 
+efm upgrade-conf <cluster_name> [-source <directory>]
+
+-- 查看集群状态
+efm cluster-status <cluster_name>
+-- 生成json格式的集群状态信息
+efm cluster-status-json <cluster_name>
