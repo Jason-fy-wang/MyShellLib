@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul li {
+            display: inline-block;
+            list-style: none;
+        }
+        ul li a {
+            display:inline-block;
+            height: 45px;
+            width: 45px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+            text-decoration: none;
+            line-height: 40px;
+            color: #000;
+
+        }
+        ul li .pre, ul li .post{
+            width: 90px;
+            font-size: 14px;
+        }
+        ul li .first,
+        ul li .last {
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+        <ul>
+            <li><a href="#" class="pre">&lt;&lt;前一页</a></li>
+            <li><a href="#" class="first">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">6</a></li>
+            <li><a href="#">7</a></li>
+            <li><a href="#" class="last">...</a></li>
+            <li><a href="#" class="post">&gt;&gt;后一页</a></li>
+        </ul>
+</body>
+</html>

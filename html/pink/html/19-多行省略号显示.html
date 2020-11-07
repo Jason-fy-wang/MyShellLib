@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .desc {
+        width: 100px;
+        height: 50px;
+        margin: 100px auto;
+        background-color: pink;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* 弹性伸缩盒子模型显示 */
+        display: -webkit-box;
+        /* 限制在一个块元素显示的文本行数 */
+        -webkit-line-clamp: 2;
+        /* 设置 或 检索伸缩盒子对象的子元素的排序方式 */
+        -webkit-box-orient: vertical;
+        /* -webkit-box-orient: horizontal; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="txt">
+      <p class="desc">
+        先讲解HTML5常用标签，接着讲解CSS3常见样式，主要学习盒子模型
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .box {
+        height: 0;
+        width: 0;
+        line-height: 0;
+        border-top: 100px solid transparent;
+        border-left: 0px solid black;
+        border-bottom: 0px solid purple;
+        border-right: 50px solid pink;
+      }
+
+      .box2 {
+        height: 0;
+        width: 0;
+        border-width: 100px 50px 0 0;
+        border-style: solid;
+        border-color: transparent pink transparent transparent;
+      }
+
+      .box3 {
+        position: relative;
+        height: 100px;
+        width: 400px;
+        margin: 100px auto;
+        background-color: skyblue;
+      }
+      .tang {
+        position: absolute;
+        right: 0;
+        height: 0;
+        width: 0;
+        border-width: 100px 50px 0 0;
+        border-style: solid;
+        border-color: transparent pink transparent transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+
+    <div class="box2"></div>
+
+    <div class="box3">
+      <div class="tang"></div>
+    </div>
+  </body>
+</html>

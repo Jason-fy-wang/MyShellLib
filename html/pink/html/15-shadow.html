@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .main-bd {
+            position: relative;
+            width: 210px;
+            margin: 100px auto;
+        }
+        .bd {
+            height: 118px;
+            width: 210px;
+            background-color: pink;
+        }
+        .bd img {
+            width: 100%;
+        }
+
+        .shade {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 118px;
+            width: 210px;
+            display: none;
+            background-color: rgba(0,0,0,0.3);
+            background-image: url("../image/arr2.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .main-bd:hover .shade {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+        <div class="main-bd">
+            <div class="bd">
+                <img src="../image/tudou.jpg" alt="">
+            </div>
+            <div class="shade">
+            </div>
+        </div>
+</body>
+</html>
