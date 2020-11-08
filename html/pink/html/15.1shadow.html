@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      div {
+        position: relative;
+        width: 444px;
+        height: 320px;
+        margin: 50px auto;
+      }
+      div img {
+        width: 100%;
+        height: 100%;
+      }
+      div::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: "";
+        visibility: hidden;
+        background: rgba(0, 0, 0, 0.3) url("../image/arr2.png") no-repeat center;
+      }
+      div:hover::after {
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img src="../image/tudou.jpg" alt="" />
+    </div>
+  </body>
+</html>

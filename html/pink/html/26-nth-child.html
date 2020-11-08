@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      ul li:nth-child(2n) {
+        width: 200px;
+        height: 30px;
+        background-color: red;
+      }
+      ol li:nth-of-type(2n + 1) {
+        width: 200px;
+        height: 30px;
+        background-color: purple;
+      }
+      /* 
+      此时就没有选中 div,因为first类中的第一个并不是div
+      nth-child的顺序是 执行nth-child 再去看前面的类型
+      */
+      .first div:nth-child(1) {
+        width: 200px;
+        height: 30px;
+        background-color: purple;
+      }
+      /* 
+        nth-of-type 是先看类型,然后再去排序
+      */
+      .sec div:nth-of-type(1) {
+        width: 200px;
+        height: 30px;
+        background-color: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </ul>
+    <div class="first">
+      <p>this is p</p>
+      <span>this span</span>
+      <div class="first-inner">
+        this is first-inner
+      </div>
+      <div class="first-inner">
+        this is first-inner2
+      </div>
+    </div>
+    <ol>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ol>
+    <div class="sec">
+      <p>this is p2</p>
+      <span>this span2</span>
+      <div class="first-sec">
+        this is first-sec1
+      </div>
+      <div class="first-sec">
+        this is first-sec2
+      </div>
+    </div>
+  </body>
+</html>

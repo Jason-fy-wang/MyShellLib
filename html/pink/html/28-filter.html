@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 444px;
+        height: 320px;
+        background-color: #fff;
+      }
+      div img {
+        width: 100%;
+        height: 100%;
+        /* blur 是一函数 小括号里面的数值越大,图片越模糊,注意数值要添加px单位 */
+        filter: blur(5px);
+      }
+      img:hover {
+        filter: blur(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img src="../image/tudou.jpg" alt="" />
+    </div>
+  </body>
+</html>
