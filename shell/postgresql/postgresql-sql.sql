@@ -96,10 +96,13 @@ select *  from table where name ~ '小$';
 -- 导出数据到 csv文件
 -- 查找帮助:\h  copy
 psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/sta.csv
+-- 需要是管理员
+copy (select * from tabName  where time_point_stamp>='2020-11-06 00:00:00' and time_point_stamp<='2020-11-08 00:00:00') TO '/mnt/ttt.csv' delimiter ',' csv header;
+
 -- 从文件中考入数据库
-psql "host=10.163.119.68 port=5432 dbname=fcapsdb user=fcaps_fm password=fcaps_fm" -c "copy field_enum_value from  STDOUT with delimiter ','" < field.csv
+psql "host=10.163.119.68 port=5432 dbname=fcapsdb user=fcaps_fm password=fcaps_fm" -c "copy field_enum_value from  STDOUT with delimiter ',' csv header encoding 'UTF-8" < field.csv
 -- 终端
-\copy field_enum_value from '/root/field.csv' with DELIMITER ',';
+\copy field_enum_value from '/root/field.csv' with DELIMITER ',' csv header encoding 'UTF-8';
 
 -- 数据复制
 insert into tablsa(age,name) select age,name from tablsb ;
@@ -128,6 +131,8 @@ alter table if exists tabnleName add primary key(id);
 alter table if exists rename constraint constraint_name to new_constraint_name;
 -- 修改表的属主
 alter table if exists owner to userName;
+-- 删除索引
+drop index if exists IdxName;
 
 
 insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);

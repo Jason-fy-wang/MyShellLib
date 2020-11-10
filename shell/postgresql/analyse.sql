@@ -7,8 +7,8 @@ create table alarm_processing_flow(
     update_time timestamp,
     primary key(statistical_type,time_point)
 );
-create index index_alarm_processing_flow_1 on alarm_processing_flow(time_point_stamp);
-create index index_alarm_processing_flow_2 on alarm_processing_flow(update_time);
+create index ttt_flow_1 on alarm_processing_flow(time_point_stamp);
+create index ttt_flow_2 on alarm_processing_flow(update_time);
 
 '202009201300','2020-09-20 13:00:00'
 '202009211300','2020-09-21 13:00:00'
@@ -47,12 +47,12 @@ select statistical_type, amount, round(cast(amount as numeric)/ cast((select sum
 select statistical_type,sum(amount) amount from alarm_processing_flow where time_point_stamp>='2020-09-21 13:00:00' and time_point_stamp<='2020-09-22 13:00:00' group by statistical_type) b ;
 
 
-alter table if exists alarm_processing_flow add column attribute varchar(255);
-alter table if exists alarm_processing_flow add column sub_attribute varchar(255);
+alter table if exists alarm_processing_flow add column attribute varchar(255) default '';
+alter table if exists alarm_processing_flow add column sub_attribute varchar(255) default ;
 alter table if exists alarm_processing_flow add column attribute_cn_name varchar(255);
 
 alter table if exists alarm_processing_flow drop constraint "alarm_processing_flow_pkey";
-alter table if exists alarm_processing_flow add primary key('statistical_type', 'attribute','sub_attribute');
+alter table if exists alarm_processing_flow add primary key(statistical_type,time_point,attribute,sub_attribute);
 
 insert into alarm_processing_flow(statistical_type,time_point,time_point_stamp,attribute,sub_attribute,attribute_cn_name,amount,update_time) 
 values ('collectedAlarm','202011041058','2020-11-04 10:58:30','vim01','','vim01采集源',10,now()),
