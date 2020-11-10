@@ -95,3 +95,34 @@ HYDRHRSUDZUKNWUI
 2. edb wal机制
 3. postgresql vaccum full 是什么操作
 4. systemctl edit 使用
+
+# 1107
+1. css 书
+2. pink video
+
+# 1108
+1. js 
+2. pink video
+
+# 1109
+1. 数据库索引 (看了 还是不了解如何讲清楚)
+2. 复杂度计算
+3. kafka  nio 模型
+4. ali interval    笔试算法失败
+
+# 1110
+1. 昨天笔记
+2. JMM
+3. snowflake
+4. advanced-java 面试题
+
+
+
+
+
+
+
+
+
+
+
