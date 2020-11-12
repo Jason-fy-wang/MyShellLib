@@ -76,8 +76,8 @@ values ('collectedAlarm','202011041058','2020-11-04 10:58:30','vim01','','vim01é
 
 select statistical_type,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type;
 
-select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name from alarm_processing_flow a, (
-select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
+select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name,a.time_point_stamp from alarm_processing_flow a, (
+select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow  group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute and time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00';
 
 select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name from alarm_processing_flow a, (
 select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
