@@ -117,6 +117,19 @@ HYDRHRSUDZUKNWUI
 4. advanced-java 面试题
 
 
+## 1111
+1. 控制器入库失败  主键冲突解决
+2. notify 设计文档
+3. spring-kafka 再分析
+
+
+# 1112
+1. fm需求               ok
+2. notify 文档写完发出  ok
+3. 主从 衍生 逻辑               
+4. kafka offset 提交 总结， style consumer_aware的分类分析  
+5. redis key 清除script
+6. spring boot 启动 工具分析
 
 
 
