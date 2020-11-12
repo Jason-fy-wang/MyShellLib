@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* div:nth-child(1){
+            width: 150px;
+            height: 150px;
+            background-color: pink;
+            /* 可以看到2D 位移其实不影响其他模块的排列 
+            transform: translateX(100px) translateY(100px);
+        }
+
+        div:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background-color: purple;
+        } */
+        div {
+            width: 150px;
+            height: 150px;
+        }
+        div:first-child {
+            background-color: pink;
+            /* x参数就是在x周的移动位置，y就是在y轴移动的位置 */
+            /* transform: translate(x,y); */
+            /* 1.只移动x轴 */
+            /* transform: translate(100px,0); */
+            /* 2.只移动y轴 */
+            /* transform: translate(0,100px); */
+            /* transform: translateY(100px); */
+            /* transform 对行内元素是无效的 */
+            transform: translate(30px,30px);
+        }
+        div:last-child {
+            background-color: purple;
+        }
+
+    </style>
+</head>
+<body>
+    <div></div>
+    <div></div>
+</body>
+</html>

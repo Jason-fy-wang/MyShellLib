@@ -5,7 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <style></style>
+    <style>
+      div {
+        display: flex;
+        width: 60%;
+        height: 250px;
+        background-color: pink;
+        margin: 0 auto;
+      }
+      div span:nth-child(1) {
+        width: 200px;
+        height: 100%;
+        background-color: purple;
+      }
+      div span:nth-child(3) {
+        width: 200px;
+        height: 100%;
+        background-color: purple;
+      }
+
+      div span:nth-child(2) {
+        flex: 1;
+      }
+
+      section {
+        display: flex;
+        width: 60%;
+        height: 200px;
+        margin: 100px auto;
+        background-color: pink;
+      }
+      section span:nth-child(1) {
+        flex: 1;
+        background-color: purple;
+      }
+      section span:nth-child(2) {
+        flex: 2;
+      }
+      section span:nth-child(3) {
+        background-color: purple;
+        flex: 1;
+      }
+    </style>
   </head>
   <body>
     <div>
@@ -13,5 +54,11 @@
       <span>2</span>
       <span>3</span>
     </div>
+
+    <section>
+      <span>4</span>
+      <span>5</span>
+      <span>6</span>
+    </section>
   </body>
 </html>

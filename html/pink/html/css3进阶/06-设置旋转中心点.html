@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 180px;
+            height: 180px;
+            background-color: pink;
+            margin: 200px auto;
+            /* 谁动画 给谁添加 */
+            transition: all 0.5s;
+            /* 谁设置中心点 给谁加 */
+            /* transform-origin: left top; */
+            transform-origin: 50px 50px;
+        }
+
+        div:hover {
+            transform: rotate(360deg);
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+</html>

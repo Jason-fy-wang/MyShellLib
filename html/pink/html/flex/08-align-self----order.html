@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div {
+        display: flex;
+        width: 60%;
+        height: 200px;
+        background-color: pink;
+      }
+      div span {
+        width: 100px;
+        height: 100px;
+        background-color: purple;
+        margin: 0 10px;
+      }
+      /* 想让span2 排列在前面, 可以使用order, 数值越小排列越靠前 */
+      div span:nth-child(2) {
+        order: -1;
+      }
+      /* 想单独让span3 靠下，可以使用 self-align */
+      div span:nth-child(3) {
+        align-self: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
+    </div>
+  </body>
+</html>
