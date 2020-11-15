@@ -1,0 +1,46 @@
+// 定义一个变量
+@color: pink;
+
+// 变量的使用
+body {
+  color: @color;
+}
+
+.header {
+  background-color: pink;
+  color: purple;
+  //   less 嵌套
+  a {
+    color: red;
+    // 伪类元素选择器
+    // 2. 如果是伪类,交集元素选择器,需要在前面添加&符号
+    // 如果有&符号, 它会被解析为父元素自身或父元素的伪类
+    &:hover {
+      color: blue;
+    }
+  }
+}
+// less 运算
+@border:5px +5;
+div {
+  width: 200px -5;
+  height: 200px * 2;
+  border: @border solid red;
+}
+
+img {
+  width: 82 / 50rem;
+  height: (20 + 5) * 2;
+}
+@fontsize: 15px;
+a {
+  width: 82rem - @fontsize;
+  height: 90rem - @fontsize;
+  //   颜色值 参与运算
+  background-color: #666 - #222;
+}
+
+// 1. 我们运算符的左右两侧必须敲一个空格隔开
+// 2. 两个参数参与运算,如果只有一个数有单位,则最后的结果就以这个单位为准
+// 3. 两个数参与运算,如果两个数都有单位,而且不一样的单位,以谁为准?
+// 最后的结果以第一个单位为准
