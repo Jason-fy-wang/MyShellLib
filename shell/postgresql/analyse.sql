@@ -85,7 +85,7 @@ select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_pro
 
 select attribute,attribute_cn_name from alarm_processing_flow where attribute != '';
 
-
+insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
 
 
 
