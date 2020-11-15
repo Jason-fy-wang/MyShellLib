@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        div {
+            height: 280px;
+            width: 280px;
+            margin: 100px auto;
+
+            perspective: 500px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            transition: all 1s;
+        }
+        img:hover {
+            /* 绕着Z轴 转180度 */
+            /* transform: rotateZ(180deg); */
+            /* 3D旋转 */
+            /* transform: rotate3d(x,y,z,deg); */
+            /* 沿着x轴旋转 */
+            /* transform: rotate3d(1,0,0,45deg); */
+            /* 绕着y轴旋转 */
+            /* transform: rotate3d(0,1,0,45deg); */
+            transform: rotate3d(1,1,0,45deg);
+
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <img src="images/pig.jpg" alt="">
+    </div>
+</body>
+</html>

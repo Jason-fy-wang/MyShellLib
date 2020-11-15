@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        div {
+            width: 380px;
+            height: 380px;
+            margin: 100px auto;
+            /* 加上透视距离 效果才明显 */
+            perspective: 300px;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            /* 移动 */
+            transition: all 1s;
+        }
+        img:hover {
+            transform: rotateX(45deg);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="images/pig.jpg" alt="">
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul li {
+            list-style: none;
+            float: left;
+            margin: 100px 3px;
+            transition: all 1s;
+            perspective: 400px;
+        }
+        .box {
+            position: relative;
+            width: 90px;
+            height: 34px;
+            text-align: center;
+            line-height: 34px;
+            transition: all .4s;
+            transform-style: preserve-3d;
+        }
+        .box:hover {
+            transform: rotateX(90deg);
+        }
+        .front,.back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .front {
+            background-color: pink;
+            z-index: 1;
+            transform: translateZ(17px);
+        }
+
+        .back {
+            background-color: purple;
+            /* 有移动 有其他样式，那么需要先写移动  再写其他样式 */
+            transform: translateY(17px) rotateX(-90deg);
+        }
+    </style>
+</head>
+<body>
+        <ul>
+            <li>
+                <div class="box">
+                <div class="front">黑马程序员</div>
+                <div class="back">ping在这里</div>
+                </div>
+            </li>
+            <li>
+                <div class="box">
+                    <div class="front">黑马程序员</div>
+                    <div class="back">ping在这里</div>
+                </div>
+            </li>
+            <li>
+                <div class="box">
+                    <div class="front">黑马程序员</div>
+                    <div class="back">ping在这里</div>
+                </div>
+            </li>
+        </ul>
+</body>
+</html>
