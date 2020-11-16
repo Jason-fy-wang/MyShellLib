@@ -142,3 +142,33 @@ insert into field_enum_value(field,cn_name,value) values
 ('DataSourceType','VNF业务','EMS'),
 ('DataSourceType','sm','SM'),
 ('DataSourceType','pm','PM');
+
+
+
+-------------------------------------------------------------------notify
+drop table if exists alarm_sms_notification_configuration;
+create table alarm_sms_notification_configuration (
+    auto_id serial,
+    object_type varchar(255),
+    orig_severity integer,
+    mvel_match varchar(255) not null,
+    notification_template varchar(1024) not null,
+    clear_notification_template varchar(1024) not null,
+    receiver    jsonb not null,
+    update_time timestamp not null,
+    primary key (auto_id)
+);
+
+drop table if exists alarm_notification_result;
+create table alarm_notification_result (
+    alarm_id     character varying(36)        not null,
+    alarm_status smallint                     not null,
+    alarm_seq   integer                       not null,
+    msg_content  character varying(1024)      not null,
+    receiver     jsonb                        not null,
+    result       character varying(36)        not null,
+    error_desc   character varying(1024),
+    If_send_clear_sms boolean                 default false,
+    update_time  timestamp without time zone  not null,
+    primary key(alarm_id, alarm_status, alarm_seq)
+);

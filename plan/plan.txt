@@ -132,6 +132,10 @@ HYDRHRSUDZUKNWUI
 6. spring boot 启动 工具分析
 
 
+# 1113
+3. 主从 衍生  -- 大体逻辑了解
+4. kafka offset 提交 consumer_style_aware 已分析 -- 需总结
+5. redis key 清除script  -- ok
 
 
 

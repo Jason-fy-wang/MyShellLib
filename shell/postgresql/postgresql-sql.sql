@@ -93,6 +93,8 @@ select * from tabname where name like 'zh/_%' ESCAPE '/';
 select * from  table where name ~ '^张';
 -- 匹配以 "小" 结尾的字符串
 select *  from table where name ~ '小$';
+
+-- 11 数据备份
 -- 导出数据到 csv文件
 -- 查找帮助:\h  copy
 psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/sta.csv
@@ -113,7 +115,7 @@ insert into tablsa select * from tablsb b where not exists (select * from tablsc
 -- 整个表的复制
 create table tmp_tablsa as select * from tablsa;
 
--- 11 修改表
+-- 12 修改表
 -- 修改列名
 alter table if exists tabName rename column old_columnName to new_Name;
 -- 增加列
@@ -135,7 +137,7 @@ alter table if exists owner to userName;
 drop index if exists IdxName;
 
 
--- 12 常用的管理命令
+-- 13 常用的管理命令
 -- 查看版本
 select version();
 -- 查看数据库启动时间
@@ -219,7 +221,12 @@ create tablespace tbs01 location '/home/osdba/tbs01';
 -- 所对于用户创建的表空间,表和索引存储数据文件的目录名:
 <表空间根目录>/<Catalog version 目录>/<database oid>/<relfilenode>[.顺序号]
 
+insert into engineering_suppression_rule(rule_id,rule_name,rule_desc,slave_mvel,alarm_object_list,master_alarm_title,start_time,end_time,if_report_oss,update_time,match_alarm_title) values('123','engewin1','desc1','slavemven','{"title":"title"}','123','2020-10-26 00:00:00','2020-10-26 00:00:00', true,'2020-10-26 00:00:00', ,);
 
+-- 14 联合主键查询
+create table tt (id serial, name varchar(255), address varchar(255), primary key(id, name));
+
+select * frmo tt where (id,name) in ((1,'zhangsan'),(2,'wagnwu'));
 
 
 --- 商业版本的postgresql
