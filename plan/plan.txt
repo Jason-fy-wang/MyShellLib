@@ -137,6 +137,19 @@ HYDRHRSUDZUKNWUI
 4. kafka offset 提交 consumer_style_aware 已分析 -- 需总结
 5. redis key 清除script  -- ok
 
+# 1114
+
+# 11 15
+
+# 1116
+mysql mvcc
+notify 需求
+
+# 1117
+1. notify接口需求
+2. springboot 事务调用
+3. springboot 启动tool解析
+
 
 
 
