@@ -146,12 +146,22 @@ mysql mvcc
 notify 需求
 
 # 1117
-1. notify接口需求
+1. notify接口需求                    ok
 2. springboot 事务调用
 3. springboot 启动tool解析
 
+# 1118
+1. lvs 负载均衡服务器
+2. apache 如何使用
+3. squid 反向代理服务器
+4. lighttpd 应用服务器, 很多用于图片服务器
 
+5. linux malloc内存分配策略,及查看或诊断方式
+6. linux mmap内存分配策略,及查看 或 诊断方式
 
+7. druid 连接池源码解析
+8. 今天主要  oracle的文档  https://docs.oracle.com/javase/8/index.html
+9. springboot loader 一些文档解析
 
 
 

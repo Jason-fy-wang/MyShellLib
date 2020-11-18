@@ -37,6 +37,9 @@ select current_schema;
 -- 查看search_path
 show search_path;
 
+--查看所有运行中的参数值
+show all;
+
 -- 修改schema的所属用户
 alter schema schname owner to username;
 -- 设置schema表空间
