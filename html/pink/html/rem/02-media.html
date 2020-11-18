@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+        媒体查询语句
+        @media mediaType  and|or|not (media-feature) {
+
+        }
+        1. @media 是媒体查询开始的关键字
+        2. mediaType 媒体类型,如 打印机  屏幕, 
+            all 所有设备 
+            print 打印设备, 
+            screen 用于电脑屏幕  平板电脑  智能手机
+        3. 关键字 not  or and only
+        4. media feature 媒体特性, 必须有小括号包含
+            特性:  width   定义输出设备中页面可见区域的宽度
+                  min-width 定义输出设备中页面最小可见区域宽度
+                  max-width 定义输出设备中页面最大可见区域宽度
+        
+        */
+        /* 
+        这里表示,当屏幕宽度小于等于800xpx时,设置body背景色为  pink
+        */
+        @media screen and (max-width: 800px){
+            body {
+                background-color: pink;
+            }
+        }
+        /* 
+        这里表示: 当屏幕宽度小于等于500px时, 设置body背景色为 purple
+        */
+        @media screen and (max-width: 500px){
+            body {
+                background-color: purple;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+</html>

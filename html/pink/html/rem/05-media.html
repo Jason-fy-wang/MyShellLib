@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 
+        当屏幕尺寸大于等于320px时, div一行显示一个
+        当屏幕大于等于640px时, 一行显示两个
+        */
+        /* 语法规范:
+        <link rel="stylesheet" media="mediatype and|not|only (media feature)" href="style.css"/> */
+    </style>
+    <link rel="stylesheet" href="320.css" media="screen and (min-width: 540px)"/>
+    <link rel="stylesheet" href="640.css" media="screen and (min-width: 900px)"/>
+</head>
+<body>
+    <div>1</div>
+    <div>2</div>
+</body>
+</html>

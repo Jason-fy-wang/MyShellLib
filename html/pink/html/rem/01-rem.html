@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html{
+            font-size: 20px;
+        }
+        div{
+            font-size: 12px;
+        }
+        p {
+            /* 1 em是相对于父元素的 字体大小来计算的
+                这里p标签的父元素是div，故这里width height就相当于是 120px
+            */
+            /* width: 10em;
+            height: 10em; */
+            /* 
+            2. rem是root em, 即相对于html标签的 字体大小来计算的
+                这里html标签的字体大小为20px,故这里width height是 200px
+            */
+            width: 10rem;
+            height: 10rem;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p></p>
+    </div>
+</body>
+</html>
