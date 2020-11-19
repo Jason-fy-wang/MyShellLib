@@ -1,0 +1,104 @@
+@import "common";
+
+@fontBase: 50;
+body {
+  min-width: 320px;
+  width: 15rem;
+  margin: 0 auto;
+  font-family: Arial, Helvetica;
+}
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+// search-content
+.search-content {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15rem;
+  height: 88rem / @fontBase;
+  background-color: #ffc001;
+
+  .classify {
+    width: 44rem / @fontBase;
+    height: 70rem / @fontBase;
+    margin: 11rem / @fontBase 25rem / @fontBase 7rem / @fontBase 24rem /
+      @fontBase;
+    background: url("../images/classify.png") no-repeat;
+    background-size: 44rem / @fontBase 70rem / @fontBase;
+  }
+
+  .search {
+    flex: 1;
+    input {
+      outline: none;
+      width: 100%;
+      border: 0;
+      font-size: 25rem / @fontBase;
+      height: 66rem / @fontBase;
+      background-color: #fff2cc;
+      border-radius: 33rem / @fontBase;
+      margin-top: 10rem / @fontBase;
+      padding-left: 55rem / @fontBase;
+      color: #757575;
+    }
+  }
+
+  .login {
+    width: 75rem / @fontBase;
+    height: 70rem / @fontBase;
+    line-height: 70rem / @fontBase;
+    text-align: center;
+    margin: 10rem / @fontBase;
+    font-size: 25rem / @fontBase;
+    color: #fff;
+  }
+}
+
+// banner
+
+.banner {
+  width: 750rem / @fontBase;
+  height: 384rem / @fontBase;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ad
+.ad {
+  display: flex;
+  a {
+    flex: 1;
+    img {
+      width: 100%;
+    }
+  }
+}
+// nav
+nav {
+  a {
+    float: left;
+    width: 150rem / @fontBase;
+    height: 140rem / @fontBase;
+    text-align: center;
+    img {
+      display: block;
+      width: 82rem / @fontBase;
+      height: 82rem / @fontBase;
+      margin: 10rem / @fontBase auto 0;
+    }
+    span {
+      font-size: 25rem / @fontBase;
+      color: #2d2d2d;
+    }
+  }
+}
