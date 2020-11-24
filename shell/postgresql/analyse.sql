@@ -55,32 +55,35 @@ alter table if exists alarm_processing_flow drop constraint "alarm_processing_fl
 alter table if exists alarm_processing_flow add primary key(statistical_type,time_point,attribute,sub_attribute);
 
 insert into alarm_processing_flow(statistical_type,time_point,time_point_stamp,attribute,sub_attribute,attribute_cn_name,amount,update_time) 
-values ('collectedAlarm','202011041058','2020-11-04 10:58:30','vim01','','vim01采集源',10,now()),
-('collectedAlarm','202011041059','2020-11-04 10:59:30','pim01','','pim01采集源',5,now()),
-('duplicatedAlarm','202011041104','2020-11-04 11:04:30','','','',6,now()),
-('filteredAlarm','202011041104','2020-11-04 11:04:30','','','',6,now()),
-('engineeringAlarm','202011041104','2020-11-04 11:04:30','rule_engineering_suppression_2020110411130231','','工程告警1',6,now()),
-('engineeringAlarm','202011041104','2020-11-04 11:04:30','rule_engineering_suppression_2020110411130242','','工程告警2',7,now()),
-('standardAlarm','202011041104','2020-11-04 11:04:30','host','1101ERHX2SCTBEC7C7539B8CE7','NFV-D-HNGZ-01A-2302-AH17-S-SRV-16',7,now()),
-('standardAlarm','202011041104','2020-11-04 11:04:30','server','1101ERHX2SCTBEC7C7539B8CE9','NFV-D-HNGZ-01A-2302-AH17-S-SRV-15',7,now()),
-('notStandardAlarm','202011041104','2020-11-04 11:04:30','host','1101ERHX2SCTBEC7C7539B8CE10','NFV-D-HNGZ-01A-2302-AH17-S-SRV-14',5,now()),
-('notStandardAlarm','202011041104','2020-11-04 11:04:30','server','1101ERHX2SCTBEC7C7539B8CE12','NFV-D-HNGZ-01A-2302-AH17-S-SRV-13',5,now()),
-('correlationAlarm','202011041104','2020-11-04 11:04:30','rule_master_slave__2020110411130231','','主从告警规则1',6,now()),
-('correlationAlarm','202011041104','2020-11-04 11:04:30','rule_engineering_suppression_2020110411130231','','工程告警1',6,now()),
-('reportOSSAlarm','202011041104','2020-11-04 11:04:30','','','',5,now()),
-('reportOSSCorrelationAlarm','202011041104','2020-11-04 11:04:30','','','',6,now()),
-('reportOSSAlarmDetail','202011041104','2020-11-04 11:04:30','oss01','','oss01',2,now()),
-('reportOSSAlarmDetail','202011041104','2020-11-04 11:04:30','oss02','','oss02',3,now()),
-('reportOSSCorrelationAlarmDetail','202011041104','2020-11-04 11:04:30','oss01','','oss01',3,now()),
-('reportOSSCorrelationAlarmDetail','202011041104','2020-11-04 11:04:30','oss02','','oss02',3,now());
+values ('collectedAlarm','202011041058','2020-11-22 10:58:30','vim01','','vim01采集源',10,now()),
+('collectedAlarm','202011041059','2020-11-22 10:59:30','pim01','','pim01采集源',5,now()),
+('duplicatedAlarm','202011041104','2020-11-22 11:04:30','','','',6,now()),
+('filteredAlarm','202011041104','2020-11-22 11:04:30','','','',6,now()),
+('engineeringAlarm','202011041104','2020-11-22 11:04:30','rule_engineering_suppression_2020110411130231','','工程告警1',6,now()),
+('engineeringAlarm','202011041104','2020-11-22 11:04:30','rule_engineering_suppression_2020110411130242','','工程告警2',7,now()),
+('standardAlarm','202011041104','2020-11-22 11:04:30','host','1101ERHX2SCTBEC7C7539B8CE7','NFV-D-HNGZ-01A-2302-AH17-S-SRV-16',7,now()),
+('standardAlarm','202011041104','2020-11-22 11:04:30','server','1101ERHX2SCTBEC7C7539B8CE9','NFV-D-HNGZ-01A-2302-AH17-S-SRV-15',7,now()),
+('notStandardAlarm','202011041104','2020-11-22 11:04:30','host','1101ERHX2SCTBEC7C7539B8CE10','NFV-D-HNGZ-01A-2302-AH17-S-SRV-14',5,now()),
+('notStandardAlarm','202011041104','2020-11-22 11:04:30','server','1101ERHX2SCTBEC7C7539B8CE12','NFV-D-HNGZ-01A-2302-AH17-S-SRV-13',5,now()),
+('correlationAlarm','202011041104','2020-11-22 11:04:30','rule_master_slave__2020110411130231','','主从告警规则1',6,now()),
+('correlationAlarm','202011041104','2020-11-22 11:04:30','rule_engineering_suppression_2020110411130231','','工程告警1',6,now()),
+('reportOSSAlarm','202011041104','2020-11-22 11:04:30','','','',5,now()),
+('reportOSSCorrelationAlarm','202011041104','2020-11-22 11:04:30','','','',6,now()),
+('reportOSSAlarmDetail','202011041104','2020-11-22 11:04:30','oss01','','oss01',2,now()),
+('reportOSSAlarmDetail','202011041104','2020-11-22 11:04:30','oss02','','oss02',3,now()),
+('reportOSSCorrelationAlarmDetail','202011041104','2020-11-22 11:04:30','oss01','','oss01',3,now()),
+('reportOSSCorrelationAlarmDetail','202011041104','2020-11-22 11:04:30','oss02','','oss02',3,now());
 
-select statistical_type,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type;
+insert into alarm_processing_flow(statistical_type,time_point,time_point_stamp,attribute,sub_attribute,attribute_cn_name,amount,update_time) 
+values ('collectedAlarm','202011041158','2020-11-22 10:58:30','vim01','','vim01采集源',20,now()),;
+
+select statistical_type,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-22 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type;
 
 select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name,a.time_point_stamp from alarm_processing_flow a, (
-select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow  group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute and time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00';
+select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow  group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute and time_point_stamp >= '2020-11-22 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00';
 
 select b.statistical_type,b.count,b.attribute,b.sub_attribute,a.attribute_cn_name from alarm_processing_flow a, (
-select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-04 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
+select statistical_type,attribute,sub_attribute,sum(amount) count from alarm_processing_flow where time_point_stamp >= '2020-11-22 00:00:00' and time_point_stamp <= '2020-11-05 00:00:00' group by statistical_type,attribute,sub_attribute) b where a.statistical_type = b.statistical_type and a.attribute = b.attribute and a.sub_attribute = b.sub_attribute;
 
 
 select attribute,attribute_cn_name from alarm_processing_flow where attribute != '';
