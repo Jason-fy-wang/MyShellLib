@@ -181,4 +181,11 @@ reentrantReadWriteLock
 2.5.0 升级文档修改
 2.5.0 disk  mount脚本优化       
 
+# 1125
+1. 1.0.8发布  2.5.0 文档修改
+2. select trap 多行注释 subshell  demo演示
+3. stompLock    不是很命令 acquireRead acquireWrite 逻辑很深
+   threadLocal  -- ok
+   threadPool  -- ok
+   scheduleThreadPool 其中delayQueue原理 要再看
 
