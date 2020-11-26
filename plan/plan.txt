@@ -189,3 +189,8 @@ reentrantReadWriteLock
    threadPool  -- ok
    scheduleThreadPool 其中delayQueue原理 要再看
 
+# 1126
+1. threadPool shutdown 和 idle worker的分辨
+2. scheduledThreadPool 中的 fixRate 和 fixDelay的时间计算
+
+
