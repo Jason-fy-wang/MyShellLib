@@ -198,4 +198,7 @@ reentrantReadWriteLock
 2. JMM review
 3. zabbix问题
 
+## 1201 
+1. awk的if,if-self,for,while, 自定义function
+
 
