@@ -21,7 +21,13 @@ total 4.0K
 -d: 指定分隔符
 -a: 可以使用-a读取文件作为所有参数
 -I: 进行替换
+-i:是-I参数的同义词,不过此参数已经被过期,建议使用-I替换
 !
+
+# xargs 同时执行多条命令
+find / -name status.sh  -type f  | xargs -I{} sh -c 'ls {}; cat {}' | more
+find / -name status.sh  -type f  | xargs -i sh -c 'ls {}; cat {}' | more
+
 
 # -0 参数的处理
 <<!
