@@ -202,3 +202,19 @@ reentrantReadWriteLock
 1. awk的if,if-self,for,while, 自定义function
 2. rbtree  原理
 
+# 1202
+1. rbtree
+2. 衍生告警 设计开会 -- 衍生告警业务了解
+3. 剑指 offer中前三个 
+
+## 1203
+1. 衍生代码
+2. 开会衍生业务
+3. 新需求编写
+
+## 1204
+1. 衍生 code
+2. 动态规划  (入门)
+3. 剑指offer 字符串全排列  背包问题, 最小硬币表示,
+
+
