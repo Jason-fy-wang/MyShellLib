@@ -232,4 +232,9 @@ reentrantReadWriteLock
 2. shardingSphere  官网doc
 3. 了解分布式事务
 
+## 1208
+1. 小顶堆  priorityQueue 的堆建立以及堆排序以及 时间复杂度的计算   ok
+2. 告警流程统计 修改 和测试                                    ok
+3. 衍生 测试的流程 制定 以及 相关数据 脚本的创建
+
 
