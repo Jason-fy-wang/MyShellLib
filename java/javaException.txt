@@ -1,0 +1,5 @@
+## 1.  访问DTD约束报错
+[C:\code-workspace\source\spring-framework\spring-wk-mybatis\build\resources\main\mapper\UserMapper.xml]'; nested exception is org.apache.ibatis.builder.BuilderException: Error creating document instance.  Cause: org.xml.sax.SAXParseException; lineNumber: 2; columnNumber: 108; External DTD: Failed to read external DTD 'mybatis-3-mapper.dtd', because 'http' access is not allowed due to restriction set by the accessExternalDTD property.
+
+-Djavax.xml.accessExternalDTD=all
+
