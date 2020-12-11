@@ -246,5 +246,11 @@ reentrantReadWriteLock
 2. 测试之道 book
 3. jvm 特性
 
+## 1211
+1. 单元测试之道  完成
+2. maven 自动单元测试,surefire组件再看
+3. maven jacoco 测试覆盖率
+4. maven checkStyle 使用以及官网 doc 
+5. fm-app 导出 execel 完善
 
 
