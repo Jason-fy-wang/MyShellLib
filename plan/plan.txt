@@ -253,4 +253,23 @@ reentrantReadWriteLock
 4. maven checkStyle 使用以及官网 doc 
 5. fm-app 导出 execel 完善
 
+## 1212
+1. jvm
+2. 小工大匠
+
+
+## 1213
+1. perl  
+2. jvm特性
+
+## 1214
+1. 数据库脚本
+2. postgresql 分表
+3. postgresql 时间操作
+4. postgresql 数据库管理函数
+5. postgresql 索引(只看了部分)
+
+## 1215
+1. 
+
 
