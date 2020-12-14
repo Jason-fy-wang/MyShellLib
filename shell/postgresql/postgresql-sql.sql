@@ -231,6 +231,84 @@ create table tt (id serial, name varchar(255), address varchar(255), primary key
 
 select * frmo tt where (id,name) in ((1,'zhangsan'),(2,'wagnwu'));
 
+-- 备份表
+insert into measurement_y2020_12_bak select * from  measurement_y2020_12;
+
+--- 时间有效field
+--- 发送命令查询表
+psql "user=uname dbname=dbname host=ip port=5432  password=pass" -t -1  -c "\dt+ measurement*"
+-- 查询时间的加减操作
+psql "user=uname dbname=dbname host=ip port=5432  password=pass" -t -1  -c "select date '2020-12-14' + interval '1 month'"
+-- 格式化时间
+psql "user=uname dbname=dbname host=ip port=5432  password=pass" -t -1  -c "select to_char(timestamp'2020-12-14' + interval'1 month', 'YYYY-MM-DD HH24:MI:SS')"
+microseconds
+milliseconds
+second
+minute
+hour
+day
+week
+month
+quarter
+year
+decade
+century
+millennium
+--------- 时间格式化方式  to_char(时间, format)
+HH	  一天中的小时 （01-12）
+HH12	一天中的小时 （01-12）
+HH24	一天中的小时 （00-23）
+MI	  分钟 （00-59）minute (00-59)
+SS	  秒（00-59）
+MS	  毫秒（000-999）
+US	  微秒（000000-999999）
+SSSS	午夜后的秒（0-86399）
+AM, am, PM or pm	            正午指示器（不带句号）
+A.M., a.m., P.M. or p.m.	    正午指示器（带句号）
+Y,YYY	带逗号的年（4 位或者更多位）
+YYYY	年（4 位或者更多位）
+YYY	  年的后三位
+YY	  年的后两位
+Y	    年的最后一位
+IYYY	ISO 8601 周编号方式的年（4 位或更多位）
+IYY	  ISO 8601 周编号方式的年的最后 3 位
+IY	  ISO 8601 周编号方式的年的最后 2 位
+I	    ISO 8601 周编号方式的年的最后一位
+BC, bc, AD或者ad	        纪元指示器（不带句号）
+B.C., b.c., A.D.或者a.d.	纪元指示器（带句号）
+MONTH	全大写形式的月名（空格补齐到 9 字符）
+Month	全首字母大写形式的月名（空格补齐到 9 字符）
+month	全小写形式的月名（空格补齐到 9 字符）
+MON	  简写的大写形式的月名（英文 3 字符，本地化长度可变）
+Mon	  简写的首字母大写形式的月名（英文 3 字符，本地化长度可变）
+mon	  简写的小写形式的月名（英文 3 字符，本地化长度可变）
+MM	  月编号（01-12）
+DAY	  全大写形式的日名（空格补齐到 9 字符）
+Day	  全首字母大写形式的日名（空格补齐到 9 字符）
+day	  全小写形式的日名（空格补齐到 9 字符）
+DY	  简写的大写形式的日名（英语 3 字符，本地化长度可变）
+Dy	  简写的首字母大写形式的日名（英语 3 字符，本地化长度可变）
+dy	  简写的小写形式的日名（英语 3 字符，本地化长度可变）
+DDD	  一年中的日（001-366）
+IDDD	ISO 8601 周编号方式的年中的日（001-371，年的第 1 日时第一个 ISO 周的周一）
+DD	  月中的日（01-31）
+D	    周中的日，周日（1）到周六（7）
+ID	  周中的 ISO 8601 日，周一（1）到周日（7）
+W	    月中的周（1-5）（第一周从该月的第一天开始）
+WW	  年中的周数（1-53）（第一周从该年的第一天开始）
+IW	  ISO 8601 周编号方式的年中的周数（01 - 53；新的一年的第一个周四在第一周）
+CC	  世纪（2 位数）（21 世纪开始于 2001-01-01）
+J	    儒略日（从午夜 UTC 的公元前 4714 年 11 月 24 日开始的整数日数）
+Q	    季度（to_date和to_timestamp会忽略）
+RM	  大写形式的罗马计数法的月（I-XII；I 是 一月）
+rm	  小写形式的罗马计数法的月（i-xii；i 是 一月）
+TZ	  大写形式的时区缩写（仅在to_char中支持）
+tz	  小写形式的时区缩写（仅在to_char中支持）
+TZH	  时区的小时
+TZM	  时区的分钟
+OF	  从UTC开始的时区偏移（仅在to_char中支持）
+
+
 
 --- 商业版本的postgresql
 systemctl status efm-2.1
