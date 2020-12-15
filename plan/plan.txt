@@ -270,6 +270,12 @@ reentrantReadWriteLock
 5. postgresql 索引(只看了部分)
 
 ## 1215
-1. 
+1. 控制器 采集管理修改
+2. postgresql 索引 doc
+3. maven book          50
+4. fm-export excel  修改
+5. fm-spark 添加 isFilter 字段
+
+
 
 
