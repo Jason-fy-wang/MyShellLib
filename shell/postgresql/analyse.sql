@@ -141,6 +141,8 @@ insert into field_enum_value(field,cn_name,value) values
 ('AlarmFieldName','NSSI名称列表','nssiNameList'),
 
 ('DataSourceType','虚拟资源','VIM'),
+('DataSourceType','NFVO','NFVO'),
+('DataSourceType','VNFM','VNFM'),
 ('DataSourceType','物理资源','PIM'),
 ('DataSourceType','VNF业务','EMS'),
 ('DataSourceType','sm','SM'),
