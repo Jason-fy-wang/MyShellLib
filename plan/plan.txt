@@ -276,6 +276,17 @@ reentrantReadWriteLock
 4. fm-export excel  修改
 5. fm-spark 添加 isFilter 字段
 
+## 1216
+1. 衍生告警 hostIdList 修改
+2. maven 权威book
+3. 聊一下  collector 最新的业务 以及 模拟器
+
+## 1217
+1. maven
+2. 分表,批量插入试试    ok
+3. 华中线上环境定位
+
+
 
 
 
