@@ -54,6 +54,11 @@ create user fcafm;
 create user fm with password '123456';
 create schema fm_db authorization 'fm';
 alter user fm set search_path='fm';
+-- 创建用户
+create USER logical_user REPLICATION  LOGIN CONNECTION LIMIT 8 ENCRYPTED PASSWORD 'logical_user';
+--- ~/.pgpass 文件
+-- 192.168.28.74:5432:mydb:logical_user:password 
+-- host:port:dbname:userName:userPassword
 
 -- 修改用户密码
 alter user fcafm password '123456';
@@ -139,6 +144,11 @@ alter table if exists owner to userName;
 -- 删除索引
 drop index if exists IdxName;
 
+-- 修改系统属性
+alter system set wal_level = 'replica';  --修改系统配置参数
+-- 查看系统配置
+show wal_level;
+show archive_command;
 
 -- 13 常用的管理命令
 -- 查看版本
@@ -307,6 +317,98 @@ tz	  小写形式的时区缩写（仅在to_char中支持）
 TZH	  时区的小时
 TZM	  时区的分钟
 OF	  从UTC开始的时区偏移（仅在to_char中支持）
+
+---------------------------------------------- 函数 ----------------------------------------------
+--------------------------- 查看文件大小的函数
+-- 查询表的存储文件位置
+select pg_relation_filepath('measurement_y2020_12');
+
+-- 查看索引文件位置
+select pg_relation_filepath(索引名字);
+--查看索引大小
+select pg_relation_size(索引名字);
+
+-- 查看表大小
+select pg_relation_size(TABLENAME);
+
+select pg_total_relation_size(tabName); -- 查看表的总大小,包括索引
+-- 查看数据库大小
+select pg_database_size("DBNAME");
+-- 大小转换为合适大小
+select pg_size_pretty(pg_database_size(bdName));
+
+-- 查看表空间大小
+select pg_tablespace_size(tablespaceName);
+-- 查看表空间
+select spcname from pg_tablespace;
+-- 序列函数
+select generate_series(start,end,step);
+select generate_series(1,10,1);
+select generate_series('2020-12-21 00:00:00'::timestamp,'2020-12-22 00:00:00'::timestamp,'1 minute');
+--------------------------- 查看复制的函数
+-- 查看当前复制的wal
+select pg_current_wal_lsn(); 
+-- 9.5
+select pg_current_xlog_location();
+-- 查看两个lsn之间的延迟
+select pg_wal_lsn_diff(pg_current_wal_lsn(), write_lsn);
+----------------- 查看主备的延迟
+-- pg_current_wal_lsn() 函数显示流复制主库当前wal日志文件写入的位置
+-- pg_wal_lsn_diff 函数计算两个wal日志位置之间的偏移量,返回单位为字节数
+select pid, usename,client_addr,state,pg_wal_lsn_diff(pg_current_wal_lsn(), write_lsn) write_delay,
+      pg_wal_lsn_diff(pg_current_wal_lsn(),flush_lsn) flush_delay, pg_wal_lsn_diff(pg_current_wal_lsn(),replay_lsn) replay_delay
+      from pg_stat_replication();
+-- pg_last_xact_replay_timestamp 函数显示备库最近wal日志应用时间
+select EXTRACT(SECOND from now()-pg_last_xact_replay_timestamp());
+
+---------- 显示备库最近接收的wal日志位置
+select pg_last_wal_receive_lsn();
+---------- 显示备库最近应用wal日志的位置
+select pg_last_wal_replay_lsn();
+---------- 显示备库备库最近事务的应用时间
+select pg_last_xact_replay_timestamp();
+
+--------- 判断是否是主库,返回t表示备库,f表示主库
+select pg_is_in_recovery();
+
+-- 制作备库的时的初始同步操作
+pg_basebackup -D $PGDATA -Fp -Xs -v -P -h host -p 5432 -U repuser
+
+------ slot 操作
+select * from pg_create_physical_replication_slot('node_a_slot');  --- 创建一个物理slot
+select * from pg_create_logical_replication_slot('node_a_slot');  --- 创建一个逻辑 slot
+select * from pg_replication_slots;   -- 查看创建的slot
+-- 删除slot
+select pg_drop_replication_slot('logical_slot1');
+
+-- 重新加载
+select pg_reload_conf();
+--------------------------- cmd
+pg_recvlogical -d postgres --slot logical_slot1 --start -f -
+/*
+  -d 指定数据库名称
+  --slot 指定逻辑复制槽名称
+  --start 表示通过--slot选项指定的逻辑槽来解析数据变化
+  -f 将解析的数据变化写入指定文件
+  - 表示输出到终端
+*/
+
+---- 使用参数的压测脚本  insert_t.sql 
+\setrandom  v_id 1 1000000      -- http://www.postgres.cn/docs/9.5/pgbench.html
+insert into t_perl(id,name) values(:v_id, :v_id||'a');
+pgbench -c 8 -T 120 -d mydb -U pguser -nN -M prepared -f insert_t.sql > insert_t.out 2>&1 &
+/*
+-c 客户端连接数
+-T 指定时间
+-n do not run VACUUM before tests
+-N skip updates of pgbench_tellers and pgbench_branches
+-M 模式 --protocol=simple|extended|prepared
+-f  指定要运行的脚本
+*/
+--- 更新的压缩脚本 update_t.sql
+\setrandom  v_id 1 1000000
+update t_perl2 set create_time=clock_timestamp() where id=:v_id;
+
 
 
 

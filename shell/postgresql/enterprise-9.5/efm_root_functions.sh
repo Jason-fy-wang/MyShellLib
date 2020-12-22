@@ -143,9 +143,10 @@ validateDbOwner() {
 
 #
 # restart database
-#
+# 重启数据库
 restartdbservice() {
     local PROP_FILE=$1
+    # 从配置文件中获取配置的service name
     getProp SERVICE_NAME db.service.name ${PROP_FILE}
     if [ -z "$SERVICE_NAME" ]; then
         # some kind of error grepping the service name from the prop file
@@ -155,6 +156,7 @@ restartdbservice() {
         if [ "$OS_VER" -eq 6 ]; then
             service ${SERVICE_NAME} restart
         else
+            # 这里调用服务管理工具来 进行重启
             systemctl restart ${SERVICE_NAME}
         fi
     fi
