@@ -410,6 +410,75 @@ pgbench -c 8 -T 120 -d mydb -U pguser -nN -M prepared -f insert_t.sql > insert_t
 update t_perl2 set create_time=clock_timestamp() where id=:v_id;
 
 
+------------------------------------ 事务
+-- 查看当前事务id
+select txid_current();
+-- 查看默认事务隔离级别
+select name,setting from pg_setting where name='default_transaction_isolation';
+select current_setting('default_transaction_isolation');
+-- 修改默认事务隔离级别
+----- 修改配置文件中的 default_transaction_isolation 配置项
+alter system set default_transaction_isolation TO 'REPEATABLE_READ';
+-- 重新加载配置
+select pg_reload_conf();
+-- 查看当前会话的隔离级别
+show transaction_isolation;
+select current_setting('transaction_isolation');
+-- 设置当前会话的隔离级别
+set session characteristics as transaction isolation level read uncommitted;
+-- 设置当前事务的隔离级别
+start transaction isolation level read uncommitted;
+begin isolation read uncommitted read write;
+/*
+postgresql为每一个事务分配一个递增的类型为int32的整型数作为唯一的事务ID,称为xid.
+
+创建一个新的快照时,将收集当前正在执行的事务id和已提交的最大事务id.
+Postgresql的内部数据结构中,每个元组(行记录)有4个与事务可见性相关的隐藏列,分别是
+xmin,xmax,cmin,cmax,其中cmin,cmax分别是插入和删除该元组的命令在事务中命令序列号标识,
+xmin,xmax与事务对其他事务可见性判断有关,用于同一个事务中的可见性判断. 可以通过sql直接查询到他们的值.
+select xmin,xmax,cmin,cmax,id, ival from  tal_mvcc where id=1;
+其中xmin保存了创建该行数据的事务的xid, xmax保存的是删除该行的xid. postgresql在不同事务
+时间使用xmin和xmax控制事务对其他事务的可见性.
+
+无论提交成功或回滚的事务,xid都会递增.
+
+Repeatable read和serializable隔离级别的事务, 如果它的xid小于另外一个事务的xid,也就是元组的xmin
+小于另外一个事务的xmin,那么另外一个事务对这个事务是不可见.
+
+通过xmax值判断事务的更新操作和删除操作对其他事务的可见性有这几种情况:
+1. 如果没有设置xmax值,该行对其他事务总是可见的
+2. 如果它被设置为回滚事务的xid,该行对其他事务也是可见的
+3. 如果它被设置为一个正在运行,没有commit和rollback的事务的xid,该行对其他事务是可见的
+4. 如果它被设置为一个已提交的事务的xid,该行对在这个已提交事务之后发起的所有事务都是不可见的
+
+利用 pageinspect 进行事务的查看.
+创建扩展:
+create extension pageinspect;
+\dx+  pageinspect;
+
+pageinspect 中的函数:
+get_raw_page  get_raw_page(relname text, fork text, blkno int);
+              get_raw_page(relname text, blkno int)
+  用于读取relation中指定的块的值,其中relname是relation name,其中fork可以有main,vm,fsm,init这几个值.
+  fork默认值是main,main表示数据文件的主文件
+                  vm是可见性映射的块文件
+                  fsm是free space map的块文件
+                  init是初始化的块
+  get_raw_page以一个byte值的形式返回一个拷贝.
+
+heap_page_items 显示一个堆页面上所有的行指针. 对那些使用中的行指针,元组头部和元组原始数据也会被显示.不管元组
+                对于拷贝原始页面时的MVCC是否可见,它们都会被显示.
+一般使用get_raw_page函数获得堆页面映像作为参数传递给heap_page_items.
+
+创建视图:
+drop view if exists  v_pageinspect;
+create view v_pageinspect as select '(0,' || lp || ')' as ctid,
+    case lp_flags when 0 then 'Unused' when 1 then 'Normal' when 2 then 'Redirect to' || lp_off when 3 then 'Dead' END,
+    t_xmin::int8 as xmin, t_xmax::int8 as xmax, t_ctid from heap_page_items(get_raw_page('ttt',0)) order by lp;
+
+# 9.5 上创建
+create view v_pageinspect as select '(0,'||lp||')' as ctid,case lp_flags when 0 then 'Unused' when 1 then 'Normal' when 2 then 'Redirect to' || lp_off when 3 then 'Dead' end, t_xmin as xmin, t_xmax as xmax, t_ctid from heap_page_items(get_raw_page('fcaps_fm.ttt',0));
+*/
 
 
 --- 商业版本的postgresql
