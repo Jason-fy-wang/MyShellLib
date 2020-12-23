@@ -304,3 +304,15 @@ reentrantReadWriteLock
 3. controller-1.0.9
 4. 
 
+## 1222
+1. postgresql 自带的efm 集群管理
+2. 衍生 probleam 定位
+
+## 1223
+1. systemctl使用
+2. 衍生问题修改
+3. posgtgresql mvcc pageinspect 使用 
+
+
+
+
