@@ -1,67 +1,186 @@
-#!/bin/bash
+#!/usr/bin/env bash
+:<<arg
+参数使用说明:
+-o: 指定短参数,这里指定的是 a b c
+--long 指定的是长参数,这里指定的是 along  blong  clong
+其中:
+a  表示没有参数值,相当于只是一个开关参数
+b: 表示需要有参数值
+c::  可选参数值
+ 具体使用可以看下面的example
+arg
 
-# 语法: getopts option_string opt 
-#  option_string 自定义的选项
-#  opt  匹配的选项
-# 
-#  
-# 1. OPTARG  表示参数对应的值
-# 2. :m 表示m参数不是必传递;  m 表示:此选项不传递参数时 会报错
-#   如: m:f:  此表示m不传递参数不会报错, f选项不传递参数会报错
-#   m,f:    表示m,f 选项不传递参数不会报错
-# 3. opt 表示匹配到的选项值，此处对应为 ":m:f:s:p:" 中的一个
-# 4. OPTIND 表示参数的位置,其初始值为1
-# 5. 输入参数时,可以无序
-# 
-# 真实测试时, 以下面的写法为例,某一个参数不传递时,是不报错的
-#
+echo "all arg: $@"
+ARGS=$(getopt -o ab:c:: --long along,blong:,clong:: -- "$@")
 
-echo ${OPTIND}  # 此处为1
-while getopts ":m:f:s:p:" opt
+if [ $? != 0 ]; then
+    echo "Terminating...."
+    exit
+fi
+
+eval set -- "${ARGS}"
+
+while true
 do
-    case $opt in
-    m)  
-       MODE=$OPTARG
-    ;;  
-    f)  
-      FUNC=${OPTARG}
-    ;;  
-    s)  
-      SERVER=${OPTARG}
-    ;;  
-    p)  
-       PORT=$OPTARG
-    ;;  
-    ?)  
-    echo "unknown parameter"
-    exit 1;; 
+    case "$1" in
+    -a|--along)
+        echo "Option a"
+        shift
+    ;;
+    -b|--blong)
+        echo "Option b, argumnet $2"
+        shift 2
+    ;;
+    -c|--clong)
+    case "$2" in
+        "")
+            echo "Option c, no argument"
+            shift 2
+            ;;
+        *)
+            echo "Option c, argument $2"
+            shift 2
+        ;;
+    ;;
+    --)
+    shift
+    break
+    ;;
+    *)
+    echo "internal error!"
+    exit 
+    ;;
     esac
 done
-echo "MODE=${MODE}"
-echo "FUNC=${FUNC}"
-echo "SERVER=${SERVER}"
-echo "PORT=${PORT}"
-
-#[root@name2 opt]# sh  getopt.sh -m mode1 -f file1 -s sop1 -p 1399
-#MODE=mode1
-#FUNC=file1
-#SERVER=sop1
-#PORT=1399
-#
-
-# 不传递某些参数的结果:
-# [root@name2 opt]# sh getopt.sh  -f file1 -s sop1 -p 1399
-# 1
-# 0
-# 3
-# 5
-# MODE=
-# FUNC=file1
-# SERVER=sop1
-# PORT=1399
 
 
-## sh  getopt.sh -m mode1 -f file1
-#   此处: OPTIND 初始值为 1
-#         OPTIND=2 表示参数-m; OPTIND=3时,为参数mode1;依次类推, OPTIND=4表示参数 -f,OPTIND=5表示参数file1
-#         
+# 处理剩余的参数
+for arg in $@
+do
+    echo "processing $arg"
+done
+
+
+:<<89
+
+# sh  ss.sh -a "aval" --blong "1234 56" opt1 -c123
+all arg: -a aval --blong 1234 56 opt1 -c123
+Option a
+Option b, argumnet 1234 56
+Option c, argument 123
+processing aval
+processing opt1
+
+# sh  ss.sh -a "aval" --blong "1234 56" opt1 -c 123
+all arg: -a aval --blong 1234 56 opt1 -c 123
+Option a
+Option b, argumnet 1234 56
+Option c, no argument
+processing aval
+processing opt1
+processing 123
+
+结果对比看到: 可选参数-c 必须紧贴参数值才可以
+--------------------------------------------------------------------------------------------------------------
+# sh ss.sh -a -b "1234 56" --clong=clong
+all arg: -a -b 1234 56 --clong=clong
+Option a
+Option b, argumnet 1234 56
+Option c, argument clong
+--------------------------------------------------------------------------------------------------------------
+sh ss.sh -a --blong "1234 56" --clong=clong
+all arg: -a --blong 1234 56 --clong=clong
+Option a
+Option b, argumnet 1234 56
+Option c, argument clong
+--------------------------------------------------------------------------------------------------------------
+sh ss.sh -a --blong "1234 56" opt1 opt3 --clong=clong
+all arg: -a --blong 1234 56 opt1 opt3 --clong=clong
+Option a
+Option b, argumnet 1234 56
+Option c, argument clong
+processing opt1
+processing opt3
+--------------------------------------------------------------------------------------------------------------
+sh  ss.sh -a "aval" --blong "1234 56" opt1 opt3 --clong=clong
+all arg: -a aval --blong 1234 56 opt1 opt3 --clong=clong
+Option a
+Option b, argumnet 1234 56
+Option c, argument clong
+processing aval
+processing opt1
+processing opt3
+--------------------------------------------------------------------------------------------------------------
+# sh -x  ss.sh -a "aval" --blong "1234 56" opt1 opt3 --clong=clong
++ echo 'all arg: -a' aval --blong '1234 56' opt1 opt3 --clong=clong
+all arg: -a aval --blong 1234 56 opt1 opt3 --clong=clong
+++ getopt -o ab:c:: --long along,blong:,clong:: -- -a aval --blong '1234 56' opt1 opt3 --clong=clong
++ ARGS=' -a --blong '\''1234 56'\'' --clong '\''clong'\'' -- '\''aval'\'' '\''opt1'\'' '\''opt3'\'''
++ '[' 0 '!=' 0 ']'
++ eval set -- ' -a --blong '\''1234 56'\'' --clong '\''clong'\'' -- '\''aval'\'' '\''opt1'\'' '\''opt3'\'''
+++ set -- -a --blong '1234 56' --clong clong -- aval opt1 opt3
++ true
++ case "$1" in
++ echo 'Option a'
+Option a
++ shift
++ true
++ case "$1" in
++ echo 'Option b, argumnet 1234 56'
+Option b, argumnet 1234 56
++ shift 2
++ true
++ case "$1" in
++ case "$2" in
++ echo 'Option c, argument clong'
+Option c, argument clong
++ shift 2
++ true
++ case "$1" in
++ shift
++ break
++ for arg in '$@'
++ echo 'processing aval'
+processing aval
++ for arg in '$@'
++ echo 'processing opt1'
+processing opt1
++ for arg in '$@'
++ echo 'processing opt3'
+processing opt3
+--------------------------------------------------------------------------------------------------------------
+# sh -x  ss.sh -a --blong "1234 56" opt1 opt3 --clong=clong
++ echo 'all arg: -a' --blong '1234 56' opt1 opt3 --clong=clong
+all arg: -a --blong 1234 56 opt1 opt3 --clong=clong
+++ getopt -o ab:c:: --long along,blong:,clong:: -- -a --blong '1234 56' opt1 opt3 --clong=clong
++ ARGS=' -a --blong '\''1234 56'\'' --clong '\''clong'\'' -- '\''opt1'\'' '\''opt3'\'''
++ '[' 0 '!=' 0 ']'
++ eval set -- ' -a --blong '\''1234 56'\'' --clong '\''clong'\'' -- '\''opt1'\'' '\''opt3'\'''
+++ set -- -a --blong '1234 56' --clong clong -- opt1 opt3
++ true
++ case "$1" in
++ echo 'Option a'
+Option a
++ shift
++ true
++ case "$1" in
++ echo 'Option b, argumnet 1234 56'
+Option b, argumnet 1234 56
++ shift 2
++ true
++ case "$1" in
++ case "$2" in
++ echo 'Option c, argument clong'
+Option c, argument clong
++ shift 2
++ true
++ case "$1" in
++ shift
++ break
++ for arg in '$@'
++ echo 'processing opt1'
+processing opt1
++ for arg in '$@'
++ echo 'processing opt3'
+processing opt3
+89
