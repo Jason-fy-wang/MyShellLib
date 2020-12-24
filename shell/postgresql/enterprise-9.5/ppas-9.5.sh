@@ -8,7 +8,13 @@ PGENGINE=/usr/ppas-$PGVERSION/bin
 PGPORT=5432
 PGDATA=/var/lib/ppas/$PGVERSION/data
 PGLOG=/var/lib/ppas/$PGVERSION/pg_log/pgstartup.log
-
+:<<0
+/etc/sysconfig/ppas/ppas-9.5 文件内容如下
+PGENGINE=/usr/ppas-9.5/bin
+PGPORT=5432
+PGDATA=/var/lib/ppas/9.5/data
+PGLOG=/var/lib/ppas/9.5/pgstartup.log
+0
 [ -f /etc/sysconfig/ppas/ppas-9.5 ] && . /etc/sysconfig/ppas/ppas-9.5
 
 export DATADIR="$PGDATA"
@@ -87,6 +93,7 @@ post_initdb()
 }
 
 # See how we were called.
+# -w : wait until operation completes
 case "$1" in
   start)
         checkdb

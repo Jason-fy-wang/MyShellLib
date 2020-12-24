@@ -81,7 +81,11 @@ reinit_as_passive_master() {
 
     sudo systemctl start ${PPAS_SERVICE}
 }
-
+:<<0
+这里的passive master即指archive_mode设置为always的slave
+当archive_mode设置为always时,其从master复制的数据也会被archive,所以此slave备份是
+比较全的,更适合晋升为master
+0
 restore_as_passive_master() {
     verify_active_vip
 
@@ -110,6 +114,34 @@ restore_as_active_master() {
     sudo systemctl restart ${PPAS_SERVICE}
     sudo ${EFM_BIN}/efm resume efm 2>&1 1>/dev/null
 }
+:<<0
+# select application_name from pg_stat_replication limit 1;
+ application_name 
+------------------
+ standby1
+(1 row)
+
+# select regexp_split_to_table(current_setting('synchronous_standby_names'),E',\\s+') as name except select application_name from pg_stat_replication limit 1;
+   name   
+----------
+ standby2
+0
+
+:<<gen
+gen_recovery_conf.sh --nominal-master 10.163.249.157 passive_site
+standby_mode='on'
+primary_conninfo='application_name=passive_site user=replication host=10.163.249.157 port=5432 sslmode=prefer sslcompression=1 krbsrvname=postgres'
+trigger_file='/var/lib/ppas/9.5/data/trigger.file'
+recovery_target_timeline='latest'
+restore_command='rsync -a -e "ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null" enterprisedb@10.163.249.157:/mnt/edbwal/passive_site/%f %p || false'
+
+gen_recovery_conf.sh  10.163.249.157 standby2
+standby_mode='on'
+primary_conninfo='application_name=standby2 user=replication host=10.163.249.157 port=5432 sslmode=prefer sslcompression=1 krbsrvname=postgres'
+trigger_file='/var/lib/ppas/9.5/data/trigger.file'
+recovery_target_timeline='latest'
+restore_command='rsync -a /mnt/edbwal/standby2/%f %p || false'
+gen
 
 configure_as_standby() {
     if [[ -z ${1} ]]; then
@@ -161,7 +193,9 @@ reinit_as_active_standby() {
 
     reinit_as_standby "${MASTER_IP}"
 }
-
+:<<09
+passive_standby 就是从指从 passive_master 进行复制操作的slave
+09
 reinit_as_passive_standby() {
     verify_active_vip
     sudo systemctl stop ${EFM_SERVICE} && sudo systemctl start ${EFM_SERVICE}

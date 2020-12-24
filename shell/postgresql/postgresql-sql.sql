@@ -346,10 +346,25 @@ select generate_series(start,end,step);
 select generate_series(1,10,1);
 select generate_series('2020-12-21 00:00:00'::timestamp,'2020-12-22 00:00:00'::timestamp,'1 minute');
 --------------------------- 查看复制的函数
+-- wal xlog
+/*
+在pg9.x 叫做 xlog location
+在pg10.x 叫做  wal  lsn
+*/
+----------- 9.5
+-- 查看当前的xlog
+select pg_current_xlog_location();
+-- 查看xlog文件名
+select pg_xlogfile_name(pg_current_xlog_location());
+-- 查看xlog文件offset
+select pg_xlogfile_name_offset(pg_current_xlog_location());
+----------- 10 以后
 -- 查看当前复制的wal
 select pg_current_wal_lsn(); 
--- 9.5
-select pg_current_xlog_location();
+-- wal文件名
+select pg_walfile_name(pg_current_wal_lsn());
+-- wal文件offset
+select pg_wal_file_name_offset(pg_current_wal_lsn());
 -- 查看两个lsn之间的延迟
 select pg_wal_lsn_diff(pg_current_wal_lsn(), write_lsn);
 ----------------- 查看主备的延迟
@@ -373,6 +388,19 @@ select pg_is_in_recovery();
 
 -- 制作备库的时的初始同步操作
 pg_basebackup -D $PGDATA -Fp -Xs -v -P -h host -p 5432 -U repuser
+
+-- 参数
+-D,--pgdata: receive base backup into directory,即备份放到哪个目录
+-F,--format=p|t: 输出格式(plain默认的, tar)
+-X,--xlog : 备份时包括需要的wal文件
+-v,--verbose
+-P,--progress : 显示处理信息
+-R,--write-recovery-conf: 复制时生成recovery.conf文件
+-X,--xlog-method=fetch|stream: 获取需要的wal文件方式
+--xlogdir: 指定xlog文件位置
+-h: 主机
+-p: 端口
+-U: 用户
 
 ------ slot 操作
 select * from pg_create_physical_replication_slot('node_a_slot');  --- 创建一个物理slot
