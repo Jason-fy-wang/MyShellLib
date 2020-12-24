@@ -86,7 +86,7 @@ do
       SERVER=${OPTARG}
     ;;  
     p)  
-       PORT=$OPTARG
+       pflag=true    # p参数对应的一个功能开关
     ;;  
     ?)  
     echo "unknown parameter"
@@ -125,8 +125,7 @@ PORT=
 10
 
 
-# 修改,去除p后面的:, 表示p不需要参数
-echo ${OPTIND}  # 此处为1
+# 修改 使用 :) 打印没有传递参数的 选项
 while getopts ":mf:" opt
 do
     case $opt in
@@ -138,6 +137,7 @@ do
     ;;  
     :)
     echo "${OPTARG} requires arg.."
+    exit
     ;;
     ?)  
     echo "unknown parameter"

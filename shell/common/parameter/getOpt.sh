@@ -24,6 +24,7 @@ while true
 do
     case "$1" in
     -a|--along)
+        aflag=true  # 参数a对应的开关
         echo "Option a"
         shift
     ;;
