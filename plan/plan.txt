@@ -312,6 +312,15 @@ reentrantReadWriteLock
 1. systemctl使用
 2. 衍生问题修改
 3. posgtgresql mvcc pageinspect 使用 
+4. postgresql 自带脚本 (部分)
+
+## 1224
+1. getopt   getopts             ok
+2. 分表 需求 查看
+   2.1 确定修改的方案
+   2.2 思考sm监控的实现方案
+3. controller 关于采集机处理修改        ok
+4. postgresql 自带的集群管理脚本        ok
 
 
 
