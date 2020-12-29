@@ -17,6 +17,7 @@ filetype off                  " 关闭文件类型侦测,   vundle需要
 :set noswapfile            " 关闭交换文件
 :set  hidden                    " 允许在有为保存的修改时切换缓冲区
 
+:set wildcard       "
 
 " 显示
 :set number    "设置显示行号

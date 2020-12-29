@@ -1,0 +1,136 @@
+# 快捷键
+-   # 跳转到行首
+$   # 跳转到行尾
+w   # 狭义单词 
+W   # 广义单词
+E   # 广义单词
+e   # 狭义单词
+b   # 单词首 狭义
+B   # 单词首 广义
+f   # 行内查找
+F   # 反向查找
+t   # 行内查找 字符
+T   # 反向查找
+c   # 替换
+d   # 删除
+p   # 粘贴
+y   # 复制
+{   # 段落跳转
+}   # 段落跳转
+o   # 光标下 添加一行
+O   # 光标上添加一行
+H   # 进入当前的窗口 头
+L   # 进入当前的窗口 尾
+a   # 在当前光标后进行插入
+A   # 在当前行后进行插入    等效于 $i
+I(大写i)  # 在当前行首插入  等效于 _i
+shift+(   # 句子开头
+shift+)   # 句子末尾
+ctrl+f    # 翻页
+ctrl+b    # 向前翻页
+v         # 字符可视模式
+V         # 行可视模式
+ctrl+v    # 块可视模式
+
+## 指定shell命令
+:!cmd   # 执行命令
+:r !cmd  # 将命令结果追加到当前行的下一行
+:startline,endline!cmd   # 将起始行中的内容 交给 cmd处理,如:1,4!sort  对1-4行排序
+        # :1 !tr [a-z] [A-Z] 将第一行的小写字母转换为大写
+        # :. !tr [a-z] [A-Z] 将当前行小写转换为大写
+        # :1,4 w !sort  当1-4行的内容进行排序,但排序结果并不过直接输出到当前编辑的文件中,而是显示到vim敲命令的区域
+        # :1 w !bash 将第一行内容作为bash命令来执行并显示结果,而且不会改变当前编辑的文件内容 
+
+## 列编辑
+ctrl+v  # 进入列模式
+ctrl+v, I # 列插入模式
+
+
+#### 模式
+### 正常模式
+
+### 命令行模式
+ctrl+p  # 浏览前一个命令记录
+ctrl+n  # 浏览下一个命令记录
+ctrl+b  # 快速定位到命令行开头
+ctrl+e  # 快速定位到命令尾
+shift,ctrl   # 按照字符遍历命令
+ctrl+f  # 打开命令行历史记录窗口
+ctrl+c  # 编辑命令历史记录
+:help cmdline-editing   # 查看帮助
+
+### 插入模式
+ctrl+o  # 执行正常模式下的命令
+
+### 可视模式 和 选择模式
+
+### 替换模式和虚拟替换模式
+R   #进入替换模式
+r   # 单字符替换模式
+:help vreplace-mode  # 查看虚拟帮助文档
+
+###终端模式
+:terminal       # 进入终端模式 简写为 :term
+:term python3 animal.py     # 运行命令
+
+### 寄存器
+:<<9
+1. The unnamed register ""
+2. 10 numbered registers "0 to "9
+3. The small delete register "-
+4. 26 named registers "a to "z or "A to "Z
+5. four read-only registers ":, "., "% and "#
+    ".  包括上次插入的内容
+    "%  包含当前的文件名
+    "#  包含最近候补的文件名
+    ":  包含最近执行的命令
+6. the expression register "=
+7. The selection and drop registers "*, "+ and "~
+    "*  表示系统的粘贴板
+    "+  针对linux的 ctrl+c  ctrl+v 操作
+    "~  
+8. The black hole register "_
+9. Last search pattern register "/
+
+:reg    # 查看寄存器内容
+"0p     # 把0寄存器内容复制出来
+"Awy   # 寄存器大写 附加单词到 寄存器a
+9
+### 缓存
+:ls          # 列出所有缓存
+:b + 序号    # 跳转到对应的缓存
+
+### 标签
+:tabnew     # 创建新标签
+            # 输入 :tab 可以使用 tab补全 查看其它命令
+
+### 窗口管理
+:split file         # 水平分割
+:vsplit             # 垂直分割
+ctrl+w, x   # 将当前窗口与下一个窗口的内容交换
+ctrl+w,r    # 将当前行或当前列(行优先于列)中的每个窗口内容向右或向下移动
+ctrl+w,R    # r的相反操作
+# 窗口移动
+:help  window-moving
+ctrl+w,H  # 将当前窗口移动到屏幕最左边
+ctrl+w,J  # 将当前窗口移动到屏幕的底部
+ctrl+w,K  # 将当前窗口移动到屏幕顶部
+ctrl+w,L  # 将当前窗口移动到屏幕最右边
+
+# 窗口resize
+:help  window-resize
+ctrl+w,=   # 将打开窗口宽和高调整为一致
+:resize +N  #将当前窗口的高度增加N行
+:resize -N  # 将当前窗口的高度减少N行
+:vertical resize +N #将当前窗口宽度增加N行
+:vertical resize -N #将当前窗口的宽度减少N列
+## :resize 可以简写为 :res   vertical 可简写为 :vert
+ctrl+w,-    # 调整高度
+ctrl+w,+    # 调整高度
+ctrl+w,<    # 调整宽度
+ctrl+w,>    # 调整宽度
+
+### 文件
+:e   # 打开编辑新文件
+:Explorer pattern  # 浏览文件
+
