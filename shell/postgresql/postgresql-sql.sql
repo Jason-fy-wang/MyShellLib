@@ -90,7 +90,7 @@ select * from tabname where name like 'zh/_%' ESCAPE '/';
 -- ~   ~*  以及   !~ !~*
 -- ~  表示匹配正则表达式,且区分大小写
 -- ~* 表示匹配正则表达式,且不区分大小写
--- !~  是·的否定用法,表示不匹配正则表达式,且区分大小写
+-- !~  是~的否定用法,表示不匹配正则表达式,且区分大小写
 -- !~* 是~* 的否定用法,表示不匹配正则表达式,且不区分大小写
 -- ~~  等效于 like
 -- ~~* 等效于 ilike
@@ -141,6 +141,9 @@ alter table if exists tabnleName add primary key(id);
 alter table if exists rename constraint constraint_name to new_constraint_name;
 -- 修改表的属主
 alter table if exists owner to userName;
+-- 修改表明
+alter table if exists tabName rename to newName;
+
 -- 删除索引
 drop index if exists IdxName;
 
