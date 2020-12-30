@@ -1,0 +1,16 @@
+# window10  vim82 安装, 安装路径为 base
+1. 下载vim安装包
+2. 默认的配置文件: ${base}/Vim/_vimrc
+3. 默认加载的plugin: ${base}/Vim/vim82/autoload
+4. 下载plug.vim :
+    curl.exe -fLo plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+5. 把plug.vim拷贝到 ${base}/Vim/vim82/autoload中
+6. _vimrc中添加 :
+    call plug#begin()
+    call plug#end()
+7. 设设置以及插件生效
+    :source $VIMRUNTIME/autoload/plug.vim
+    :source  $MYVIMRC
+如果没有错误,则安装完成
+
+

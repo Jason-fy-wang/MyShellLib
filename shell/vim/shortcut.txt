@@ -134,3 +134,16 @@ ctrl+w,>    # 调整宽度
 :e   # 打开编辑新文件
 :Explorer pattern  # 浏览文件
 
+
+### 内置宏变量
+$MYVIMRC   # 配置文件位置
+$VIMRUNTIME 
+# 修改配置并应用配置
+:w | source $MYVIMRC | PlugInstall
+
+
+### vim-plug 插件关键
+:PlugInstall   # 安装插件
+
+
+
