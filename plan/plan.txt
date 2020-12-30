@@ -348,11 +348,12 @@ https 阅读
         3.2 zk client NIO 
         3.3 zk watcher 机制
 4. vim看完, 后续需要小结
-        1. vimscript
-        2. vim处理冲突
+        1. vimscript            部分
+        2. vim处理冲突          ok
         3. vim插件管理方式      ok
 
 ## 1231
-
+1. zk database理解
+2. zk zab协议理解
 
 
