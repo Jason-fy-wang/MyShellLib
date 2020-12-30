@@ -323,5 +323,36 @@ reentrantReadWriteLock
 4. postgresql 自带的集群管理脚本        ok
 
 
+## 1225
+openstack 阅读
+
+## 1226
+https阅读
+
+## 1227
+https 阅读
+
+## 1228
+1. 分表需求
+
+## 1229
+1. vim 小结
+2. 分表需求
+3. zk 客户端请求发送 以及 watcher机制实现
+
+## 1230
+1. 2.6.0 文档           ok
+2. 2.6.0 镜像制作       ok
+3. zk server端请求接收及处理
+        3.1 zk server NIO
+        3.2 zk client NIO 
+        3.3 zk watcher 机制
+4. vim看完, 后续需要小结
+        1. vimscript
+        2. vim处理冲突
+        3. vim插件管理方式      ok
+
+## 1231
+
 
 
