@@ -55,6 +55,18 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
         \set guioptions+=m <Bar>
     \endif<CR>
 
+" 禁用箭头键
+map <up>  <nop>
+map <down>  <nop>
+map <left>  <nop>
+map <right>  <nop>
+
+"在插入模式下加入一对括号或引号
+inoremap ' ''<esc>i
+inoremap " ""<esc>i
+inoremap ( ()<esc>i
+inoremap { {}<esc>i
+inoremap [ []<esc>i
 
 
 " vim-plug 插件管理
@@ -65,6 +77,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'Valloric/YouCompleteMe'
 " 彩色状态栏
 Plug 'bling/vim-airline'
+" 撤销树
+Plug 'sjl/gundo'
 call plug#end()
 
 "快捷键:使用F3打开关闭

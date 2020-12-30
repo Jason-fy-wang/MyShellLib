@@ -147,3 +147,98 @@ $VIMRUNTIME
 
 
 
+### vimdiff的操作
+# 快捷键
+]c  在修改处之间向前跳转
+[c  在修改处之间向后跳转
+
+# 命令
+# 当同时对比多个文件时,使用:diffget 或 :diffput 修改添加对应的一个来源缓存区名字或目的缓冲区名字 即文件名,表示应用到那个文件
+do(diff obtain) | :diffget  将文件修改应用于当前窗口中的文件
+dp(diff put) | :diffput     将当前窗口中的文件修改推送给另一个文件
+:%diffget   将文件整体应用于当前文件
+:%diffput   将文件修改整体推送给另外一个文件
+:diffupdate  手动更新高亮显示
+
+# vim解决版本冲突时
+对应4个窗口从左到右 从上到下分别是: local   base  remote  merged(最下面的)
+local   当前分支的一个文件(或待合并的任意文件)
+base    共同祖先. 该文件在两个分支中的共同祖先
+remote  另一个分支中待合并的文件
+merged  合并结果,即将要保存的输出结果
+1. 如果要保存remote中的修改,先让光标移动到merged窗口(底部窗口),然后将光标移动到下一个修改处(除常规快捷键,还可以使用]c [c 在多个修改处跳转), 最后执行如下命令:  :diffget remote, 这会将remote中文件修改应用于merged窗口中的文件上.
+上述命令可以简化为:
+:diffg R        获得remote中的一个修改
+:diffg B        获得base中的一个修改
+:diffg L        获得local中的一个修改
+
+
+### 命令重映射
+# 命令
+:help index  查看内部按键绑定
+:map        命令可以查看插件和读者自定义的映射,如: :map g 将显示所有以g键开头的映射
+
+# 配置
+:map        用于递归映射,这意味着此重映射的命令可以识别自定义映射
+:noremap    用于非递归映射, 针对系统默认映射
+:noremap ; :   用分号取代默认的冒号
+:unmap      显示移除自定义或插件定义的映射
+:mapclear   将读者自定义的映射和默认映射都清除掉
+:noremap <c-u> :w<cr>   使用ctrl-u老保存文件
+
+# vim中的特殊键
+<c-u>   表示ctrl-u组合
+<c-_>   其中_为某个字符, c表示ctrl
+<a-_>   表示alt加上某个键
+<m-_>   表示alt加上某个键, <m-b> 表示alt+b 组合键
+<s-_>   表示shift键加上某个键,<s-f>表示shift+f组合键
+<cr>    表示enter键
+<enter> 表示enter键
+<space> 表示空格
+<esc>   表示Esc键
+<tab>   表示tab键
+bs      表示退格键
+<up> <down> <left> <right>  表示箭头键
+<pageup> <pagedown> 表示上下翻页
+<home>  <insert> <del> <end>    分别表示 home insert  del  end键
+
+## 禁用箭头功能,是自己习惯hjkl风格
+map <up>  <nop>
+map <down>  <nop>
+map <left>  <nop>
+map <right>  <nop>
+
+## 模式感知的重映射
+:nmap 和 :nnoremap  用于正常模式
+:vmap 和 :vnoremap  用于可视和选择模式
+:xmap 和 :xnoremap  用于可视
+:smap 和 :snormap   用于选择模式
+:nmap 和 :onoremap  用于操作待决模式
+:map! 和 :noremap!  用于插入和命令行模式
+:imap 和 :inoremap 用于插入模式
+:cmap 和 :cnoremap 用于命令行模式
+
+"在插入模式下加入一对括号或引号
+inoremap ' ''<esc>i
+inoremap " ""<esc>i
+inoremap ( ()<esc>i
+inoremap { {}<esc>i
+inoremap [ []<esc>i
+
+"将先导键重新映射为逗号
+let mapleader = ','
+"将先导键映射为空格
+let mapleader = "\<space>"
+"使用leader-w保存文件
+noremap <leader>w :w<cr>
+noremap <leader>n :NERDTreeToggle<cr>
+
+
+### 撤销树
+:GundoToggle   以分割窗口打开两个新窗口,左上为树状结构可视化表达,光标选中了其中一个版本,左下窗口则显示此版本和上一版本的差异
+通过j和k可以让光标在Gnudo左上窗口上下移动. gg 可以跳转到顶部
+按enter键 gundo将恢复到这个编辑的版本上.
+:help undo-tree 查看帮助
+
+
+
