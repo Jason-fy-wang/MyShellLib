@@ -357,7 +357,7 @@ https 阅读
 2. zk zab协议理解       选举部分 仍有些乱 需要再整理
 3. 其他peer的请求 以及 客户端的请求 最后由相同的的processor来进行处理
 4. fm partition  基本需求完成, 测试脚本还有几个function
-
+5. vimscript  base 
 
 
 
