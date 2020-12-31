@@ -353,7 +353,11 @@ https 阅读
         3. vim插件管理方式      ok
 
 ## 1231
-1. zk database理解
-2. zk zab协议理解
+1. zk database理解      snapshot log 两种持久化 以及 在内存中的存储 了解部分
+2. zk zab协议理解       选举部分 仍有些乱 需要再整理
+3. 其他peer的请求 以及 客户端的请求 最后由相同的的processor来进行处理
+4. fm partition  基本需求完成, 测试脚本还有几个function
+
+
 
 
