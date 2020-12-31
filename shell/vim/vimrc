@@ -43,6 +43,8 @@ colorscheme darkblue
 :set tabstop=4            " tab键对应的空格数
 :set autoindent            " 自动缩进
 :set smartindent           "智能缩进
+"设置nerdTree的根目录为当前打开的文件目录
+autocmd BufEnter * silent! if bufname('%') !~# 'NERD_tree_' | cd %:p:h | NERDTreeCWD | wincmd p | endif
 
 "工具栏的设置,并映射到 F2键
 set guioptions-=m
