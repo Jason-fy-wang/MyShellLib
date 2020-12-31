@@ -107,12 +107,14 @@ select *  from table where name ~ '小$';
 -- 查找帮助:\h  copy
 psql "host=$host port=$port user=$user password=$password dbname=$db" -c "COPY (select * from standard_alarm where collection_time >= '$i1' and collection_time < '$i' and alarm_status = 1) TO STDOUT WITH DELIMITER ',' CSV HEADER" >$path/sta.csv
 -- 需要是管理员
-copy (select * from tabName  where time_point_stamp>='2020-11-06 00:00:00' and time_point_stamp<='2020-11-08 00:00:00') TO '/mnt/ttt.csv' delimiter ',' csv header;
+copy (select * from tabName  where time_point_stamp>='2020-11-06 00:00:00' and time_point_stamp<='2020-11-08 00:00:00') TO '/mnt/ttt.csv' with delimiter ',' csv header;
 
 -- 从文件中考入数据库
 psql "host=10.163.119.68 port=5432 dbname=fcapsdb user=fcaps_fm password=fcaps_fm" -c "copy field_enum_value from  STDOUT with delimiter ',' csv header encoding 'UTF-8" < field.csv
 -- 终端
 \copy field_enum_value from '/root/field.csv' with DELIMITER ',' csv header encoding 'UTF-8';
+\copy (select id,name,age from users) to '/mnt/tt.csv' with delimiter ',' encoding 'UTF-8' csv header;
+\copy users(id,name,age) from '/mnt/tt.csv' with delimiter ',' encoding 'UTF-8' csv header;
 
 -- 数据复制
 insert into tablsa(age,name) select age,name from tablsb ;

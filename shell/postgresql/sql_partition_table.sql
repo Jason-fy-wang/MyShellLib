@@ -29,6 +29,8 @@ create table if not exists measurement(
     unitsales int,
     primary key(auto_id,logdate)            ---  
 ) PARTITION BY RANGE (logdate);
+-- 默认分区表的创建,即当插入数据不属于已存在的分区表中时,插入到默认分区
+create table measurement_default partition of measurement default;
 create table measurement_y2018_12 partition of measurement
     for values from ('2018-12-01') to ('2019-01-01');
 create table measurement_y2020_12 partition of measurement
