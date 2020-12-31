@@ -18,7 +18,7 @@ filetype off                  " 关闭文件类型侦测,   vundle需要
 :set noswapfile            " 关闭交换文件
 :set  hidden                    " 允许在有为保存的修改时切换缓冲区
 
-:set wildmenu       "
+:set wildmenu       "显示匹配的menu
 "不生成 .un~ 文件
 " windows 需要修改默认的vimrc_example.vim 文件
 :set noundofile
