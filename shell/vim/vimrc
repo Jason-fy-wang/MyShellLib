@@ -19,7 +19,9 @@ filetype off                  " 关闭文件类型侦测,   vundle需要
 :set  hidden                    " 允许在有为保存的修改时切换缓冲区
 
 :set wildmenu       "
-
+"不生成 .un~ 文件
+" windows 需要修改默认的vimrc_example.vim 文件
+:set noundofile
 " 显示
 :set number    "设置显示行号
 :set ruler              "显示最后一行的状态, 标尺
