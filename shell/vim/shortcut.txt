@@ -60,6 +60,15 @@ ctrl+f  # 打开命令行历史记录窗口
 ctrl+c  # 编辑命令历史记录
 :help cmdline-editing   # 查看帮助
 
+:set  invlist       # 显示特殊字符
+:set  nolist        # 恢复正常
+
+# 多行同时移动
+: m,n<  # 从m到n行 向左移动一个tab
+: m,n>  # 从m到n行 向右移动一个tab
+:1,5>   # 第1到5行 向右移动一个tab
+:1,5<   # 第1到5行 向左移动一个tab
+
 ### 插入模式
 ctrl+o  # 执行正常模式下的命令
 
@@ -241,5 +250,9 @@ noremap <leader>n :NERDTreeToggle<cr>
 按enter键 gundo将恢复到这个编辑的版本上.
 :help undo-tree 查看帮助
 
+
+
+## tag
+:set tag=tagsPath   # 设置生成的tag文件位置
 
 

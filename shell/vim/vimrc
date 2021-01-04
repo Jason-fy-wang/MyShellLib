@@ -85,6 +85,38 @@ Plug 'bling/vim-airline'
 Plug 'sjl/gundo'
 call plug#end()
 
+
+
+if  has("cscope")
+    set  cscopetag  " 支持使用 ctrl+] 和 ctrl+t 快捷键在代码间跳来跳去
+    " check cscope for definition of a symbol before checking ctags
+    " set to 1 if you want  the reverse search order
+    set csto=1
+
+    " add any cscope database in current directory
+    "if filereadable("cscope.out")
+    "    cs add cscope.out
+    " else add the database pointed to by enviroment variable
+    "elseif $CSCOPE_DB != ""
+    "    cs add $CSCOPE_DB
+    "endif
+
+    " show msg when any other cscope d added
+    set cscopeverbose
+    
+    nmap <C-/>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>f :cs find f <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>i :cs find i ^<C-R>=expand("<cword>")<CR><CR>
+    nmap <C-/>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+endif
+
+
+
+
 "快捷键:使用F3打开关闭
 map <F3> :NERDTreeMirror <CR> 
 map <F3> :NERDTreeToggle <CR>  
