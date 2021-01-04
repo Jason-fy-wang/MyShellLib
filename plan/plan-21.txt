@@ -1,0 +1,5 @@
+
+# 0104
+1. app-test
+2. clion install
+3. jvm
