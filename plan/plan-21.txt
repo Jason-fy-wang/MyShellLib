@@ -1,5 +1,13 @@
 
 # 0104
-1. app-test
-2. clion install
+1. app-test         测试接口ok,后续造数据
+2. clion install    ok
 3. jvm
+4. cscope ctags 查看redis  hotspot source   ok
+5. 
+
+
+# 0105
+1. openjdk8 compile ok 
+2. clion 远程调试openjdk   error
+3. classLoader getResource
