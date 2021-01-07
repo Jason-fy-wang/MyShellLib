@@ -69,8 +69,9 @@ alter user fcafm createrole createdb replication login;
 alter user fcafm set search_path='fm','$user';
 
 -- 7. 数据备份
-pg_dump -h 10.163.119.68 -p 5432 -U user --schema=ff --table=tbl -d dbname > bak.sql
-pg_restore -h 10.163.119.68 -p 5432 -U user --schema=ff   --table=tbl -d dbname < bak.sql
+pg_dump -h 10.163.119.68 -p 5432 -U user --schema=ff --table=tbl -d dbname -f bak.sql
+psql -h 10.163.119.68 -p 5432 -U user -d dbname < bak.sql
+pg_restore -h 10.163.119.68 -p 5432 -U user --schema=ff   --table=tbl -d dbname -f bak.sql
 
 -- 8 jsonb 查询
 -- 从slarm中查找ala_tent(jsonb字段)包含{"pFlag":"Yes"}内容的 Flag字段的值
