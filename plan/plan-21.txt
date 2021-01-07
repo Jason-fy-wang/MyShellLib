@@ -11,3 +11,15 @@
 1. openjdk8 compile ok 
 2. clion 远程调试openjdk   error
 3. classLoader getResource
+
+# 0106
+1. 采集问题
+2. 合并1.0.8 code到 2期
+3. leeCode 4
+
+# 0107
+0. fm-app 2期分区 code, 修复冲突 以及 遗漏的点
+1. leecode   6
+3. collector token expired
+4. collector升级
+
