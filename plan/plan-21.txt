@@ -28,3 +28,13 @@
 2. 前台gui 分表联调  
 3. leecode  7
 
+# 0109 
+1. 上午 vue了解
+2. 下午 电视放松
+
+# 0110
+主要是通过视频  了解 vue  elementui使用
+1. 上午 vue
+2. 下午 vue,element-ui
+3. 
+
