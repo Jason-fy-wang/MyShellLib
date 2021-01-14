@@ -61,3 +61,10 @@ ASDFqwer@#2020
 2. leeCode 5
 3. 安全答题
 4. 梳理 am需求
+
+
+# 0114
+1. 发布 3.0.30配置
+2. 商讨am补采 方案
+3. zk 源码(投票选举过程, leader处理请求过程, follower处理请求过程, follower和leader之间通信)
+
