@@ -47,5 +47,8 @@ vue-init webpack mango-ui
 # 打包
 npm run build
 
-# 
+# font-awesome
+npm install font-awesome --save
+import 'font-awesome/css/font-awesome.min.css';
+
 
