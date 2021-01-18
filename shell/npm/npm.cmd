@@ -51,4 +51,5 @@ npm run build
 npm install font-awesome --save
 import 'font-awesome/css/font-awesome.min.css';
 
-
+# 
+rimraf node-modules
