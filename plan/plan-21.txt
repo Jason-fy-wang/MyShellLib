@@ -104,6 +104,6 @@ ASDFqwer@#2020
 1. RBAC 实现基本的curd 
 2. RBAC 继续构思 如何实现权限的控制
 3. shiro jwt的使用
-
+4. authority opensource  查看
 
 
