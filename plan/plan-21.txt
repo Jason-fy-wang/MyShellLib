@@ -96,10 +96,14 @@ ASDFqwer@#2020
 # 0120
 1. 分区需求修改(修改eventime带有毫秒问题)
 2. zk doc       -- no 
-3. RBAC查看实现  查看
+3. RBAC查看实现  查看, sql创建
 4. shiro 使用   -- no
 5. lee  8
 
+# 0121
+1. RBAC 实现基本的curd 
+2. RBAC 继续构思 如何实现权限的控制
+3. shiro jwt的使用
 
 
 

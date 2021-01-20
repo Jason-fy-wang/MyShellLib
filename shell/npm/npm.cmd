@@ -53,3 +53,5 @@ import 'font-awesome/css/font-awesome.min.css';
 
 # 
 rimraf node-modules
+
+cnpm install vue-cookie  --save
