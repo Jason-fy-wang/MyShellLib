@@ -106,4 +106,9 @@ ASDFqwer@#2020
 3. shiro jwt的使用
 4. authority opensource  查看
 
-
+# 0122
+1. vue 官网看完
+2. 安装 node 12.20.0
+3. 搭建前台
+4. 后台搭建
+5. html复习

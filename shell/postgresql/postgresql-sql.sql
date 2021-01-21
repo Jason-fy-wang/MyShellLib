@@ -52,7 +52,7 @@ create database dbname with owner username encoding UTF8 template template1 tabl
 -- 6. 创建用户
 create user fcafm;
 create user fm with password '123456';
-create schema fm_db authorization 'fm';
+create schema fm_db authorization fm;
 alter user fm set search_path='fm';
 -- 创建用户
 create USER logical_user REPLICATION  LOGIN CONNECTION LIMIT 8 ENCRYPTED PASSWORD 'logical_user';
@@ -67,6 +67,7 @@ alter user fcafm createrole createdb replication login;
 
 -- 修改search_path
 alter user fcafm set search_path='fm','$user';
+show search_path;
 
 -- 7. 数据备份
 pg_dump -h 10.163.119.68 -p 5432 -U user --schema=ff --table=tbl -d dbname -f bak.sql
