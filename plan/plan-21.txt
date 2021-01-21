@@ -101,10 +101,12 @@ ASDFqwer@#2020
 5. lee  8
 
 # 0121
-1. RBAC 实现基本的curd 
-2. RBAC 继续构思 如何实现权限的控制
-3. shiro jwt的使用
-4. authority opensource  查看
+1. RBAC 实现基本的curd    --  no
+2. RBAC 继续构思 如何实现权限的控制  -- move on
+3. shiro jwt的使用      -- jwt 沒有注意看
+4. authority opensource  -- 大体看了
+5. 看了shiro的很多介绍
+
 
 # 0122
 1. vue 官网看完
