@@ -55,3 +55,27 @@ import 'font-awesome/css/font-awesome.min.css';
 rimraf node-modules
 
 cnpm install vue-cookie  --save
+
+#### 安装js执行引擎
+# 安装eshost
+npm install -g eshost-cli
+
+# 安装jsvu
+npm install -g jsvu
+# 运行jsvu 以安装各个引擎
+jsvu
+# 指定jsvu管理的引擎(可指定 Chakra, JavaScriptCore,SpiderMonkey,v8,GraalJS,Hermes,QuickJS,XS)
+jsvu --engine=chakra,javascriptcore
+# 指定jsvu安装的具体版本
+jsvu Chakra@1.11..6
+# 以指定的引擎来运行代码(可对引擎设定名字,通配符, 并用-n/-g/-tags来指定)
+eshost -h Chakra test.js
+
+# macos 将JavaScript引擎(chakra) 托管给eshost
+eshost --add 'Chakra' ch ~/.jsvu/chakra
+# windows
+eshost --add 'Chakra' ch "%USERPROFILE%\.jsvu\chakra.cmd"
+# 测试
+eshost -tse '1+2'
+eshost -tsx 'print (1+2)'
+eshost -ts test.js
