@@ -29,6 +29,11 @@ npm config set prefix E:\nodeReps\node-global
 
 # 安装yarn
 cnpm install yarn -g -verbose
+cnpm install font-awesome --save
+cnpm install sass-loader node-sass --save
+cnpm install axios --save
+cnpm install element-ui --save
+import 'element-ui/lib/theme-chalk/index.css'
 
 # 设置yarn的镜像
 yarn config set registry https://registry.npm.taobao.org
