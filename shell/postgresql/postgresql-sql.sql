@@ -54,6 +54,7 @@ create user fcafm;
 create user fm with password '123456';
 create schema fm_db authorization fm;
 alter user fm set search_path='fm';
+ALTER ROLE foo SET search_path = blarg,public;
 -- 创建用户
 create USER logical_user REPLICATION  LOGIN CONNECTION LIMIT 8 ENCRYPTED PASSWORD 'logical_user';
 --- ~/.pgpass 文件
