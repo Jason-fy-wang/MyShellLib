@@ -123,5 +123,10 @@ ASDFqwer@#2020
 
 # 0124
 1. node 入门
-2. 
+2. rbac 设计 
 
+# 0125
+1. rbac 接口doc
+2. workshare中的zk  zabbix准备
+3. 帮助测试解决问题
+4. rbac back write
