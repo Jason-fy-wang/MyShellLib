@@ -130,3 +130,8 @@ ASDFqwer@#2020
 2. workshare中的zk  zabbix准备
 3. 帮助测试解决问题
 4. rbac back write
+
+# 0126
+1. workShop 准备 -- zk 官网doc
+2. workShop 梳理思路
+
