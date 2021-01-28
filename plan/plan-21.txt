@@ -137,4 +137,12 @@ ASDFqwer@#2020
 3. workShop
 4. css msd 文档, 再次梳理基础css flex float  postition布局,以及 盒子模型
 
+# 0127
+1. MDN css基础: size, unit box 过一遍
+2. 帮助测试组一些问题支持
+
+# 0128
+1. 上午请假  商讨vimpim 时间相同时的补采情况
+2. 圣杯详解
+3. 圣杯实现
 
