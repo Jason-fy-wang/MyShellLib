@@ -146,3 +146,29 @@ ASDFqwer@#2020
 2. 圣杯详解
 3. 圣杯实现
 
+# 0129
+1. mdn js
+2. 测试支持
+
+# 0130
+包饺子
+
+# 0131
+读 go headfirst , ok; 了解go的基本使用
+
+# 0201
+1. controller 查询接口实现及测试
+
+# 0202
+1. rbac 基本的crud实现
+2. rbac-vue 前台综合页面调整
+3.前几天阅读 css相关 book
+
+# 0203
+1. crontab 解析
+2. ems 补采大体逻辑实现
+3. fm vnf查询修改
+
+
+
+

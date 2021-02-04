@@ -249,6 +249,10 @@ create table tt (id serial, name varchar(255), address varchar(255), primary key
 
 select * frmo tt where (id,name) in ((1,'zhangsan'),(2,'wagnwu'));
 
+-- 15 枚举类型
+create TYPE fgui as ENUM ('auto', 'gui');
+alter table add column f_gui fgui default 'auto';
+
 -- 备份表
 insert into measurement_y2020_12_bak select * from  measurement_y2020_12;
 
