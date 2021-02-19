@@ -172,3 +172,28 @@ ASDFqwer@#2020
 
 
 
+# 0218
+1. tomcat 源码再看
+2. springmvc 中 contextLoaderListener 和 dispatcherServlet初始化容器
+3. spark streaming 中任务提交
+4. 简历编写
+5. 早起
+
+
+# 0219 
+1. 7点 起
+2. springmvc中 responseBody使用
+3. mybatis中 数据如何映射到 实体类中
+4. spark
+
+# 0220
+
+
+
+
+
+
+
+
+
+
