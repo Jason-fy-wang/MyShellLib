@@ -46,6 +46,9 @@ npm install --global package =>     yarn global add package
 npm uninstall --save package =>     yarn remove package
 npm uninstall --save-dev package => yarn remove package 
 
+npm install --save normalize.css 
+import 'normalize.css/normalize.css'
+
 # 使用vue脚手架创建项目
 vue-init webpack mango-ui
 

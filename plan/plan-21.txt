@@ -170,6 +170,29 @@ ASDFqwer@#2020
 3. fm vnf查询修改
 
 
+# 0204
+1 ems 补采
+
+# 0205
+1. ems 补采 
+2. vim 补采测试demo
+3. fm spark 衍生bug修改
+4. fm-app 告警清除 设计修改
+
+# 06-08
+mybaits 源码书   ok
+spark 源码书  ok
+
+
+# 09-10
+1. 长隆海洋世界
+2. spring源码书  ok
+
+# 0211
+1. tomcat中session处理
+2. tomcat中servletContext
+3. web.xml解析
+4. 
 
 
 # 0218
