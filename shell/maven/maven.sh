@@ -54,6 +54,8 @@ mvn dependency:analyze
 <scope>provided</scope>
 </dependency>
 
+#安装jar包
+mvn install:install-file -Dfile=es-shaded-1.0-SNAPSHOT.jar  -DgroupId=my.ej -DartifactId=es-shaded -Dversio n=1.0-SNAPSHOT -Dpackaging=jar
 
 # assembly 插件
 bin
