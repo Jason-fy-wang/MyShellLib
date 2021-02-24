@@ -1,0 +1,31 @@
+# 根据给定的时间创建下面的vim文件,注意其中的文件时间戳是文件名字时间戳相差8 hour
+# 目录:collected_files/vim/pm/sourceId/年月日  collected_files/vim/pm/NFV-RP-HNGZ-04A-ER-01/20210222  
+-rw-r--r--. 1 fcaps fcaps 95568 Feb 22 00:00 20210221-160000@hosts
+-rw-r--r--. 1 fcaps fcaps 60418 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-IMS-ER
+-rw-r--r--. 1 fcaps fcaps  6934 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-AQGK-ER
+-rw-r--r--. 1 fcaps fcaps 20525 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-HN-EPC-ER
+-rw-r--r--. 1 fcaps fcaps  2380 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-FAbloc-ER
+-rw-r--r--. 1 fcaps fcaps   690 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-AQSJ-ER
+-rw-r--r--. 1 fcaps fcaps 43268 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-EPC-ER
+-rw-r--r--. 1 fcaps fcaps  1217 Feb 22 00:00 20210221-160000@admin
+-rw-r--r--. 1 fcaps fcaps  2049 Feb 22 00:00 20210221-160000@NFV-P-HNGZ-04A-ER-01-GD-AQHG-ER
+
+#  这里同样是创建文件,文件时间戳和名字中的时间戳相差26min  文件目录collected_files/ems/pm/sourceId/年月日时
+# 如:collected_files/ems/pm/4400ERHX1/2021022408
+-rw-r--r--. 1 fcaps fcaps  191338 Feb 24 08:26 GD-PM-CSCF-A001-V3.2.3-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps 4387548 Feb 24 08:26 GD-PM-MME-A001-V3.2.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps   10065 Feb 24 08:26 GD-PM-PCF-A001-V1.1.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  139880 Feb 24 08:26 GD-PM-PCRF-A001-V2.3.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  500960 Feb 24 08:26 GD-PM-PGWC-A001-V4.0.1-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  151242 Feb 24 08:26 GD-PM-PGWU-A001-V4.0.2-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps   27826 Feb 24 08:26 GD-PM-PSBCC-A001-V1.3.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  153937 Feb 24 08:26 GD-PM-PSBCU-A001-V1.3.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps 1947182 Feb 24 08:26 GD-PM-SGSN-A001-V4.1.0-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps   18874 Feb 24 08:26 GD-PM-SGWC-A001-V4.0.1-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  120714 Feb 24 08:26 GD-PM-SGWU-A001-V4.0.2-20210224080000-15.xml
+-rw-r--r--. 1 fcaps fcaps  187674 Feb 24 08:26 GD-PM-TAS-A001-V1.1.2-20210224080000-15.xml
+
+# 文件目录/pim/pm/sourceId/年月日 如:/pim/pm/NFV-RP-HNGZ-04A-PIM-ER-01/20210222  
+# 文件创建时间戳和文件名相差8小时
+-rw-r--r--. 1 fcaps fcaps 3894505 Feb 22 00:01 20210221-160000
+
