@@ -3,3 +3,5 @@
 
 -Djavax.xml.accessExternalDTD=all
 
+# idea active server address
+http://fls.jetbrains-agent.com
