@@ -1,0 +1,28 @@
+[core]
+        repositoryformatversion = 0
+        filemode = false
+        bare = false
+        logallrefupdates = true
+        symlinks = false
+        ignorecase = true
+[branch "master"]
+[branch "IR1.0.3-2020-04-10"]
+[branch "IR1.0.4-2020-06-08"]
+[branch "IR1.0.5-2020-07-17"]
+[remote "origin"]
+        url = https://github/kafka.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "IR1.0.5-2020-07-17"]
+        remote = origin
+        merge = refs/heads/IR1.0.5-2020-07-17
+[branch "V3-20200806"]
+        remote = origin
+        merge = refs/heads/V3-20200806
+[branch "IR1.0.9-2020-01-28"]
+        remote = origin
+        merge = refs/heads/IR1.0.9-2020-01-28
+[user]  # 用户名  邮箱
+        email = kai.l.wang@qq.com
+        name = KaiWang
+[credential]        #  记录密码
+        helper = store

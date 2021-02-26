@@ -1,0 +1,35 @@
+ free -m
+
+　           total   used   free  shared  buffers  cached
+Mem: 　　　　 727    359     367     0          36       171
+-/+ buffers/cache:   152     575 
+Swap:         2047   0      2047
+
+第一行:
+total: 总内存
+used: 已经使用的内存数, 包括了 buffer和Mem_freecache
+free: 可用的空闲内存,  不包含 buffer和cache的数量
+shared: 可用的共享内存
+buffers: 内存缓冲数
+cached:  内存缓存数
+
+
+
+第二行: -/+ buffers/cache
+used: 除去被用于buffer和cache内存后已用的内存
+free: 用作buffers和cache的内存加上mem部分空闲内存的内存数
+这里的 - (减号) 其实就是 used 对应减法
+这里的 + (加号) 其实就是 free 对应加法
+
+第三行: (swap 交换内存)
+表示用一部分磁盘当作内存用 的 内存大小
+
+
+total = Mem_used + Mem_free
+Mem_used = Mem_buffers+ Mem_cache + (-/+ buffers/cache).used
+Mem_free = (-/+ buffers/cache).free - Men_buffers - Mem_cache
+
+
+
+
+
