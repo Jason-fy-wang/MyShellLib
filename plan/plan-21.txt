@@ -216,12 +216,32 @@ spark 源码书  ok
 4. zk leader选举解析
 5. 开会 pm业务
 
+# 0221
+周日 在家总结文档
 
+# 0222
+1. 电脑坏掉了
+2. 下午 重制电脑 环境
 
+# 0223
+1. collector 补采逻辑实现
+2. alibaba 线上题 （过）
 
+# 0224
+1. collector vnfm返回码修改
+2. collector NA file的修改
+3. sm PVFlag增加
+4. alibaba 一面  卒（被kpi）
+5. 补采逻辑中 文件脚本的创建
 
+# 0225
+1. 去医院
+2. 创建文本的脚本
+3. 补采逻辑 测试
+4. 补采的测试
+5. 芒果 interview
 
-
+# 0226
 
 
 
