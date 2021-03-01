@@ -252,6 +252,7 @@ select * frmo tt where (id,name) in ((1,'zhangsan'),(2,'wagnwu'));
 -- 15 枚举类型
 create TYPE fgui as ENUM ('auto', 'gui');
 alter table add column f_gui fgui default 'auto';
+drop type fgui;
 --  查看枚举值
 select * from pg_type where typename='fgui';
 ---- -- 查看 枚举的值
