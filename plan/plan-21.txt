@@ -260,7 +260,7 @@ spark 源码书  ok
 2. 下午睡觉  
 3. 下午玩会 红色警戒游戏
 
-# 0331
+# 0301
 1. zk doc
 2. network blog
 3. scala syntax doc
