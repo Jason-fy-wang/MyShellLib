@@ -267,8 +267,24 @@ spark 源码书  ok
 4. 发布1.0.9
 
 # 0302
-1. zk doc
-2. spring aop 事务
-3. scala syntax
+0. 6.0
+1. zk doc   选举 
+1.1 再次梳理zk 处理客户请求
+    leader 处理器链
+    了解事务一致性 如何保证
+2. spring aop 事务  看一遍,梳理了思路 
+3. scala syntax   base syntax
 
+# 0303
+0. 6.20     ok
+1. scala  包方法, 伴生类,伴生对象, trait 
+2. zk 继续分析  ok
+        以及文档     
+3. collector tmp文件 以及升级步骤, notify中的heartBeat超时 ok
+4. mybatis中重载接口可否使用?
+    mybatis中对应mapper.xml分开编写 是否可以
+5. 易宝  interview    failed
+
+# 0304
+0. 8:00
 
