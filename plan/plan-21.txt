@@ -288,5 +288,6 @@ spark 源码书  ok
 # 0304
 0. 8:00
 1. zk doc  完成
-2. 
+2. leecode  tree 4
+3. java -XX:+PrintFlagsInitial  打印所有支持的参数
 
