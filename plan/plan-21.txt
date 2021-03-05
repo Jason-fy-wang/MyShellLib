@@ -291,3 +291,19 @@ spark 源码书  ok
 2. leecode  tree 4
 3. java -XX:+PrintFlagsInitial  打印所有支持的参数
 
+# 0305
+0. 6.00
+1. jvm cpu占用高 排查 doc
+2. 斯沃德 interview
+3. scala 界定  doc
+4. scala implicit 使用
+5. 安全控制器 接口商定
+6. scala package object
+7。 IBM talk
+
+
+
+
+
+
+
