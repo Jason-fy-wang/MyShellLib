@@ -301,8 +301,23 @@ spark 源码书  ok
 6. scala package object
 7。 IBM talk
 
+# 0306
+1. 上午 interview
+2. 下午 看房
+3. 超时买必需品
+
+# 0307
+1. 上午 book
+2. 下午 约朋友, 看房
 
 
+# 0308
+1. 浩鲸 interview
+2. 上午 小结 remove token的接口
+3. 下午 ddd blog
+
+# 0309
+1. 
 
 
 
