@@ -5,3 +5,21 @@
 
 # idea active server address
 http://fls.jetbrains-agent.com
+
+
+
+
+
+server:
+  port: 8284
+  ssl:
+    enabled: false
+    key-store: /opt/data/keystore/eomp/eompcert
+    key-alias: eomp_private_key
+    key-password: RXJpY0VPTVA=
+    key-store-password: RXJpY0VPTVA=
+    trust-store: /opt/data/keystore/external/trustcert
+    trust-store-password: RXJpY0VPTVA=
+    client-auth: want
+    enabled-protocols: TLSv1,TLSv1.1,TLSv1.2
+    ciphers: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_RC4_128_SHA,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,SSL_RSA_WITH_RC4_128_SHA

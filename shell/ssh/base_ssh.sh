@@ -5,7 +5,8 @@
     ssh -C -f -N -T -g -R <local-host>:<local-port>:<remote-host>:<remote-port>  user@host
     local-host  可省略
     如:
-        ssh -NTf -R 8888:127.0.0.1:8080  root@host
+        ssh -NTf -R 8888:name2:8080  root@host
+        # 将本地的8080端口映射到 远端(name2)的8888端口
     ssh -C -f -N -g -D listen_port user@目标host
 参数: 
 -C: 压缩数据传输
