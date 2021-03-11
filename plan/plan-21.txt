@@ -327,6 +327,13 @@ spark 源码书  ok
 3. 测试 sec 添加 以及 订阅查询
 
 
+# 0311
+1. netty 再看
+2. fm需求review 开会，一个多小时
+3. sec 需求 编写 测试
+4. jetty doc
+
+
 
 
 
