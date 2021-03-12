@@ -53,7 +53,7 @@ if redis.call("EXISTS", KEYS[1]) == 1 then
     else
     return nil
 end
-
+## 这里注意 key和argv是通过 , 分隔的, 但是 逗号左右需要有 空格, 不然识别不正常
 $ redis-cli --evel /opt/redlua1.lua usr , 1
 
 
