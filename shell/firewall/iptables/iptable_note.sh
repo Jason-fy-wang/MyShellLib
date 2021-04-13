@@ -283,5 +283,32 @@ ip通过我们对外的外网IP来访问我们的服务, 而我们的服务却�
 iptables -t nat -A PREROUTING -d 192.168.10.18 -p tcp --dport 80 -j DNAT --to-destination 172.16.100.2
         目标地址转换要在到达网卡之前转换, 所以要在 PREROUTING 链上.
 
+### ex15 源地址不是192.168.132.201 的禁止连接
+iptables -A INPUT -I eth1 -s ! 192.168.132.201 -j DROP
 
+### ex16 封掉tcp以外的协议
+iptables -A INPUT -p ! tcp -j DROP
 
+### ex17 匹配22端口之外的端口
+iptables -A INPUT -p tcp --dport ! 22 -j DROP
+
+### ex18 匹配端口范围
+iptables -A INPUT -p tcp --sport 22:80  #--匹配源端口22-80的端口
+iptables -A INPUT -p tcp -m multiport --dport 21,22,23,24 -j ACCEPT
+iptables -I INPUT -p tcp --dport 3306:8809  -j ACCEPT 
+
+### ex19 匹配icmp
+iptables -A INPUT -p icmp -m icmp -icmp-type  any -j ACCEPT
+iptables -A FORWARD -s 192.168.132.0/24 -p icmp -m icmp -icmp-type any -j ACCEPT 
+
+### ex20 安全防护
+## syn-flood protection
+iptables -A FORWARD -p tcp --syn  -m  limit --limit 1/s -j ACCEPT
+
+## furtive port scanner
+iptables -A FORWARD -p tcp  --tcp-flags SYN,ACK,FIN,RST  RST -m limit --limit 1/s -j ACCEPT
+
+## ping of death
+iptables -A FORWARD -p icmp --icmp-type  echo-request -m limit  --limit 1/s  -j ACCEPT
+
+### ex16
