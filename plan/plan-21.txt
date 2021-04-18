@@ -418,7 +418,7 @@ spark 源码书  ok
 2. 上午陪老妈 早茶
 3. jdk.internal.lambda.dumpProxyClasses
     System.setProperty("jdk.internal.lambda.dumpProxyClasses","D://");
-
+4. 晚上陪老妈看花城广场
 
 # 0418
 1. 上午做饺子
