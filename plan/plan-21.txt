@@ -405,9 +405,24 @@ spark 源码书  ok
     原因: logback.xml日志文件错误,导致程序启动就退出,并且没有任何的输出
 
 
+# 0414-0416
+1. 看架构师和马士兵视频
+    架构师 9个
+    马士兵 30
+2. devOps 书籍  了解ansible的应用场景
+3. nginx lua 开发 看完,了解了nginx的大体使用,以及一些使用场景
+4. 
+
+# 0417
+1. 架构师 
+2. 上午陪老妈 早茶
+3. jdk.internal.lambda.dumpProxyClasses
+    System.setProperty("jdk.internal.lambda.dumpProxyClasses","D://");
 
 
-
+# 0418
+1. 上午做饺子
+2. 架构师 视频
 
 
 
