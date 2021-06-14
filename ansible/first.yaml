@@ -1,0 +1,9 @@
+- hosts: group1   # 要执行的主机
+  remote_user: root # 执行命令的用户
+  tasks:            # 任务列表
+  - name: shell cmd    # 任务名称
+    shell: 
+      cmd: hostname    # 要执行的命令
+  - name: command module # task 名称
+    command: 
+      cmd: echo 123     # task 要执行的命令
