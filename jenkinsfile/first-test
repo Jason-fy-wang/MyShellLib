@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    options {
+        timestamps()
+    }
+    stages{
+        stage('pull code'){
+            steps {
+                echo "pull code"
+            }
+        }
+        stage('build with maven') {
+            steps {
+                echo "build with mvn"
+            }
+        }
+    }
