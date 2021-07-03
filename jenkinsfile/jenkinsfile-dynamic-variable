@@ -1,0 +1,33 @@
+pipeline{
+    agent any
+    environment {
+        // using returnstdout
+        CC="""
+            ${sh(
+            returnStdout: true,
+            script: 'echo "clang"'
+            )}
+        """
+        // using returnStatus
+        EXIT_STATUS="""
+                ${sh (
+                returnStatus:true,
+                script: 'exit 1'
+                )}
+        """
+    }
+    
+    stages{
+        stage('build'){
+            environment {
+                DEBUG="ggg"
+            }
+            steps {
+                echo "CC= ${CC}"
+                echo "exist status=${EXIT_STATUS}"
+                echo "DEBUG=${DEBUG}"
+            }
+        }
+    }
+    
+}

@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages {
+        stage('martix'){
+            matrix{
+                axes{
+                    axis {
+                        name 'platform'
+                        values 'linux','windows','mac'
+                    }
+                    axis {
+                        name 'BITS'
+                        values '32-bit','64-bit'
+                    }
+                }
+                stages {
+                    stage('build'){
+                        steps {
+                            echo "Do build for ${platform}-${BITS}"
+                        }
+                    }
+                }
+            }        
+        }
+        
+    }
+}

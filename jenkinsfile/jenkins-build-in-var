@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage("build") {
+            steps {
+                // print build-in viriable
+                echo "BUILD_URL= ${env.BUILD_URL}"
+                echo "NODE_NAME = ${env.NODE_NAME}"
+            }
+        }
+    }
+}

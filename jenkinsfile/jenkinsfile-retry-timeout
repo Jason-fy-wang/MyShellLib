@@ -1,0 +1,17 @@
+pipeline{
+    agent any
+    stages {
+        stage('deploy'){
+            steps {
+                // 失败重试三次
+                retry(3){
+                    echo "retry connecting"
+                }
+                // 超时 3min 设置
+                timeout(time: 3, unit: 'MINUTES'){
+                    echo "deploying..."
+                }
+            }
+        }
+    }
+}

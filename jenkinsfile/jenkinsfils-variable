@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    
+    // global variable
+    environment {
+        AUTH="true"
+        ENGINE="sqlite"
+    }
+    stages {
+        stage("test") {
+            // scoped variable
+            environment{
+                DEBUG_FLAG='gggg'
+            }
+            steps {
+                echo "database engine is ${ENGINE}"
+                echo "AUTH is ${AUTH}"
+                echo "DEBUG_FLAG=${DEBUG_FLAG}"
+                // 打印环境变量
+                sh 'printenv'
+            }
+        }
+    }
+}

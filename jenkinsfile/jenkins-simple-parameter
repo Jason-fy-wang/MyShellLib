@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    // 参数定义
+    parameters {
+        string(name: "name", defaultValue: "jk", description: "who run this pipeline")
+    }
+    environment {
+        // using returnstdout
+        CC="""
+            ${sh(
+            returnStdout: true,
+            script: 'echo "clang"'
+            )}
+        """
+        // using returnStatus
+        EXIT_STATUS="""
+                ${sh (
+                returnStatus:true,
+                script: 'exit 1'
+                )}
+        """
+    }
+    
+    stages{
+        stage('build'){
+            environment {
+                DEBUG="ggg"
+            }
+            steps {
+                echo "person name: ${name}"
+                echo "CC= ${CC}"
+                echo "exist status=${EXIT_STATUS}"
+                echo "DEBUG=${DEBUG}"
+            }
+        }
+    }
+    
+}
