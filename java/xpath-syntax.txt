@@ -1,0 +1,26 @@
+# xpath语法
+# 可以使用 google 中的xpath helper 插件来进行练习
+# xpath helper 安装好之后可以使用 ctrl+shift+x 来打开
+
+1. 从头开始选一个节点
+    /html/head   
+
+
+2. 选择任意一个节点
+    //li        # 选择li节点
+
+    2.1 当前节点下的任意标签
+        /html/head//link     # head标签下的任意link标签
+    
+3. 属性选择 @符号选择属性
+    //div[@class='content']    # 选择class属性为 context的div标签
+    //div[@class='content']/ul/li   # 选择class属性为content中ul下的li标签
+    /a/@href    # 选择a 标签的href属性值
+    /a/@target  # 选择a标签中的target属性值
+
+4. 获取文本值
+    /a/text()   # 选择a标签中的 文本值
+    /a//text()  # 获取a下的所有文本
+
+5. 当前节点
+    ./a   # 表示当前节点下的a标签
