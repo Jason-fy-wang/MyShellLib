@@ -15,6 +15,9 @@ ansible-doc ping
 # test host group
 ansible group1 -m ping
 
+# 列出某个组所有host
+ansible all --list-hosts
+
 # exec shell cmd in client
 ansible group1 -m shell -a 'echo hello ansible!'
 -a: module args
