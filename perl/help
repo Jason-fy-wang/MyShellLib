@@ -1,0 +1,2 @@
+#  查看内部函数的帮助命令
+perldoc perlfunc
