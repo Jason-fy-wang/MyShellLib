@@ -2,49 +2,54 @@
 
 # 数组变量以字符 @ 开头,索引从0开始
 @arr=(1,2,3);
-print("arr[0]=$arr[0]\n");
-print("arr[1]=$arr[1]\n");
+print "arr[0]=$arr[0]\n";
+print "arr[1]=$arr[1]\n";
 
-# 数组定义第二种方式,qw运算符,数组元素以空格分隔
-@arr2=qw/one two three four/;
-print("arr2=@arr2\n");
-# 序列输出  起始值+..+结束值
-@arr_seq=(1..10);
-@arr_abz=(a..z);
-print("arr_seq=@arr_seq\n");
-print("arr_abz=@arr_abz\n");
+# 以 qw定义列表
+@arr2 = qw / one two three /;
+print "@arr2" . "\n";      # 这样打印自带空格
 
+$, =","; # 重新设置 分隔符为 逗号
+print @arr2;
+
+print "\n";
+@arr3 = qw { 123 btw qwe };
+print "@arr3";
+print "\n";
+
+@arr4 = (1..5);
+print @arr4 . "\n"; # 这样就变成了打印长度？
+print @arr4;
+print "\n";
 
 # 复制数组
-@copy=@arr;
-print("arr copy=@copy\n");
+@copy = @arr4;
+print @copy;
+print "\n";
 # 获取数组长度
-$size=@arr;
-print("arr size=$size\n");
+$size = $#arr4;
+print "size = " . $size . "\n";
 
-# 获取数组的最大索引
-$maxIndex=$#arr;
 
-=pod
-数组函数:
-push @array, list
-将列表的值放到数组的末尾
 
-pop @array
-删除数组的最后一个值
 
-shift @array
-弹出数组第一个值,并返回. 数组的索引值也一次减1
-
-unshift @array,list
-将列表放在数组前面,并返回新数组的元素个数
-=cut
 
 
 # 数组切割
+=pod
 @sites=(1,2,3,4,5);
 @sites2=@sites[1,2,4]; # 此时 sites2=(2,3,5)
 @sites3=@sites[1..3];  # sites3=(2,3,4)
+=cut
+@sites = qw/1 2 3 4 5/;
+print "sites = @sites";
+print "\n";
+@sites2 = @sites[1,2,4];
+print "sites2 = @sites2";
+print "\n";
+@sites3 = @sites[1..2];
+print "sites3 = @sites3";
+print "\n";
 
 # 替换元素
 =pod
@@ -58,6 +63,10 @@ list: 替换的元素列表
 splice(@st1,1,2,21..22);
 @st1=(1,21,22,4,5);
 =cut
+@splice_arr = qw / q w e r t /;
+splice @splice_arr,1,2,(1,2);
+print "splice_arr = @splice_arr";
+print "\n";
 
 # 将字符串转换为数组
 =pod
@@ -72,6 +81,16 @@ splice(@st1,1,2,21..22);
  # @str=(www,run,com);
 =cut
 
+$string = "q,w,e,r,t";
+@res = split(/,/, $string);
+print "spl res = @res";
+print "\n";
+
+$str2 = "simen;stanly;jeeis-allen";
+@res2 = split(";", $str2);
+print "split res = @res2";
+print"\n";
+
 # 数组转换为字符串
 =pod
 join expr,list
@@ -82,10 +101,17 @@ list: 列表或数组
 $str = join('-',@st2);
 #str值为 www-run-com
 =cut
+@slarr = qw / run world evary day /;
+$jonstr = join("--", @slarr);
+print "jonstr = $jonstr";
+print "\n";
 
-# 数组排序
-=pod
-sort [SUBROUTINE] LIST
-SUBROUTINE: 指定规则
-LIST: 列表或数组
-=cut
+
+# 分隔符
+@arrtest = qw {1 2 3 4 one two three };
+$" = ","; # 指定分隔符为 逗号
+print "@arrtest";  # 打印列表
+
+
+
+

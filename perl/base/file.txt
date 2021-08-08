@@ -1,0 +1,3 @@
+# name, age, card,money
+zhangsan:20:11234:500
+wangwu:20:33452:600
