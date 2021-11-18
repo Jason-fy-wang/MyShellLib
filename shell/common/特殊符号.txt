@@ -1,0 +1,12 @@
+<<  : 表示 here document
+<<< :  is known as here string. Instead of typing in text, you give a pre-made string of text to a prgram. 
+    For example:
+        bc <<< "5*4"
+        read a b <<< echo "test   test1"
+        here-string in bash are implemented via temporary files,usually in the format /tmp/sh-thd.<random-str>
+        example:
+            ls -l /proc/self/fd/ <<< "TEST"
+                lr-x------ 1 user1 user1 64 Aug 20 11:43 0 -> /tmp/sg-thd.761Lj9(deleted)
+                lr-x------ 1 user1 user1 64 Aug 20 11:43 1 -> /dev/pts/4
+                lr-x------ 1 user1 user1 64 Aug 20 11:43 2 -> /dev/pts/4
+                lr-x------ 1 user1 user1 64 Aug 20 11:43 3 -> /proc/10086/fd
