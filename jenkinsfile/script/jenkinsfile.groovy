@@ -21,9 +21,12 @@ timestamps {
         }
 
         stage('test wrap Ansi color'){
+            // 此方式 输出没有任何的颜色, 可能还有点问题
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-               sh 'python base/basic/do_for.py'
-               sh 'echo -e \u001B[31m AnsiColorBuildWrapper \u001B[0m'
+               sh '''
+                python base/basic/do_for.py
+                echo -e "\u001B[31m AnsiColorBuildWrapper \u001B[0m"
+                '''
             }
 
             ansiColor("xterm") {
