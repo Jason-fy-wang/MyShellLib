@@ -1,0 +1,7 @@
+# check yaml resources
+kubectl explain deployment
+### check the specific field of deployment
+kubectl explanin deployment.spec
+
+
+
