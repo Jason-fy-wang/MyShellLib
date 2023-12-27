@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: firstjob
+  namespace: default
+  labels:
+    app: firstjob
+spec:
+  template:
+    metadata:
+      name: firstjob
+      labels:
+        app: firstjob
+    spec:
+      containers:
+        - name: firstjob
+          image: busybox
+          command:
+            ["sh", "-c", "date; echo 'first job from busybox'; sleep 3600"]
+          env:
+            - name: DBNAME
+              value: dbusername
+          volumeMounts:
+            - name: localtime
+              mountPath: /etc/localtime
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+      restartPolicy: OnFailure
+      dnsPolicy: ClusterFirst

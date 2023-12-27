@@ -35,4 +35,3 @@ spec:
         - name: localtime
           hostPath:
             path: /usr/share/zoneinfo/Asia/Shanghai
-      restartPolicy: "OnFailure"
