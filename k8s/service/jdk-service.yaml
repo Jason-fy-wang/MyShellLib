@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stu-backend
+  namespace: default
+spec:
+  selector:
+    app: stu-backend
+  type: NodePort # ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+    - name: stu-backend
+      protocol: TCP
+      port: 8000
+      targetPort: 8090
+      # If you set the `spec.type` field to `NodePort` and you want a specific port number,
+      # you can specify a value in the `spec.ports[*].nodePort` field.
+      nodePort: 30001
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student
+  namespace: default
+  labels:
+    app: student
+spec:
+  selector:
+    matchLabels:
+      app: stu-backend
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: stu-backend
+    spec:
+      # initContainers:
+      # Init containers are exactly like regular containers, except:
+      # - Init containers always run to completion.
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: student
+          image: jdk8:v1.0
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1000Mi
+            limits:
+              cpu: 100m
+              memory: 1000Mi
+          ports:
+            - containerPort: 8090
+              name: student
+          volumeMounts:
+            - name: localtime
+              mountPath: /etc/localtime
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+      restartPolicy: Always
