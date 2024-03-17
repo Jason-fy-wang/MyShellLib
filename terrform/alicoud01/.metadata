@@ -1,0 +1,39 @@
+{
+    "ALIYUN::ROS::Interface": {
+        "ParameterGroups": [
+            {
+                "Parameters": [
+                    "var_vpc_cidr",
+                    "var_vsw_zone_id"
+                ],
+                "Label": {
+                    "default": {
+                        "zh-cn": "网络架构配置"
+                    }
+                }
+            },
+            {
+                "Parameters": [
+                    "var_db_instance_type",
+                    "var_db_system_disk_category"
+                ],
+                "Label": {
+                    "default": {
+                        "zh-cn": "DB服务器配置"
+                    }
+                }
+            },
+            {
+                "Parameters": [
+                    "var_app_instance_type",
+                    "var_app_system_disk_category"
+                ],
+                "Label": {
+                    "default": {
+                        "zh-cn": "应用服务器配置"
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -54,13 +54,8 @@ kubectl get clusterrole  roleName -o yaml
 kubectl get rolebinding --all-namespaces
 kubectl get clusterrolebind --all-namespaces
 
-
-
-
-
 # create deploy by cmd
 kubectl create deploy nginx-deploy --image:1.14.7
-
 
 
 # rollback
@@ -163,7 +158,7 @@ kubectl run curl --image=busybox -i --tty --rm
 ## 带curl的测试镜像
 # image: alpine:3.12
 #  apk add curl   ## install curl
-kbectl run -it --rm alpine --image=alpine  -- bash
+kbectl run -it --rm alpine --image=alpine:latest
 
 
 
