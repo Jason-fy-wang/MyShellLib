@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  namespace: app-ns
+  labels:
+    app: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: myapp
+  template:
+    metadata:
+      labels:
+        name: myapp
+      namespace: app-ns
+    spec:
+      containers:
+        - name: ack-kube
+          image: registry.cn-hangzhou.aliyuncs.com/acr-toolkit/ack-cube:1.0
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 0.25
+              memory: 512Mi
+            limits:
+              cpu: 1
+              memory: 1024Mi

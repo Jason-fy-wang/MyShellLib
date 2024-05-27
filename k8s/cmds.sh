@@ -161,6 +161,16 @@ kubectl run curl --image=busybox -i --tty --rm
 kbectl run -it --rm alpine --image=alpine:latest
 
 
+## auth
+kubectl auth can-i  VERB [TYPE|TYPE/NAME | NONRESOURCEURL] [option]
+## check if i can read pods log
+kubcetl auth can-i get pods --subresource=log
+
+## auth help
+kubectl auth can-i -h
+
+##
+
 
 
 
