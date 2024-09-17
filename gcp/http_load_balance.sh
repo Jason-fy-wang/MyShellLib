@@ -5,7 +5,7 @@ gcloud compute instance-templates create lb-backend-template \
                                             --subnet=deault     \
                                             --tags=allow-health-check \
                                             --machine-type=e2-medium \
-                                            --image-famuly=debian-11    \
+                                            --image-family=debian-11    \
                                             --image-project=debian-cloud \
                                             --metadata=startup-script='#!/bin/bash
                                                 apt-get update
@@ -28,12 +28,12 @@ gcloud compute firewall-rules create fw-allow-health-check \
                                          --direction=ingress \
                                          --source-ranges=130.211.0.0/22,35.191.0.0/16 \
                                           --target-tags=allow-health-check \
-                                           --tules=tcp:80
+                                           --rules=tcp:80
 
 
 # 4. set up a global static external ip address for load-balancer
 gcloud compute addresses create lb-ipv4-1 \
-                        ip-version=IPV4 \
+                        --ip-version=IPV4 \
                         --global
 
 
@@ -46,7 +46,7 @@ gcloud compute health-checks create http http-basic-check --port 80
 
 
 # 6. ceate backed service
-gcloud compute backend-service create web-backend-service \
+gcloud compute backend-services create web-backend-service \
                                 --protocol=HTTP \
                                 --port-name=http \
                                 --health-checks=http-basic-check \
