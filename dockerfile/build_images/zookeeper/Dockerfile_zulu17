@@ -1,0 +1,18 @@
+FROM docker.io/library/ubuntu:25.04
+
+# update apt source
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirrors.aliyun.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources && \
+    sed -i 's|http://security.ubuntu.com/ubuntu/|http://mirrors.aliyun.com/ubuntu/|g' /etc/apt/sources.list.d/ubuntu.sources && \
+    apt-get update && \
+    apt-get install -y wget curl lsof
+
+RUN [ -d "/opt" ] || mkdir /opt/
+
+COPY zulu17.54.21-ca-jdk17.0.13-linux_x64.tar.gz  /opt/
+
+RUN cd /opt/ && tar -xf zulu17.54.21-ca-jdk17.0.13-linux_x64.tar.gz && rm -f zulu17.54.21-ca-jdk17.0.13-linux_x64.tar.gz && mv zulu17.54.21-ca-jdk17.0.13-linux_x64 java
+
+ENV JAVA_HOME=/opt/java
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+

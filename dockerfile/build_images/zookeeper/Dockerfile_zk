@@ -1,0 +1,12 @@
+FROM docker.io/jasonfywang/coder:zulujdk17
+
+COPY apache-zookeeper-3.8.4-bin.tar.gz  /opt
+
+RUN cd /opt/ && tar -zxf apache-zookeeper-3.8.4-bin.tar.gz && rm -f apache-zookeeper-3.8.4-bin.tar.gz && mv apache-zookeeper-3.8.4-bin zookeeper
+
+
+COPY logback.xml /opt/zookeeper/conf
+COPY zoo.cfg /opt/zookeeper/conf
+
+
+ENTRYPOINT [ "/opt/zookeeper/bin/zkServer.sh", "start-foreground" ]
