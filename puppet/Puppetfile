@@ -1,0 +1,6 @@
+forge 'http://forge.puppetlabs.com'
+
+mod 'puppetlabs-stdlib', '9.7.0'
+
+
+
