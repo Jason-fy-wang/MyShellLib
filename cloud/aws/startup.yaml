@@ -1,0 +1,22 @@
+# cloud-config
+package_update: true
+packages:
+  - docker.io
+  - awscli
+
+runcmd:
+  # start docker 
+  - [systemctl, enable, docker]
+  - [systemctl, start, docker]
+
+  - |
+    aws eccr get-login-password -region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x4t1x7j1
+
+    docker pull public.ecr.aws/x4t1x7j1/jasonfy/coder:latest
+
+    if docker ps -a --format '{{.Name}}' | grep -q '^my-app$; then
+        docker stop my-app > /dev/null 2>&1 
+        docker rm -f my-app
+    fi
+     
+    docker run --name my-app -d -p 3000:3000 public.ecr.aws/x4t1x7j1/jasonfy/coder:latest
