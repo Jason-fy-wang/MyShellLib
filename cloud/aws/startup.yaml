@@ -1,20 +1,25 @@
-# cloud-config
+#cloud-config
 package_update: true
 packages:
   - docker.io
-  - awscli
+  - curl
+  - unzip
 
 runcmd:
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - unzip awscliv2.zip
+  - ./aws/install
   # start docker 
-  - [systemctl, enable, docker]
-  - [systemctl, start, docker]
+  - systemctl enable docker
+  - systemctl start  docker
 
   - |
-    aws eccr get-login-password -region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x4t1x7j1
+    /usr/local/bin/aws ecr get-login-password --region us-east-1 \
+      | docker login --username AWS --password-stdin public.ecr.aws/x4t1x7j1
 
     docker pull public.ecr.aws/x4t1x7j1/jasonfy/coder:latest
 
-    if docker ps -a --format '{{.Name}}' | grep -q '^my-app$; then
+    if docker ps -a --format '{{.Name}}' | grep -q '^my-app$'; then
         docker stop my-app > /dev/null 2>&1 
         docker rm -f my-app
     fi

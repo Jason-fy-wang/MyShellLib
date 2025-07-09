@@ -15,28 +15,38 @@ aws ec2 terminate-instances --instance-ids i-0abcdef1234567890
 USER_DATA=$(base64 -w0 startup.yaml)
 
 aws ec2 create-launch-template \
-  --launch-template-name my-app-template \
+  --launch-template-name web-template \
   --version-description v1 \
   --launch-template-data '{
     "ImageId":"ami-010876b9ddd38475e",
     "InstanceType":"t3.micro",
-    "KeyName":"my-keypair",
-    "IamInstanceProfile":{"Name":"EC2ECRRole"},
+    "KeyName":"awk_key",
+    "IamInstanceProfile":{"Name":"ec2operator"},
     "UserData":"'"$USER_DATA"'",
-    "SecurityGroupIds":["sg-0123456789abcdef0"],
+    "SecurityGroupIds":["sg-087330d8b600153d3","sg-07ca421081cc7a04f"],
     "TagSpecifications":[
       {
         "ResourceType":"instance",
-        "Tags":[{"Key":"Name","Value":"my-app-instance"}]
+        "Tags":[{"Key":"Name","Value":"web2"}]
       }
     ]
   }'
 
+# list instance-template
+aws ec2 describe-launch-templates
 
+aws ec2 delete-launch-template --launch-template-id 
 
 # launch a template
-aws ec2 run-instances --launch-template LaunchTemplateName=my-app-template,Version=1 --count 1
+aws ec2 run-instances --launch-template LaunchTemplateName=web-template,Version=1 --count 1
 
+# decrypt
+aws ec2 describe-launch-template-versions \
+  --launch-template-name web-template \
+  --versions 1 \
+  --query 'LaunchTemplateVersions[0].LaunchTemplateData.UserData' \
+  --output text \
+  | base64 --decode > retrieved_startup.yaml
 
 # images
 ## for below query
