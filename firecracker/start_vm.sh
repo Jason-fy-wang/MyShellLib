@@ -10,6 +10,11 @@ sudo ip tuntap add dev "$TAP_DEV" mode tap
 sudo ip addr add "${TAP_IP}${MASK_SHORT}" dev "$TAP_DEV"
 sudo ip link set dev "$TAP_DEV" up
 
+# option 2: no IP
+#ip tuntap add tap-vm-123 mode tap
+#ip link set tap-vm-123 master fcbr0
+#ip link set tap-vm-123 up
+
 # Enable ip forwarding
 sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 #sudo iptables -P FORWARD ACCEPT
